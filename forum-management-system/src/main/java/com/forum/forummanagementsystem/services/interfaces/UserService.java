@@ -11,5 +11,8 @@ public interface UserService {
     List<User> getAll();
     void register(User user);
     void updateProfile(User user);
-
+    // To be discussed:
+    // void blockUser(User user);
+    // void unblockUser(User user);
+    // List<User> getUsersBy(FilterOptions filterOptions);
 }
