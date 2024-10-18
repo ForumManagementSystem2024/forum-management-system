@@ -25,6 +25,9 @@ public class Post {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
+    @Column(name = "likes")
+    private long likes;
+
     public Post() {
     }
 
@@ -58,6 +61,14 @@ public class Post {
 
     public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(long likes) {
+        this.likes = likes;
     }
 
     @Override
