@@ -11,7 +11,7 @@ public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
+    @Column(name = "admin_id")
     private int id;
 
     @JsonIgnore
