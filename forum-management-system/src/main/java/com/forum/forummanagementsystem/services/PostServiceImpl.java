@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
 
+    public static final String BLOCKED_USER_ERROR = "You are not allowed to create a post! Please contact customer support!";
     public static final int DEFAULT_LIKES = 0;
     private final PostRepository postRepository;
 
@@ -35,6 +37,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(Post post, User user) {
+        checkIfUserIsBlocked(user);
+
         boolean duplicateExists = true;
         try {
             postRepository.getPostByTitle(post.getTitle());
@@ -59,5 +63,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public void delete(Post post, User user) {
         throw new UnsupportedOperationException();
+    }
+
+    private static void checkIfUserIsBlocked(User user) {
+        if(user.isBlocked()){
+            throw new AuthorizationException(BLOCKED_USER_ERROR);
+        }
     }
 }

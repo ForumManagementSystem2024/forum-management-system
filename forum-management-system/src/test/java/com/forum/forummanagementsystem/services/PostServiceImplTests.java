@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
@@ -23,9 +24,6 @@ public class PostServiceImplTests {
 
     @Mock
     PostRepository mockPostRepository;
-
-    @Mock
-    AuthenticationHelper authenticationHelper;
 
     @InjectMocks
     PostServiceImpl mockPostService;
@@ -76,6 +74,19 @@ public class PostServiceImplTests {
         // Act, Assert
         Assertions.assertThrows(
                 EntityDuplicateException.class,
+                () -> mockPostService.create(mockPost, mockUser));
+    }
+
+    @Test
+    public void create_Should_Throw_When_UserIsBlocked(){
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUser = createMockUser();
+        mockUser.setBlocked(true);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                AuthorizationException.class,
                 () -> mockPostService.create(mockPost, mockUser));
     }
 }
