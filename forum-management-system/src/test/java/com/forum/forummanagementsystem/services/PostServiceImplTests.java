@@ -1,5 +1,7 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
+import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
@@ -41,5 +43,39 @@ public class PostServiceImplTests {
 
         // Assert
         Assertions.assertEquals(mockPost, result);
+    }
+
+    @Test
+    public void create_Should_CallRepository_When_PostWithSameTitleDoesNotExists() {
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUser = createMockUser();
+        mockPost.setCreatedBy(mockUser);
+
+        Mockito.when(mockPostRepository.getPostByTitle(Mockito.anyString()))
+                .thenThrow(EntityNotFoundException.class);
+
+        // Act
+        mockPostService.create(mockPost, mockUser);
+
+        // Assert
+        Mockito.verify(mockPostRepository, Mockito.times(1))
+                .create(mockPost);
+    }
+
+    @Test
+    public void create_Should_Throw_When_PostWithSameTitleExists() {
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUser = createMockUser();
+        mockPost.setCreatedBy(mockUser);
+
+        Mockito.when(mockPostRepository.getPostByTitle(Mockito.anyString()))
+                .thenReturn(mockPost);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                EntityDuplicateException.class,
+                () -> mockPostService.create(mockPost, mockUser));
     }
 }

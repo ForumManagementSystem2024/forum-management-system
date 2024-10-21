@@ -26,7 +26,7 @@ public class Post {
     private User createdBy;
 
     @Column(name = "likes")
-    private long likes;
+    private int likes;
 
     public Post() {
     }
@@ -63,11 +63,11 @@ public class Post {
         this.createdBy = createdBy;
     }
 
-    public long getLikes() {
+    public int getLikes() {
         return likes;
     }
 
-    public void setLikes(long likes) {
+    public void setLikes(int likes) {
         this.likes = likes;
     }
 

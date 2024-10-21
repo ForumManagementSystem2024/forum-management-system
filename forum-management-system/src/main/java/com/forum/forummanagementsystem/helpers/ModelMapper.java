@@ -1,6 +1,8 @@
 package com.forum.forummanagementsystem.helpers;
 
+import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +33,13 @@ public class ModelMapper {
         user.setEmail(userDto.getEmail());
 
         return user;
+    }
+
+    public Post fromPostDto(PostDto postDto) {
+        Post post = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+
+        return post;
     }
 }

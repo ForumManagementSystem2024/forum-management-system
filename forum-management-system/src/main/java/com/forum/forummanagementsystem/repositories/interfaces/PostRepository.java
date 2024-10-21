@@ -9,7 +9,8 @@ import java.util.List;
 public interface PostRepository {
     List<Post> get(FilterOptions filterOptions);
     Post getPostById(int id);
-    void create(Post post, User user);
+    Post getPostByTitle(String title);
+    void create(Post post);
     void update(Post post, User user);
     void delete(Post post, User user);
 }

@@ -7,6 +7,7 @@ import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,8 +42,28 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public void create(Post post, User user) {
+    public Post getPostByTitle(String title) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Post> query = session.createQuery("from Post where title = :title", Post.class);
+            query.setParameter("title", title);
 
+            List<Post> result = query.list();
+
+            if (result.isEmpty()) {
+                throw new EntityNotFoundException("Post", "title", title);
+            }
+
+            return result.get(0);
+        }
+    }
+
+    @Override
+    public void create(Post post) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(post);
+            session.getTransaction().commit();
+        }
     }
 
     @Override

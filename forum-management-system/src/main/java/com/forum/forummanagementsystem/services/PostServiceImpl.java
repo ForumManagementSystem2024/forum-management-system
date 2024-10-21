@@ -1,5 +1,7 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
+import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
@@ -13,7 +15,8 @@ import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
 
-    private PostRepository postRepository;
+    public static final int DEFAULT_LIKES = 0;
+    private final PostRepository postRepository;
 
     @Autowired
     public PostServiceImpl(PostRepository postRepository) {
@@ -32,7 +35,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(Post post, User user) {
-        throw new UnsupportedOperationException();
+        boolean duplicateExists = true;
+        try {
+            postRepository.getPostByTitle(post.getTitle());
+        } catch (EntityNotFoundException e) {
+            duplicateExists = false;
+        }
+
+        if (duplicateExists) {
+            throw new EntityDuplicateException("Post", "title", post.getTitle());
+        }
+
+        post.setCreatedBy(user);
+        post.setLikes(DEFAULT_LIKES);
+        postRepository.create(post);
     }
 
     @Override
