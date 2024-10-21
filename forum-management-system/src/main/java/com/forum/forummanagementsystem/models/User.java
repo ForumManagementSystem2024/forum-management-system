@@ -30,6 +30,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "is_blocked")
+    private boolean isBlocked;
+
     public User() {
     }
 
@@ -79,6 +82,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
     }
 
     @Override

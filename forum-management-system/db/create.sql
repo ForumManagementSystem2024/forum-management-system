@@ -6,6 +6,7 @@ create table users
     first_name varchar(32) not null,
     last_name  varchar(32) not null,
     email      varchar(50) not null unique,
+    is_blocked boolean     not null default false,
 
     check (char_length(first_name) >= 4 AND char_length(first_name) <= 32),
     check ( char_length(last_name) >= 4 AND char_length(last_name) <= 32)
@@ -27,7 +28,7 @@ create table posts
     title      varchar(64)   not null,
     content    varchar(8192) not null,
     created_by int           not null,
-    likes      int          default 0,
+    likes      int default 0,
 
     constraint posts_users_user_id_fk
         foreign key (created_by) references users (user_id),
