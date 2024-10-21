@@ -10,7 +10,7 @@ public interface UserService {
     User getById(int id);
     List<User> getAll();
     void register(User user);
-    void updateProfile(User user);
+    void updateProfile(User userAuthenticated, User userMapped);
     // To be discussed:
     // void blockUser(User user);
     // void unblockUser(User user);

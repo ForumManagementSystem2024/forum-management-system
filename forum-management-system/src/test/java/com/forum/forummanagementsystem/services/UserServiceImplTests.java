@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.User;
@@ -52,5 +53,32 @@ public class UserServiceImplTests {
         Assertions.assertThrows(EntityDuplicateException.class,
                 ()->mockUserService.register(mockUser));
 
+    }
+
+    @Test
+    void updateProfile_Should_CallRepository_When_UserIsOwner() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockMappedUser = createMockUser();
+
+        // Act
+        mockUserService.updateProfile(mockUser, mockMappedUser);
+
+        // Assert
+        Mockito.verify(mockUserRepository, Mockito.times(1))
+                .updateProfile(mockMappedUser);
+    }
+
+    @Test
+    public void updateProfile_Should_ThrowException_When_UserIsNotOwner() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockMappedUser = createMockUser();
+        mockMappedUser.setId(2);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                AuthorizationException.class,
+                () -> mockUserService.updateProfile(mockUser,mockMappedUser));
     }
 }

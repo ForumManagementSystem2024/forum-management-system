@@ -16,7 +16,11 @@ public class ModelMapper {
         this.userService = userService;
     }
 
-    
+    public  User fromUserDto(int id, UserDto userDto) {
+        User user = fromUserDto(userDto);
+        user.setId(id);
+        return user;
+    }
 
     public User fromUserDto(UserDto userDto) {
         User user = new User();

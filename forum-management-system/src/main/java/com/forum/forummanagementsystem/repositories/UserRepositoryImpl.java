@@ -58,6 +58,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateProfile(User user) {
-        throw new UnsupportedOperationException();
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(user);
+            session.getTransaction().commit();
+        }
     }
 }

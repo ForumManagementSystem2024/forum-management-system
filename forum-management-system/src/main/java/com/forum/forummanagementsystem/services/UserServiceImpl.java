@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.User;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final String MODIFY_PROFILE_ERROR_MESSAGE = "Only profile owner can make changes to the profile.";
 
     private UserRepository userRepository;
 
@@ -53,7 +56,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateProfile(User user) {
-        throw new UnsupportedOperationException();
+    public void updateProfile(User userAuthenticated, User userMapped) {
+        checkModifyPermissions(userAuthenticated, userMapped);
+        // TODO could implement "Users should not be able to change their username once registered. "
+
+        userRepository.updateProfile(userMapped);
+
+    }
+
+    private void checkModifyPermissions(User userAuthenticated, User userMapped) {
+        if (!(userAuthenticated.equals(userMapped))) {
+            throw new AuthorizationException(MODIFY_PROFILE_ERROR_MESSAGE);
+        }
     }
 }
