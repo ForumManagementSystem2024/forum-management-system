@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByUsername(String username) {
-        throw new UnsupportedOperationException();
+       return userRepository.getByUsername(username);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.forum.forummanagementsystem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 
@@ -24,14 +25,16 @@ public class Helpers {
         return mockUser;
     }
 
-//    public static Beer createMockBeer() {
-//        var mockBeer = new Beer();
-//        mockBeer.setId(1);
-//        mockBeer.setName("MockBeer");
-//        mockBeer.setCreatedBy(createMockUser());
-//        mockBeer.setStyle(createMockStyle());
-//        return mockBeer;
-//    }
+    public static Post createMockPost() {
+        Post mockPost = new Post();
+        mockPost.setId(1);
+        mockPost.setTitle("MockPost");
+        mockPost.setContent("A History of Chocolate: From Mesoamerica to the Modern World', 'Chocolate has been cherished for thousands of years, dating back to the ancient civilizations of Mesoamerica. The Mayans and Aztecs believed cocoa beans were a gift from the gods, and today, chocolate is enjoyed in countless forms around the world.");
+        mockPost.setLikes(3);
+        mockPost.setCreatedBy(createMockUser());
+
+        return mockPost;
+    }
 
 
 //    public static FilterOptions createMockFilterOptions() {
