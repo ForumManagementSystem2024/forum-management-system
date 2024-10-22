@@ -62,6 +62,8 @@ public class ModelMapper {
         Reply reply = fromReplyDto(replyDto);
         reply.setId(replyId);
         Reply repositoryReply = replyService.getReplyById(replyId);
+        reply.setCreatedBy(repositoryReply.getCreatedBy());
+        reply.setPostId(repositoryReply.getPostId());
 
         return reply;
     }
