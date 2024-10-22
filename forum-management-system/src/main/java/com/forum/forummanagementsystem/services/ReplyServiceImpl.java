@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services;
 
+import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
+    public static final String BLOCKED_USER_ERROR =
+            "You are not allowed to create a reply! Please contact customer support!";
 
     private final ReplyRepository replyRepository;
 
@@ -31,6 +34,8 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void createReply(Post post, User user, Reply reply) {
+        checkIfUserIsBlocked(user);
+
         reply.setCreatedBy(user);
         reply.setPostId(post);
         replyRepository.createReply(reply);
@@ -44,5 +49,11 @@ public class ReplyServiceImpl implements ReplyService {
     @Override
     public void deleteReply(Reply reply, User user) {
 
+    }
+
+    private static void checkIfUserIsBlocked(User user) {
+        if(user.isBlocked()){
+            throw new AuthorizationException(BLOCKED_USER_ERROR);
+        }
     }
 }
