@@ -18,7 +18,7 @@ You can find them in `forum-management-system/db`.
 
 ## Database relations
 
- <img title="a title" alt="Alt text" src="/db/forum_scheme.jpg">
+ <img title="a title" alt="Alt text" src="//db/forum_scheme.jpg">
 
 ## Functionality
 
