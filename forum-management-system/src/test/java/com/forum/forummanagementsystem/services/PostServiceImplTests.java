@@ -3,9 +3,11 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
+import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,14 +16,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.forum.forummanagementsystem.Helpers.createMockPost;
-import static com.forum.forummanagementsystem.Helpers.createMockUser;
+import static com.forum.forummanagementsystem.Helpers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PostServiceImplTests {
 
     @Mock
     PostRepository mockPostRepository;
+
+    @Mock
+    AdminService adminService;
 
     @InjectMocks
     PostServiceImpl mockPostService;
@@ -76,7 +80,7 @@ public class PostServiceImplTests {
     }
 
     @Test
-    public void create_Should_Throw_When_UserIsBlocked(){
+    public void create_Should_Throw_When_UserIsBlocked() {
         // Arrange
         Post mockPost = createMockPost();
         User mockUser = createMockUser();
@@ -162,5 +166,63 @@ public class PostServiceImplTests {
         Assertions.assertThrows(
                 EntityDuplicateException.class,
                 () -> mockPostService.update(mockPost, mockUserCreator));
+    }
+
+    @Test
+    public void delete_Should_CallRepository_When_UserIsCreator() {
+        Post mockPost = createMockPost();
+        User mockUserOwner = mockPost.getCreatedBy();
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenReturn(mockPost);
+
+        mockPostService.delete(mockPost.getId(), mockUserOwner);
+
+        Mockito.verify(mockPostRepository, Mockito.times(1))
+                .delete(mockPost.getId());
+
+    }
+
+    @Test
+    public void delete_Should_CallRepository_When_UserIsAdmin() {
+        Post mockPost = createMockPost();
+
+        User mockAdminUser = createMockUser();
+        mockAdminUser.setId(2);
+
+        Admin mockAdmin = createMockAdmin();
+        mockAdmin.setId(1);
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenReturn(mockPost);
+
+        Mockito.when(adminService.getAdminById(mockAdminUser.getId()))
+                .thenReturn(mockAdmin);
+
+        mockPostService.delete(mockPost.getId(), mockAdminUser);
+
+        Mockito.verify(mockPostRepository, Mockito.times(1))
+                .delete(mockPost.getId());
+    }
+
+    @Test
+    public void delete_Should_ThrowException_When_UserIsNotCreatorNorAdmin() {
+        Post mockPost = createMockPost();
+        User mockCreator = createMockUser();
+        mockPost.setCreatedBy(mockCreator);
+        User mockNonCreator = createMockUser();
+        mockNonCreator.setId(2);
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenReturn(mockPost);
+
+        Mockito.when(adminService.getAdminById(mockNonCreator.getId()))
+                .thenThrow(EntityNotFoundException.class);
+
+        Assertions.assertThrows(
+                AuthorizationException.class,
+                () -> mockPostService.delete(mockPost.getId(), mockNonCreator));
+
+        Mockito.verify(mockPostRepository, Mockito.never()).delete(Mockito.anyInt());
     }
 }
