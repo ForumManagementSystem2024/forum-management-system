@@ -1,8 +1,10 @@
 package com.forum.forummanagementsystem.helpers;
 
 import com.forum.forummanagementsystem.models.Post;
+import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.PostDto;
+import com.forum.forummanagementsystem.models.dto.ReplyDto;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
@@ -22,7 +24,7 @@ public class ModelMapper {
         this.postService = postService;
     }
 
-    public  User fromUserDto(int id, UserDto userDto) {
+    public User fromUserDto(int id, UserDto userDto) {
         User user = fromUserDto(userDto);
         user.setId(id);
         return user;
@@ -54,5 +56,12 @@ public class ModelMapper {
         post.setContent(postDto.getContent());
 
         return post;
+    }
+
+    public Reply fromReplyDto(ReplyDto replyDto) {
+        Reply reply = new Reply();
+        reply.setContent(replyDto.getContent());
+
+        return reply;
     }
 }
