@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "posts")
@@ -27,6 +28,9 @@ public class Post {
 
     @Column(name = "likes")
     private int likes;
+
+    @OneToMany(mappedBy = "postId", fetch = FetchType.EAGER)
+    private Set<Reply> replies;
 
     public Post() {
     }

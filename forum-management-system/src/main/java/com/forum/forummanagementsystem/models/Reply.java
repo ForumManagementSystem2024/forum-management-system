@@ -2,7 +2,6 @@ package com.forum.forummanagementsystem.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 
 import java.util.Objects;
 
@@ -21,9 +20,9 @@ public class Reply {
     private User createdBy;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
-    private Post post_id;
+    private Post postId;
 
     public Reply() {
     }
@@ -44,12 +43,12 @@ public class Reply {
         this.createdBy = createdBy;
     }
 
-    public Post getPost_id() {
-        return post_id;
+    public Post getPostId() {
+        return postId;
     }
 
-    public void setPost_id(Post post_id) {
-        this.post_id = post_id;
+    public void setPostId(Post postId) {
+        this.postId = postId;
     }
 
     @Override
