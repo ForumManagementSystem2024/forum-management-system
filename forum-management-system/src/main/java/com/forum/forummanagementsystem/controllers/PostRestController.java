@@ -75,13 +75,15 @@ public class PostRestController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+    @DeleteMapping("/{postId}")
+    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int postId) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            postService.delete(id, user);
+            postService.delete(postId, user);
         } catch (EntityNotFoundException e) {
-            throw new UnsupportedOperationException(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 }

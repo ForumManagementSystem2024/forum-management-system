@@ -12,5 +12,5 @@ public interface PostRepository {
     Post getPostByTitle(String title);
     void create(Post post);
     void update(Post post);
-    void delete(int id, User user);
+    void delete(int postId);
 }
