@@ -18,6 +18,7 @@ public class PostServiceImpl implements PostService {
 
     public static final String BLOCKED_USER_ERROR = "You are not allowed to create a post! Please contact customer support!";
     public static final int DEFAULT_LIKES = 0;
+    public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this post!";
     private final PostRepository postRepository;
 
     @Autowired
@@ -57,7 +58,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void update(Post post, User user) {
-        throw new UnsupportedOperationException();
+        checkIfUserIsCreator(post.getId(), user);
+
+        boolean duplicateExists = true;
+        try{
+            Post existingPost = postRepository.getPostByTitle(post.getTitle());
+            if (existingPost.getId() == post.getId()) {
+                duplicateExists = false;
+            }
+        } catch (EntityNotFoundException e) {
+            duplicateExists = false;
+        }
+
+        if (duplicateExists) {
+            throw new EntityDuplicateException("Post", "title", post.getTitle());
+        }
+
+        postRepository.update(post);
     }
 
     @Override
@@ -65,10 +82,18 @@ public class PostServiceImpl implements PostService {
         throw new UnsupportedOperationException();
     }
 
+    public void checkIfUserIsCreator(int postId, User user) {
+        Post post = postRepository.getPostById(postId);
+
+        if(!(post.getCreatedBy().equals(user))) {
+            throw new AuthorizationException(USER_NOT_CREATOR_ERROR);
+        }
+    }
+
     private static void checkIfUserIsBlocked(User user) {
         if(user.isBlocked()){
             throw new AuthorizationException(BLOCKED_USER_ERROR);
         }
     }
-    
+
 }

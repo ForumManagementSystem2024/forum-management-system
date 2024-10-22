@@ -63,7 +63,7 @@ public class PostRestController {
     public Post updatePost(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody PostDto postDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            Post post = modelMapper.fromPostDto(postDto);
+            Post post = modelMapper.fromPostDto(id, postDto);
             postService.update(post, user);
             return post;
         } catch (EntityNotFoundException e) {

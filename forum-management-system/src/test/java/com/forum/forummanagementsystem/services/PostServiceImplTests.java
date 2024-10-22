@@ -3,11 +3,9 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
-import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
-import com.forum.forummanagementsystem.services.interfaces.PostService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -88,5 +86,81 @@ public class PostServiceImplTests {
         Assertions.assertThrows(
                 AuthorizationException.class,
                 () -> mockPostService.create(mockPost, mockUser));
+    }
+
+    @Test
+    void update_Should_CallRepository_When_UserIsCreator() {
+        //Arrange
+        Post mockPost = createMockPost();
+        User mockUserCreator = mockPost.getCreatedBy();
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenReturn(mockPost);
+
+        Mockito.when(mockPostRepository.getPostByTitle(Mockito.anyString()))
+                .thenThrow(EntityNotFoundException.class);
+
+        //Act
+        mockPostService.update(mockPost, mockUserCreator);
+
+        //Assert
+        Mockito.verify(mockPostRepository, Mockito.times(1))
+                .update(mockPost);
+    }
+
+    @Test
+    public void update_Should_CallRepository_When_UpdatingExistingPost() {
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUserCreator = mockPost.getCreatedBy();
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenReturn(mockPost);
+
+        Mockito.when(mockPostRepository.getPostByTitle(Mockito.anyString()))
+                .thenReturn(mockPost);
+
+        // Act
+        mockPostService.update(mockPost, mockUserCreator);
+
+        // Assert
+        Mockito.verify(mockPostRepository, Mockito.times(1))
+                .update(mockPost);
+    }
+
+    @Test
+    public void update_Should_ThrowException_When_UserIsNotCreat() {
+        // Arrange
+        Post mockPost = createMockPost();
+
+        Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
+                .thenReturn(mockPost);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                AuthorizationException.class,
+                () -> mockPostService.update(mockPost, Mockito.mock(User.class)));
+    }
+
+    @Test
+    public void update_Should_ThrowException_When_PostTitleIsTaken() {
+        // Arrange
+        Post mockPost = createMockPost();
+
+        User mockUserCreator = mockPost.getCreatedBy();
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenReturn(mockPost);
+
+        Post mockExistingPostWithSameTitle = createMockPost();
+        mockExistingPostWithSameTitle.setId(2);
+
+        Mockito.when(mockPostRepository.getPostByTitle(mockPost.getTitle()))
+                .thenReturn(mockExistingPostWithSameTitle);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                EntityDuplicateException.class,
+                () -> mockPostService.update(mockPost, mockUserCreator));
     }
 }
