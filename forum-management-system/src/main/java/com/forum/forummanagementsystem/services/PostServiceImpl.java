@@ -3,7 +3,6 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
-import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
@@ -22,6 +21,7 @@ public class PostServiceImpl implements PostService {
     public static final String BLOCKED_USER_ERROR = "You are not allowed to create a post! Please contact customer support!";
     public static final int DEFAULT_LIKES = 0;
     public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this post!";
+    public static final String USER_NOT_AUTHORIZED_DELETE_POST_ERROR = "Only admins and creator of post can delete it!";
     private final PostRepository postRepository;
     private final AdminService adminService;
 
@@ -111,12 +111,12 @@ public class PostServiceImpl implements PostService {
         }
 
         if (!isAdmin) {
-            throw new AuthorizationException("Only admins and the post creator can delete this post");
+            throw new AuthorizationException(USER_NOT_AUTHORIZED_DELETE_POST_ERROR);
         }
 
     }
 
-    private static void checkIfUserIsBlocked(User user) {
+    public void checkIfUserIsBlocked(User user) {
         if(user.isBlocked()){
             throw new AuthorizationException(BLOCKED_USER_ERROR);
         }

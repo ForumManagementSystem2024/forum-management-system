@@ -50,7 +50,7 @@ public class ReplyRepositoryImpl implements ReplyRepository {
 
     @Override
     public void updateReply(Reply reply) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(reply);
             session.getTransaction().commit();
@@ -58,7 +58,12 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     }
 
     @Override
-    public void deleteReply(Reply reply, User user) {
-
+    public void deleteReply(int id) {
+        Reply replyToDelete = getReplyById(id);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.remove(replyToDelete);
+            session.getTransaction().commit();
+        }
     }
 }

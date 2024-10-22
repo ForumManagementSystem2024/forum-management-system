@@ -11,5 +11,5 @@ public interface ReplyRepository {
     Reply getReplyById(int id);
     void createReply(Reply reply);
     void updateReply(Reply reply);
-    void deleteReply(Reply reply, User user);
+    void deleteReply(int id);
 }

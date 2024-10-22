@@ -79,5 +79,19 @@ public class ReplyRestController {
         }
     }
 
+    @DeleteMapping("/{replyId}")
+    public void deleteReply(@RequestHeader HttpHeaders httpHeaders,
+                            @PathVariable int postId,
+                            @PathVariable int replyId) {
+        try {
+            User user = authenticationHelper.tryGetUser(httpHeaders);
+            replyService.deleteReply(replyId, user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
 
 }

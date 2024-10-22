@@ -12,5 +12,5 @@ public interface ReplyService {
     Reply getReplyById(int id);
     void createReply(Post post, User user, Reply reply);
     void updateReply(User user, Reply reply);
-    void deleteReply(Reply reply, User user);
+    void deleteReply(int replyId, User user);
 }
