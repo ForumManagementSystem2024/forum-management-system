@@ -74,4 +74,16 @@ public class PostRestController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
+
+    @DeleteMapping("/{postId}")
+    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int postId) {
+        try {
+            User user = authenticationHelper.tryGetUser(headers);
+            postService.delete(postId, user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
 }

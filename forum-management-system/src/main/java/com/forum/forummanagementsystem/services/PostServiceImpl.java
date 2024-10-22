@@ -3,11 +3,14 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
+import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
+import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +23,12 @@ public class PostServiceImpl implements PostService {
     public static final int DEFAULT_LIKES = 0;
     public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this post!";
     private final PostRepository postRepository;
+    private final AdminService adminService;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService, AdminService adminService) {
         this.postRepository = postRepository;
+        this.adminService = adminService;
     }
 
     @Override
@@ -78,8 +83,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(Post post, User user) {
-        throw new UnsupportedOperationException();
+    public void delete(int postId, User user) {
+        try {
+            checkIfUserIsCreator(postId, user);
+        } catch (AuthorizationException e) {
+            checkIfUserIsAdmin(user);
+        }
+
+        postRepository.delete(postId);
     }
 
     public void checkIfUserIsCreator(int postId, User user) {
@@ -88,6 +99,21 @@ public class PostServiceImpl implements PostService {
         if(!(post.getCreatedBy().equals(user))) {
             throw new AuthorizationException(USER_NOT_CREATOR_ERROR);
         }
+    }
+
+    public void checkIfUserIsAdmin(User user) {
+        boolean isAdmin = true;
+
+        try {
+            adminService.getAdminById(user.getId());
+        } catch (EntityNotFoundException e) {
+            isAdmin = false;
+        }
+
+        if (!isAdmin) {
+            throw new AuthorizationException("Only admins and the post creator can delete this post");
+        }
+
     }
 
     private static void checkIfUserIsBlocked(User user) {

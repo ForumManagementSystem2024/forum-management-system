@@ -76,7 +76,12 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public void delete(Post post, User user) {
-
+    public void delete(int postId) {
+        Post postToDelete = getPostById(postId);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.remove(postToDelete);
+            session.getTransaction().commit();
+        }
     }
 }
