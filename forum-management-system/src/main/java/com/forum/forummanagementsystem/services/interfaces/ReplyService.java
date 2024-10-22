@@ -8,9 +8,9 @@ import com.forum.forummanagementsystem.models.User;
 import java.util.List;
 
 public interface ReplyService {
-    List<Reply> get(FilterOptions filterOptions);
+    List<Reply> getReplies(FilterOptions filterOptions);
     Post getReplyById(int id);
-    void create(Post post, User user, Reply reply);
-    void update(Post post, User user, Reply reply);
-    void delete(Reply reply, User user);
+    void createReply(Post post, User user, Reply reply);
+    void updateReply(Post post, User user, Reply reply);
+    void deleteReply(Reply reply, User user);
 }

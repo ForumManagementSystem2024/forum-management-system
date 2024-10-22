@@ -1,0 +1,51 @@
+package com.forum.forummanagementsystem.repositories;
+
+import com.forum.forummanagementsystem.models.FilterOptions;
+import com.forum.forummanagementsystem.models.Post;
+import com.forum.forummanagementsystem.models.Reply;
+import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class ReplyRepositoryImpl implements ReplyRepository {
+
+    private final SessionFactory sessionFactory;
+
+    public ReplyRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    @Override
+    public List<Reply> get(FilterOptions filterOptions) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Post getReplyById(int id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void createReply(Reply reply) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(reply);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void updateReply(Post post, User user, Reply reply) {
+
+    }
+
+    @Override
+    public void deleteReply(Reply reply, User user) {
+
+    }
+}

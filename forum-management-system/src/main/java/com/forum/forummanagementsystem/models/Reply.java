@@ -24,6 +24,9 @@ public class Reply {
     @JoinColumn(name = "post_id")
     private Post postId;
 
+    @Column(name = "content")
+    private String content;
+
     public Reply() {
     }
 
@@ -49,6 +52,14 @@ public class Reply {
 
     public void setPostId(Post postId) {
         this.postId = postId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override

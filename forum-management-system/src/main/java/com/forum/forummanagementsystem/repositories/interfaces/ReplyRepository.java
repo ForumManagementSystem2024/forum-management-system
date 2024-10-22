@@ -10,7 +10,7 @@ import java.util.List;
 public interface ReplyRepository {
     List<Reply> get(FilterOptions filterOptions);
     Post getReplyById(int id);
-    void create(Post post, User user, Reply reply);
-    void update(Post post, User user, Reply reply);
-    void delete(Reply reply, User user);
+    void createReply(Reply reply);
+    void updateReply(Post post, User user, Reply reply);
+    void deleteReply(Reply reply, User user);
 }

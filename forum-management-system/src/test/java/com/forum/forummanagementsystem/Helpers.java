@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.Post;
+import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 
@@ -37,6 +38,16 @@ public class Helpers {
         mockPost.setCreatedBy(createMockUser());
 
         return mockPost;
+    }
+
+    public static Reply createMockReply(){
+        Reply reply = new Reply();
+        reply.setId(1);
+        reply.setCreatedBy(createMockUser());
+        reply.setPostId(createMockPost());
+        reply.setContent("Very good! Perfect cake! The best in the world!");
+
+        return reply;
     }
 
 
