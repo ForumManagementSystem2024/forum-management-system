@@ -70,4 +70,5 @@ public class PostServiceImpl implements PostService {
             throw new AuthorizationException(BLOCKED_USER_ERROR);
         }
     }
+    
 }
