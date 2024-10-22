@@ -10,7 +10,6 @@ import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import jakarta.validation.Valid;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,14 +35,10 @@ public class PostRestController {
     public Post getPostById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
             User user = authenticationHelper.tryGetUser(httpHeaders);
-
             return postService.getPostById(id);
-
         } catch (EntityNotFoundException e) {
-
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
-
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }

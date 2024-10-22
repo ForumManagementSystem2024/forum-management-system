@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(int id) {
-        throw new UnsupportedOperationException();
+    public User getUserById(int id) {
+        return userRepository.getById(id);
     }
 
     @Override

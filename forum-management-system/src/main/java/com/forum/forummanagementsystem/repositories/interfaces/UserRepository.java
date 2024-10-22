@@ -11,7 +11,7 @@ public interface UserRepository {
     void register(User user);
     void updateProfile(User user);
     // To be discussed:
-    // void blockUser(User user);
+     void blockUser(User user);
     // void unblockUser(User user);
     // List<User> getUsersBy(FilterOptions filterOptions);
 }

@@ -39,7 +39,15 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getById(int id) {
-        throw new UnsupportedOperationException();
+        try (Session session = sessionFactory.openSession()) {
+            User user = session.get(User.class, id);
+
+            if (user == null) {
+                throw new EntityNotFoundException("User", id);
+            }
+
+            return user;
+        }
     }
 
     @Override
@@ -58,8 +66,18 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateProfile(User user) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
+            session.merge(user);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void blockUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            user.setBlocked(true);
             session.merge(user);
             session.getTransaction().commit();
         }
