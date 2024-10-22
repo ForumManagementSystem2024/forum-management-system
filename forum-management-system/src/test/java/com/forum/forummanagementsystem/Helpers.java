@@ -1,17 +1,20 @@
 package com.forum.forummanagementsystem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 
 public class Helpers {
 
-//    public static User createMockAdmin() {
-//        User mockUser = createMockUser();
-//        mockUser.setAdmin(true);
-//        return mockUser;
-//    }
+    public static Admin createMockAdmin() {
+        Admin mockAdmin = new Admin();
+        mockAdmin.setId(1);
+        mockAdmin.setUserId(createMockUser());
+
+        return mockAdmin;
+    }
 
     public static User createMockUser() {
         var mockUser = new User();

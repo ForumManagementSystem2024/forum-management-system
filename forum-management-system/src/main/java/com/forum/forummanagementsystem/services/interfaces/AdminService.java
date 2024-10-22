@@ -9,5 +9,5 @@ public interface AdminService {
 
     void blockUser(User userToBlock);
 
-    void unblock(User user);
+    void unblockUser(User userToUnblock);
 }

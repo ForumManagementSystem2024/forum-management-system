@@ -48,4 +48,21 @@ public class AdminRestController {
         }
     }
 
+    @PutMapping("/unblock/{id}")
+    public void unblockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
+        try {
+            User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
+            adminService.getAdminById(userAuthenticated.getId());
+
+            User userToUnblock = userService.getUserById(id);
+
+            adminService.unblockUser(userToUnblock);
+
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
 }

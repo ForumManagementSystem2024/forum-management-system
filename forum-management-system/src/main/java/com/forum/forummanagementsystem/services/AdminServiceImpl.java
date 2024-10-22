@@ -34,7 +34,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public void unblock(User user) {
-
+    public void unblockUser(User userToUnblock) {
+        userRepository.unblockUser(userToUnblock);
     }
 }

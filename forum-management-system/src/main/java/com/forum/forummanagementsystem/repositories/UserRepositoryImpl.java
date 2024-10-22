@@ -82,4 +82,14 @@ public class UserRepositoryImpl implements UserRepository {
             session.getTransaction().commit();
         }
     }
+
+    @Override
+    public void unblockUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            user.setBlocked(false);
+            session.merge(user);
+            session.getTransaction().commit();
+        }
+    }
 }
