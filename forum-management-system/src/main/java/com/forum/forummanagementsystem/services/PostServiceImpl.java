@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(Post post, User user) {
+    public void delete(int id, User user) {
         throw new UnsupportedOperationException();
     }
 

@@ -72,7 +72,7 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public void delete(Post post, User user) {
+    public void delete(int id, User user) {
 
     }
 }
