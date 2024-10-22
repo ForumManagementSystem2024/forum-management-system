@@ -75,6 +75,14 @@ public class Post {
         this.likes = likes;
     }
 
+    public Set<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(Set<Reply> replies) {
+        this.replies = replies;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
