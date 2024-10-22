@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("api/posts/{id}/replies")
+@RequestMapping("api/posts/{postId}/replies")
 public class ReplyRestController {
 
     private final ReplyService replyService;
@@ -39,12 +39,12 @@ public class ReplyRestController {
 
     @PostMapping("/create")
     public Reply createReplyToPost(@RequestHeader HttpHeaders httpHeaders,
-                                   @PathVariable int id,
+                                   @PathVariable int postId,
                                    @Valid @RequestBody ReplyDto replyDto) {
 
         try {
             User user = authenticationHelper.tryGetUser(httpHeaders);
-            Post post = postService.getPostById(id);
+            Post post = postService.getPostById(postId);
             Reply reply = modelMapper.fromReplyDto(replyDto);
 
             replyService.createReply(post, user, reply);
@@ -56,7 +56,27 @@ public class ReplyRestController {
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
+    }
 
+
+    @PutMapping("/{replyId}")
+    public Reply updateReply(@RequestHeader HttpHeaders httpHeaders,
+                             @PathVariable int postId,
+                             @PathVariable int replyId,
+                             @Valid @RequestBody ReplyDto replyDto) {
+        try {
+            User user = authenticationHelper.tryGetUser(httpHeaders);
+            Reply reply = modelMapper.fromReplyDto(replyId, replyDto);
+
+            replyService.updateReply(user, reply);
+
+            return reply;
+
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
     }
 
 

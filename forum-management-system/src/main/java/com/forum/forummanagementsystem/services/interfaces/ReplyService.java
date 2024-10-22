@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ReplyService {
     List<Reply> getReplies(FilterOptions filterOptions);
-    Post getReplyById(int id);
+    Reply getReplyById(int id);
     void createReply(Post post, User user, Reply reply);
-    void updateReply(Post post, User user, Reply reply);
+    void updateReply(User user, Reply reply);
     void deleteReply(Reply reply, User user);
 }

@@ -7,6 +7,7 @@ import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.models.dto.ReplyDto;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
+import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,14 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelMapper {
 
-    private final UserService userService;
-
     private final PostService postService;
+    private final ReplyService replyService;
 
     @Autowired
-    public ModelMapper(UserService userService, PostService postService) {
-        this.userService = userService;
+    public ModelMapper(PostService postService, ReplyService replyService) {
         this.postService = postService;
+        this.replyService = replyService;
     }
 
     public User fromUserDto(int id, UserDto userDto) {
@@ -58,10 +58,20 @@ public class ModelMapper {
         return post;
     }
 
+    public Reply fromReplyDto(int replyId, ReplyDto replyDto) {
+        Reply reply = fromReplyDto(replyDto);
+        reply.setId(replyId);
+        Reply repositoryReply = replyService.getReplyById(replyId);
+
+        return reply;
+    }
+
     public Reply fromReplyDto(ReplyDto replyDto) {
         Reply reply = new Reply();
         reply.setContent(replyDto.getContent());
 
         return reply;
     }
+
+
 }

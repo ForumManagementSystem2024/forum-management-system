@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.repositories;
 
+import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
@@ -26,8 +27,16 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     }
 
     @Override
-    public Post getReplyById(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Reply getReplyById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Reply reply = session.get(Reply.class, id);
+
+            if (reply == null) {
+                throw new EntityNotFoundException("Reply", id);
+            }
+
+            return reply;
+        }
     }
 
     @Override
@@ -40,8 +49,12 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     }
 
     @Override
-    public void updateReply(Post post, User user, Reply reply) {
-
+    public void updateReply(Reply reply) {
+        try(Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(reply);
+            session.getTransaction().commit();
+        }
     }
 
     @Override

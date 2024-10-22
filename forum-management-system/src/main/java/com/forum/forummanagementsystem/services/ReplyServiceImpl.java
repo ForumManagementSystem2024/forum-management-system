@@ -15,6 +15,7 @@ import java.util.List;
 public class ReplyServiceImpl implements ReplyService {
     public static final String BLOCKED_USER_ERROR =
             "You are not allowed to create a reply! Please contact customer support!";
+    public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this reply!";
 
     private final ReplyRepository replyRepository;
 
@@ -28,8 +29,8 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public Post getReplyById(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Reply getReplyById(int id) {
+        return replyRepository.getReplyById(id);
     }
 
     @Override
@@ -42,8 +43,10 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public void updateReply(Post post, User user, Reply reply) {
+    public void updateReply(User user, Reply reply) {
+        checkIfUserIsCreator(reply.getId(), user);
 
+        replyRepository.updateReply(reply);
     }
 
     @Override
@@ -52,8 +55,16 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     private static void checkIfUserIsBlocked(User user) {
-        if(user.isBlocked()){
+        if (user.isBlocked()) {
             throw new AuthorizationException(BLOCKED_USER_ERROR);
+        }
+    }
+
+    public void checkIfUserIsCreator(int replyId, User user) {
+        Reply reply = replyRepository.getReplyById(replyId);
+
+        if (!(reply.getCreatedBy().equals(user))) {
+            throw new AuthorizationException(USER_NOT_CREATOR_ERROR);
         }
     }
 }
