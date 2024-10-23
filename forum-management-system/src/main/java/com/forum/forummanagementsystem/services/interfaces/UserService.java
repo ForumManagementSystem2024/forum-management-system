@@ -11,6 +11,7 @@ public interface UserService {
     List<User> getAll();
     void register(User user);
     void updateProfile(User userAuthenticated, User userMapped);
+    void deleteUser(User user);
     // To be discussed:
     // List<User> getUsersBy(FilterOptions filterOptions);
 }

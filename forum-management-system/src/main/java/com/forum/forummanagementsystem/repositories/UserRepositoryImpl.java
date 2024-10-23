@@ -51,11 +51,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getAll() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void register(User user) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -89,6 +84,15 @@ public class UserRepositoryImpl implements UserRepository {
             session.beginTransaction();
             user.setBlocked(false);
             session.merge(user);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.remove(user);
             session.getTransaction().commit();
         }
     }
