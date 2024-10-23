@@ -32,6 +32,20 @@ public class AdminRestController {
         this.authenticationHelper = authenticationHelper;
     }
 
+    @GetMapping("/{id}")
+    public User getUserById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
+        try {
+            User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
+            adminService.getAdminById(userAuthenticated.getId());
+
+            return userService.getUserById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
     @PutMapping("/block/{id}")
     public void blockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {

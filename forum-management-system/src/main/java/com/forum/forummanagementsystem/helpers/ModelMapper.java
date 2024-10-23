@@ -6,9 +6,9 @@ import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.models.dto.ReplyDto;
 import com.forum.forummanagementsystem.models.dto.UserDto;
+import com.forum.forummanagementsystem.models.dto.UserDtoOut;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
-import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +39,15 @@ public class ModelMapper {
         user.setEmail(userDto.getEmail());
 
         return user;
+    }
+
+    public UserDtoOut fromUserToUserDtoOut (User user) {
+        UserDtoOut userDtoOut = new UserDtoOut();
+        userDtoOut.setUsername(user.getUsername());
+        userDtoOut.setFirstName(user.getFirstName());
+        userDtoOut.setLastName(user.getLastName());
+
+        return userDtoOut;
     }
 
     public Post fromPostDto(int id, PostDto postDto) {
