@@ -18,7 +18,6 @@ You can find them in `forum-management-system/db`.
 
 ## Database relations
 You can find it in `forum-management-system/db`.
- <img title="a title" alt="Alt text" src="//db/forum_scheme.jpg">
 
 ## Functionality
 
