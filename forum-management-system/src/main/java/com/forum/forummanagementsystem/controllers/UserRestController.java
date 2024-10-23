@@ -7,6 +7,7 @@ import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDto;
+import com.forum.forummanagementsystem.models.dto.UserDtoOut;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +28,20 @@ public class UserRestController {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.authenticationHelper = authenticationHelper;
+    }
+
+    @GetMapping("/{id}")
+    public UserDtoOut getUserById(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+        try {
+            authenticationHelper.tryGetUser(headers);
+            User user = userService.getUserById(id);
+
+            return modelMapper.fromUserToUserDtoOut(user);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
     }
 
     @PostMapping("/register")
