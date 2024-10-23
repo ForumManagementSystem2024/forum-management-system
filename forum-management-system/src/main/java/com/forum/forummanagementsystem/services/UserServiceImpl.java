@@ -71,6 +71,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.search(filterOptionsUser);
     }
 
+    @Override
+    public void deleteUser(User user) {
+        userRepository.deleteUser(user);
+    }
+
     private void checkModifyPermissions(User userAuthenticated, User userMapped) {
         if (!(userAuthenticated.equals(userMapped))) {
             throw new AuthorizationException(MODIFY_PROFILE_ERROR_MESSAGE);

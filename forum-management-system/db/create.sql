@@ -27,11 +27,11 @@ create table posts
     post_id    int auto_increment primary key,
     title      varchar(64)   not null,
     content    varchar(8192) not null,
-    created_by int           not null,
+    created_by int           ,
     likes      int default 0,
 
     constraint posts_users_user_id_fk
-        foreign key (created_by) references users (user_id),
+        foreign key (created_by) references users (user_id) on delete set null,
 
     check (char_length(title) >= 16 AND char_length(title) <= 64),
     check (char_length(content) >= 32 AND char_length(content) <= 8192)
@@ -40,12 +40,12 @@ create table posts
 create table replies
 (
     reply_id   int auto_increment primary key,
-    created_by int           not null,
+    created_by int           ,
     post_id    int           not null,
     content    varchar(8192) not null,
 
     constraint replies_users_user_id_fk
-        foreign key (created_by) references users (user_id),
+        foreign key (created_by) references users (user_id) on delete set null,
     constraint replies_posts_post_id_fk
         foreign key (post_id) references posts (post_id),
 

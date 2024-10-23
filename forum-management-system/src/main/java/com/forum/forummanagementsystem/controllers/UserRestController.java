@@ -9,6 +9,7 @@ import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.models.dto.UserDtoOut;
+import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -24,11 +25,16 @@ public class UserRestController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final AdminService adminService;
     private final AuthenticationHelper authenticationHelper;
 
-    public UserRestController(UserService userService, ModelMapper modelMapper, AuthenticationHelper authenticationHelper) {
+    public UserRestController(UserService userService,
+                              ModelMapper modelMapper,
+                              AdminService adminService,
+                              AuthenticationHelper authenticationHelper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.adminService = adminService;
         this.authenticationHelper = authenticationHelper;
     }
 
@@ -93,5 +99,23 @@ public class UserRestController {
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+        try {
+            User userAuthenticated = authenticationHelper.tryGetUser(headers);
+            adminService.getAdminByUserId(userAuthenticated.getId());
+
+            User userToDelete = userService.getUserById(id);
+
+            userService.deleteUser(userToDelete);
+
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+
     }
 }
