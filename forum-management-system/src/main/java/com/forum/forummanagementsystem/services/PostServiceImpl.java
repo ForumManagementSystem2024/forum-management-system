@@ -93,6 +93,17 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(postId);
     }
 
+    @Override
+    public Post likePost(int postId, User user) {
+        Post post = postRepository.getPostById(postId);
+        checkIfUserIsBlocked(user);
+        post.setLikes(post.getLikes() + 1);
+
+        postRepository.update(post);
+
+        return getPostById(postId);
+    }
+
     public void checkIfUserIsCreator(int postId, User user) {
         Post post = postRepository.getPostById(postId);
 
