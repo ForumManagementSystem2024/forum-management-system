@@ -37,6 +37,20 @@ public class ReplyRestController {
         this.authenticationHelper = authenticationHelper;
     }
 
+    @GetMapping("/{id}")
+    public Reply getReplyById(@RequestHeader HttpHeaders httpHeaders,
+                              @PathVariable String postId,
+                              @PathVariable int id) {
+        try {
+            User user = authenticationHelper.tryGetUser(httpHeaders);
+            return replyService.getReplyById(id);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
     @PostMapping()
     public Reply createReplyToPost(@RequestHeader HttpHeaders httpHeaders,
                                    @PathVariable int postId,
