@@ -28,19 +28,19 @@ You can find it in `forum-management-system/db`.
 
 ### User  `/api/users`
 
-* `POST /register`  - Register User
+* `POST`  - Register User
 * `PUT /{id}`  - Update profile
 
 ### Post `/api/posts`
 
 * `GET /{id}`  - Get Post 
-* `POST /create`  - Create Post
+* `POST`  - Create Post
 * `PUT /{id}`  - Update Post
 * `DELETE /{id}`  - Delete Post
 
 ### Reply `api/posts/{postId}/replies`
 
-* `POST /create`  - Create Reply and Add it to Post*
+* `POST`  - Create Reply and Add it to Post
 * `PUT /{replyId}`  - Update Reply
 * `DELETE /{replyId}`  - Delete Reply
 
