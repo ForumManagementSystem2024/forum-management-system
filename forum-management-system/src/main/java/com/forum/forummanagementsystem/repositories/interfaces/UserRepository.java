@@ -9,8 +9,6 @@ public interface UserRepository {
 
     User getById(int id);
 
-    List<User> getAll();
-
     void register(User user);
 
     void updateProfile(User user);
@@ -18,5 +16,7 @@ public interface UserRepository {
     void blockUser(User user);
 
     void unblockUser(User user);
+
+    void deleteUser(User user);
     // List<User> getUsersBy(FilterOptions filterOptions);
 }
