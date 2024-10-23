@@ -12,7 +12,6 @@ import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -44,7 +43,7 @@ public class UserRestController {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping()
     public User registerUser(@Valid @RequestBody UserDto userDto) {
         try {
             User user = modelMapper.fromUserDto(userDto);

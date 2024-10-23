@@ -37,7 +37,7 @@ public class ReplyRestController {
         this.authenticationHelper = authenticationHelper;
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public Reply createReplyToPost(@RequestHeader HttpHeaders httpHeaders,
                                    @PathVariable int postId,
                                    @Valid @RequestBody ReplyDto replyDto) {

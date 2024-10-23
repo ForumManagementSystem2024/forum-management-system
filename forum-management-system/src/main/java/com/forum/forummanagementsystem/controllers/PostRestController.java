@@ -43,7 +43,7 @@ public class PostRestController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public Post createPost(@RequestHeader HttpHeaders headers, @Valid @RequestBody PostDto postDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
@@ -75,11 +75,11 @@ public class PostRestController {
         }
     }
 
-    @DeleteMapping("/{postId}")
-    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int postId) {
+    @DeleteMapping("/{id}")
+    public void delete(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
-            postService.delete(postId, user);
+            postService.delete(id, user);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {

@@ -129,7 +129,7 @@ public class ReplyServiceImplTests {
         // Arrange
         User mockUser = createMockUser();
         Mockito.doThrow(new EntityNotFoundException("Admin", 1))
-                .when(mockAdminService).getAdminById(mockUser.getId());
+                .when(mockAdminService).getAdminByUserId(mockUser.getId());
 
         // Act, Assert
         Assertions.assertThrows(AuthorizationException.class, () -> {

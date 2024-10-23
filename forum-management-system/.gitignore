@@ -39,3 +39,7 @@ out/
 
 # Ignore application.properties file
 src/main/resources/application.properties
+
+# Ignore README.md file
+.md
+
