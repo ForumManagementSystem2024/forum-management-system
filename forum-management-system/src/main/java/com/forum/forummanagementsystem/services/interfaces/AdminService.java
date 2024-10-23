@@ -5,9 +5,11 @@ import com.forum.forummanagementsystem.models.User;
 
 public interface AdminService {
 
-    Admin getAdminById(int id);
+    Admin getAdminByUserId(int id);
 
     void blockUser(User userToBlock);
 
     void unblockUser(User userToUnblock);
+
+    void makeAdmin(User userToMakeAdmin);
 }

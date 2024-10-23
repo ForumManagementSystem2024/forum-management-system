@@ -1,6 +1,7 @@
 package com.forum.forummanagementsystem.controllers;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
+import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.models.User;
@@ -35,7 +36,7 @@ public class AdminRestController {
     public void blockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            adminService.getAdminById(userAuthenticated.getId());
+            adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToBlock = userService.getUserById(id);
 
@@ -52,7 +53,7 @@ public class AdminRestController {
     public void unblockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            adminService.getAdminById(userAuthenticated.getId());
+            adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToUnblock = userService.getUserById(id);
 
@@ -60,6 +61,25 @@ public class AdminRestController {
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}")
+    public void makeAdmin(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
+        try {
+            User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
+            adminService.getAdminByUserId(userAuthenticated.getId());
+
+            User userToMakeAdmin = userService.getUserById(id);
+
+            adminService.makeAdmin(userToMakeAdmin);
+
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (EntityDuplicateException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

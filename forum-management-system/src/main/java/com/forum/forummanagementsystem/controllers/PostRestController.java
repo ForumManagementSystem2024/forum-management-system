@@ -43,7 +43,7 @@ public class PostRestController {
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public Post createPost(@RequestHeader HttpHeaders headers, @Valid @RequestBody PostDto postDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);

@@ -83,7 +83,7 @@ public class ReplyServiceImpl implements ReplyService {
         boolean isAdmin = true;
 
         try {
-            adminService.getAdminById(user.getId());
+            adminService.getAdminByUserId(user.getId());
         } catch (EntityNotFoundException e) {
             isAdmin = false;
         }

@@ -29,7 +29,7 @@ public class UserRestController {
         this.authenticationHelper = authenticationHelper;
     }
 
-    @PostMapping("/register")
+    @PostMapping()
     public User registerUser(@Valid @RequestBody UserDto userDto) {
         try {
             User user = modelMapper.fromUserDto(userDto);

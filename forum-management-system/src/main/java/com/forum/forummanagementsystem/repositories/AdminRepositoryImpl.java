@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.repositories;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Admin;
 
+import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.AdminRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,8 +24,8 @@ public class AdminRepositoryImpl implements AdminRepository {
     }
 
     @Override
-    public Admin getAdminById(int id) {
-        try(Session session = sessionFactory.openSession()) {
+    public Admin getAdminByUserId(int id) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Admin> query = session.createQuery("from Admin a where a.userId.id = :id", Admin.class);
             query.setParameter("id", id);
 
@@ -35,6 +36,18 @@ public class AdminRepositoryImpl implements AdminRepository {
             }
 
             return result.get(0);
+        }
+    }
+
+    @Override
+    public void makeAdmin(User userToMakeAdmin) {
+
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            Admin admin = new Admin();
+            admin.setUserId(userToMakeAdmin);
+            session.persist(admin);
+            session.getTransaction().commit();
         }
     }
 }

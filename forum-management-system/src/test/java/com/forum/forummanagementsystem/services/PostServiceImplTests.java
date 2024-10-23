@@ -196,7 +196,7 @@ public class PostServiceImplTests {
         Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
                 .thenReturn(mockPost);
 
-        Mockito.when(adminService.getAdminById(mockAdminUser.getId()))
+        Mockito.when(adminService.getAdminByUserId(mockAdminUser.getId()))
                 .thenReturn(mockAdmin);
 
         mockPostService.delete(mockPost.getId(), mockAdminUser);
@@ -216,7 +216,7 @@ public class PostServiceImplTests {
         Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
                 .thenReturn(mockPost);
 
-        Mockito.when(adminService.getAdminById(mockNonCreator.getId()))
+        Mockito.when(adminService.getAdminByUserId(mockNonCreator.getId()))
                 .thenThrow(EntityNotFoundException.class);
 
         Assertions.assertThrows(
