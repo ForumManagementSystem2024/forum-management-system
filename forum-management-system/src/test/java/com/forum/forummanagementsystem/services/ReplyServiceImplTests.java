@@ -29,6 +29,20 @@ public class ReplyServiceImplTests {
     @InjectMocks
     ReplyServiceImpl mockReplyService;
 
+    @Test
+    public void get_Should_ReturnReply_When_MatchByIdExist() {
+        // Arrange
+        Reply mockReply = createMockReply();
+
+        Mockito.when(mockReplyRepository.getReplyById(Mockito.anyInt()))
+                .thenReturn(mockReply);
+
+        // Act
+        Reply result = mockReplyService.getReplyById(mockReply.getId());
+
+        // Assert
+        Assertions.assertEquals(mockReply, result);
+    }
 
     @Test
     public void createReply_Should_CallRepository(){
