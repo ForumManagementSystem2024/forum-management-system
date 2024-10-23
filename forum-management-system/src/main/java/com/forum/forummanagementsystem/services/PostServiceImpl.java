@@ -32,8 +32,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> get(FilterOptions filterOptions) {
-        throw new UnsupportedOperationException();
+    public List<Post> getAllPosts(FilterOptions filterOptions) {
+        return postRepository.getAllPosts(filterOptions);
     }
 
     @Override
