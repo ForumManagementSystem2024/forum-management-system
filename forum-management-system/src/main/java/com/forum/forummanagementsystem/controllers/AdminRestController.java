@@ -36,7 +36,7 @@ public class AdminRestController {
     public User getUserById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            adminService.getAdminById(userAuthenticated.getId());
+            adminService.getAdminByUserId(userAuthenticated.getId());
 
             return userService.getUserById(id);
         } catch (EntityNotFoundException e) {
