@@ -1,10 +1,7 @@
 package com.forum.forummanagementsystem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.forum.forummanagementsystem.models.Admin;
-import com.forum.forummanagementsystem.models.Post;
-import com.forum.forummanagementsystem.models.Reply;
-import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 
 public class Helpers {
@@ -51,15 +48,14 @@ public class Helpers {
     }
 
 
-//    public static FilterOptions createMockFilterOptions() {
-//        return new FilterOptions(
-//                "name",
-//                0.0,
-//                10.0,
-//                1,
-//                "sort",
-//                "order");
-//    }
+    public static FilterOptions createMockFilterOptions() {
+        return new FilterOptions(
+                "mockTitle",
+                "mockUsername",
+                "title",
+                "desc"
+        );
+    }
 
     public static UserDto createUserDto() {
         UserDto dto = new UserDto();

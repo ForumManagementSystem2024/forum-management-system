@@ -5,6 +5,7 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
+import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.PostDto;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -29,6 +32,22 @@ public class PostRestController {
         this.postService = postService;
         this.authenticationHelper = authenticationHelper;
         this.modelMapper = modelMapper;
+    }
+
+    @GetMapping
+    public List<Post> getAllPosts(@RequestHeader HttpHeaders httpHeaders,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String createdByUsername,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortOrder) {
+        try{
+            User user = authenticationHelper.tryGetUser(httpHeaders);
+            FilterOptions filterOptions = new FilterOptions(title, createdByUsername, sortBy, sortOrder);
+            return postService.getAllPosts(filterOptions);
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+
     }
 
     @GetMapping("/{id}")

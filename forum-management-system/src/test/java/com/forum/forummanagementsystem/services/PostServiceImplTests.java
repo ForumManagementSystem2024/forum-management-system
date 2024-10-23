@@ -4,6 +4,7 @@ import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Admin;
+import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
@@ -29,6 +30,21 @@ public class PostServiceImplTests {
 
     @InjectMocks
     PostServiceImpl mockPostService;
+
+    @Test
+    void getAllPosts_Should_CallRepository() {
+        // Arrange
+        FilterOptions mockFilterOptions = createMockFilterOptions();
+        Mockito.when(mockPostRepository.getAllPosts(mockFilterOptions))
+                .thenReturn(null);
+
+        // Act
+        mockPostService.getAllPosts(mockFilterOptions);
+
+        // Assert
+        Mockito.verify(mockPostRepository, Mockito.times(1))
+                .getAllPosts(mockFilterOptions);
+    }
 
     @Test
     public void get_Should_ReturnPost_When_MatchByIdExist() {
