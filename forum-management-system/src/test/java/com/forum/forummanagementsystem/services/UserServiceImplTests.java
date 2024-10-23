@@ -81,4 +81,16 @@ public class UserServiceImplTests {
                 AuthorizationException.class,
                 () -> mockUserService.updateProfile(mockUser,mockMappedUser));
     }
+
+    @Test
+    public void deleteUser_Should_CallRepository_When_UserExists() {
+        // Arrange
+        User mockUser = createMockUser();
+
+        // Act
+        mockUserService.deleteUser(mockUser);
+
+        // Assert
+        Mockito.verify(mockUserRepository, Mockito.times(1)).deleteUser(mockUser);
+    }
 }
