@@ -1,6 +1,7 @@
 package com.forum.forummanagementsystem.repositories;
 
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.UserRepository;
 import org.hibernate.Session;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -91,5 +95,62 @@ public class UserRepositoryImpl implements UserRepository {
             session.merge(user);
             session.getTransaction().commit();
         }
+    }
+
+    @Override
+    public List<User> search(FilterOptionsUser filterOptionsUser) {
+        try (Session session = sessionFactory.openSession()) {
+            List<String> filters = new ArrayList<>();
+            Map<String, Object> params = new HashMap<>();
+
+            filterOptionsUser.getUsername().ifPresent(value -> {
+                filters.add("username like :username");
+                params.put("username", String.format("%%%s%%", value));
+            });
+            filterOptionsUser.getEmail().ifPresent(value -> {
+                filters.add("email like :email");
+                params.put("email", String.format("%%%s%%", value));
+            });
+            filterOptionsUser.getFirstName().ifPresent(value -> {
+                filters.add("firstName like :firstName");
+                params.put("firstName", String.format("%%%s%%", value));
+            });
+
+            StringBuilder queryString = new StringBuilder("from User");
+            if (!filters.isEmpty()) {
+                queryString
+                        .append(" where ")
+                        .append(String.join(" and ", filters));
+            }
+
+            queryString.append(generateOrderBy(filterOptionsUser));
+
+            Query<User> query = session.createQuery(queryString.toString(), User.class);
+            query.setProperties(params);
+            return query.list();
+        }
+    }
+
+    private String generateOrderBy(FilterOptionsUser filterOptionsUser) {
+        if (filterOptionsUser.getSortBy().isEmpty()) {
+            return "";
+        }
+
+        String orderBy = "";
+        switch (filterOptionsUser.getSortOrder().get()) {
+            case "firstName":
+                orderBy = "firstName";
+                break;
+            default:
+                return "";
+        }
+
+        orderBy = String.format(" order by %s", orderBy);
+
+        if (filterOptionsUser.getSortOrder().isEmpty() && filterOptionsUser.getSortOrder().get().equalsIgnoreCase("desc")) {
+            orderBy = String.format("%s desc", orderBy);
+        }
+
+        return orderBy;
     }
 }

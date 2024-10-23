@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services.interfaces;
 
+import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface UserService {
     List<User> getAll();
     void register(User user);
     void updateProfile(User userAuthenticated, User userMapped);
+    List<User> search(FilterOptionsUser filterOptionsUser);
     // To be discussed:
     // List<User> getUsersBy(FilterOptions filterOptions);
 }

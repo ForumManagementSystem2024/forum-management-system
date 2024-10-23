@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.repositories.interfaces;
 
+import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 
 import java.util.List;
@@ -18,5 +19,6 @@ public interface UserRepository {
     void blockUser(User user);
 
     void unblockUser(User user);
-    // List<User> getUsersBy(FilterOptions filterOptions);
+
+    List<User> search(FilterOptionsUser filterOptionsUser);
 }

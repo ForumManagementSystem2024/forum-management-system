@@ -12,6 +12,10 @@ import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ModelMapper {
 
@@ -48,6 +52,23 @@ public class ModelMapper {
         userDtoOut.setLastName(user.getLastName());
 
         return userDtoOut;
+    }
+
+    public List<UserDtoOut> fromListUserToListUserDtoOut (List<User> users) {
+        if (users == null) {
+            return new ArrayList<>();
+        }
+
+        return users.stream()
+                .map(user -> {
+                    UserDtoOut userDtoOut = new UserDtoOut();
+                    userDtoOut.setUsername(user.getUsername());
+                    userDtoOut.setFirstName(user.getFirstName());
+                    userDtoOut.setLastName(user.getLastName());
+
+                    return userDtoOut;
+                })
+                .collect(Collectors.toList());
     }
 
     public Post fromPostDto(int id, PostDto postDto) {
