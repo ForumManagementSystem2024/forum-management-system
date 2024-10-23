@@ -1,11 +1,14 @@
 package com.forum.forummanagementsystem.services;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
+import com.forum.forummanagementsystem.exceptions.DuplicateLikeException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
+import com.forum.forummanagementsystem.models.Like;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
 import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
@@ -22,13 +25,16 @@ public class PostServiceImpl implements PostService {
     public static final int DEFAULT_LIKES = 0;
     public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this post!";
     public static final String USER_NOT_AUTHORIZED_DELETE_POST_ERROR = "Only admins and creator of post can delete it!";
+    public static final String DUPLICATE_LIKE_ERROR = "You already liked this post!";
     private final PostRepository postRepository;
     private final AdminService adminService;
+    private final LikeRepository likeRepository;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, UserService userService, AdminService adminService) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService, AdminService adminService, LikeRepository likeRepository) {
         this.postRepository = postRepository;
         this.adminService = adminService;
+        this.likeRepository = likeRepository;
     }
 
     @Override
@@ -97,8 +103,19 @@ public class PostServiceImpl implements PostService {
     public Post likePost(int postId, User user) {
         Post post = postRepository.getPostById(postId);
         checkIfUserIsBlocked(user);
+
+        Like like = likeRepository.existsByUserIdAndPostId(user.getId(), postId);
+
+        if(like != null) {
+            throw new DuplicateLikeException(DUPLICATE_LIKE_ERROR);
+        }
         post.setLikes(post.getLikes() + 1);
 
+        Like newLike = new Like();
+        newLike.setUserId(user);
+        newLike.setPostId(post);
+
+        likeRepository.save(newLike);
         postRepository.update(post);
 
         return getPostById(postId);
