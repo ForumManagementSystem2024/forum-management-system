@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.UserRepository;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
@@ -63,6 +64,11 @@ public class UserServiceImpl implements UserService {
 
         userRepository.updateProfile(userMapped);
 
+    }
+
+    @Override
+    public List<User> search(FilterOptionsUser filterOptionsUser) {
+        return userRepository.search(filterOptionsUser);
     }
 
     @Override

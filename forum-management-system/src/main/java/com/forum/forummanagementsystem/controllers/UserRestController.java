@@ -5,6 +5,7 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
+import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.models.dto.UserDtoOut;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,6 +36,27 @@ public class UserRestController {
         this.modelMapper = modelMapper;
         this.adminService = adminService;
         this.authenticationHelper = authenticationHelper;
+    }
+
+    @GetMapping
+    public List<UserDtoOut> search(@RequestHeader HttpHeaders headers,
+                                   @RequestParam(required = false) String username,
+                                   @RequestParam(required = false) String email,
+                                   @RequestParam(required = false) String firstName,
+                                   @RequestParam(required = false) String sortBy,
+                                   @RequestParam(required = false) String sortOrder) {
+        try {
+            authenticationHelper.tryGetUser(headers);
+            FilterOptionsUser filterOptionsUser = new FilterOptionsUser(username, email, firstName, sortBy, sortOrder);
+
+            List<User> userList = userService.search(filterOptionsUser);
+            return modelMapper.fromListUserToListUserDtoOut(userList);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+
     }
 
     @GetMapping("/{id}")
