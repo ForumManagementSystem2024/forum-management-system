@@ -55,6 +55,14 @@ public class Helpers {
         );
     }
 
+    public static FilterOptionsUser createMockFilterOptionsUser() {
+        return new FilterOptionsUser(
+                "mockUsername",
+                "mockEmailUser",
+                "mockFirstName"
+        );
+    }
+
     public static UserDto createUserDto() {
         UserDto dto = new UserDto();
         dto.setFirstName("MockFirstName");

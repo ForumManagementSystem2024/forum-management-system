@@ -3,10 +3,8 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
-import com.forum.forummanagementsystem.models.Admin;
-import com.forum.forummanagementsystem.models.FilterOptions;
-import com.forum.forummanagementsystem.models.Post;
-import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.models.*;
+import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
 import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +22,9 @@ public class PostServiceImplTests {
 
     @Mock
     PostRepository mockPostRepository;
+
+    @Mock
+    LikeRepository mockLikeRepository;
 
     @Mock
     AdminService adminService;
@@ -240,5 +241,97 @@ public class PostServiceImplTests {
                 () -> mockPostService.delete(mockPost.getId(), mockNonCreator));
 
         Mockito.verify(mockPostRepository, Mockito.never()).delete(Mockito.anyInt());
+    }
+
+    @Test
+    public void likePost_Should_IncrementLikes_When_UserHasNotLikedBefore() {
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUser = createMockUser();
+        mockPost.setLikes(0);
+
+        Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
+                .thenReturn(mockPost);
+        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
+                .thenReturn(null);
+
+        // Act
+        Post result = mockPostService.likePost(mockPost.getId(), mockUser);
+
+        // Assert
+        Assertions.assertEquals(1, result.getLikes());
+        Mockito.verify(mockLikeRepository, Mockito.times(1)).save(Mockito.any(Like.class));
+        Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
+    }
+
+    @Test
+    public void likePost_Should_RemoveLike_When_UserHasLikedBefore() {
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUser = createMockUser();
+        Like mockLike = new Like();
+        mockLike.setUserId(mockUser);
+        mockLike.setPostId(mockPost);
+
+        mockPost.setLikes(1);
+
+        Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
+                .thenReturn(mockPost);
+        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
+                .thenReturn(mockLike);
+
+        // Act
+        Post result = mockPostService.likePost(mockPost.getId(), mockUser);
+
+        // Assert
+        Assertions.assertEquals(0, result.getLikes());
+        Mockito.verify(mockLikeRepository, Mockito.times(1)).removeLike(mockLike);
+        Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
+    }
+
+    @Test
+    public void likePost_Should_ThrowException_When_UserIsBlocked() {
+        // Arrange
+        Post mockPost = createMockPost();
+        User mockUser = createMockUser();
+        mockUser.setBlocked(true);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                AuthorizationException.class,
+                () -> mockPostService.likePost(mockPost.getId(), mockUser));
+    }
+
+    @Test
+    public void likePost_Should_ThrowException_When_PostDoesNotExist() {
+        // Arrange
+        User mockUser = createMockUser();
+
+        Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
+                .thenThrow(EntityNotFoundException.class);
+
+        // Act, Assert
+        Assertions.assertThrows(
+                EntityNotFoundException.class,
+                () -> mockPostService.likePost(1, mockUser));
+    }
+
+    @Test
+    public void removeLikePost_Should_DecrementLikesAndRemoveLike() {
+        // Arrange
+        Post mockPost = createMockPost();
+        mockPost.setLikes(1);
+        Like mockLike = new Like();
+        mockLike.setUserId(mockPost.getCreatedBy());
+
+        Mockito.when(mockPostRepository.getPostById(mockPost.getId())).thenReturn(mockPost);
+
+        // Act
+        Post result = mockPostService.removeLikePost(mockPost, mockLike);
+
+        // Assert
+        Assertions.assertEquals(0, result.getLikes());
+        Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
+        Mockito.verify(mockLikeRepository, Mockito.times(1)).removeLike(mockLike);
     }
 }
