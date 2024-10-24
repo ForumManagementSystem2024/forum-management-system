@@ -29,7 +29,8 @@ create table posts
     content    varchar(8192) not null,
     created_by int           ,
     likes      int default 0,
-    created_at timestamp default current_timestamp on update  current_timestamp,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp on update  current_timestamp,
 
     constraint posts_users_user_id_fk
         foreign key (created_by) references users (user_id) on delete set null,
