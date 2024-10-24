@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 
     private static final String MODIFY_PROFILE_ERROR_MESSAGE = "Only profile owner can make changes to the profile.";
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -32,11 +32,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserById(int id) {
         return userRepository.getById(id);
-    }
-
-    @Override
-    public List<User> getAll() {
-        throw new UnsupportedOperationException();
     }
 
     @Override

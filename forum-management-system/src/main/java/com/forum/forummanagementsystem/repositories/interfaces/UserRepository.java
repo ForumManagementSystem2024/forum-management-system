@@ -21,5 +21,4 @@ public interface UserRepository {
     List<User> search(FilterOptionsUser filterOptionsUser);
 
     void deleteUser(User user);
-    // List<User> getUsersBy(FilterOptions filterOptions);
 }
