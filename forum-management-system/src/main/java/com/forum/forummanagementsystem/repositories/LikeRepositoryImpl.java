@@ -22,19 +22,15 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public Like existsByUserIdAndPostId(int userId, int postId) {
+    public boolean existsByUserIdAndPostId(int userId, int postId) {
         try (Session session = sessionFactory.openSession()){
-            Query<Like> query = session.createQuery("from Like where userId = :userId and postId = :postId", Like.class);
+            Query<Like> query = session.createQuery("from Like where userId.id = :userId and postId.id = :postId", Like.class);
             query.setParameter("userId", userId);
             query.setParameter("postId", postId);
 
             List<Like> likes = query.list();
 
-            if (likes.isEmpty()) {
-                throw new EntityNotFoundException("Like", "UserId", String.valueOf(userId));
-            }
-
-            return likes.get(0);
+            return likes.size()>0;
         }
     }
 

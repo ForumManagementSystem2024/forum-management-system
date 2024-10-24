@@ -104,11 +104,12 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.getPostById(postId);
         checkIfUserIsBlocked(user);
 
-        Like like = likeRepository.existsByUserIdAndPostId(user.getId(), postId);
+        boolean likeExists = likeRepository.existsByUserIdAndPostId(user.getId(), postId);
 
-        if(like != null) {
+        if(likeExists) {
             throw new DuplicateLikeException(DUPLICATE_LIKE_ERROR);
         }
+
         post.setLikes(post.getLikes() + 1);
 
         Like newLike = new Like();
