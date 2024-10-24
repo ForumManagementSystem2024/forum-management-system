@@ -100,7 +100,16 @@ INSERT INTO forum.replies (reply_id, created_by, post_id, content)
 VALUES (8, 4, 4, 'I’m always fascinated by the history of chocolate. The way it’s evolved from a bitter drink to the sweet treat we know today is incredible. Thank you for highlighting this delicious journey!');
 
 INSERT INTO forum.replies (reply_id, created_by, post_id, content)
-VALUES (9, 1, 5, 'Ice cream is such a timeless treat. I’ve always wondered where it came from, so it’s cool to learn about its origins. It’s amazing to think that something so simple could have such a long history.');
+VALUES (9, 2, 4, 'The history of chocolate is as rich as its flavor, tracing back to the ancient civilizations of Mesoamerica. The Mayans and Aztecs used cacao in sacred rituals, consumed it as a bitter drink, and even saw it as a form of currency.');
 
 INSERT INTO forum.replies (reply_id, created_by, post_id, content)
-VALUES (10, 2, 5, 'I didn’t know ice cream had such debated origins! No matter where it came from, I’m just grateful it exists. It’s interesting to think how it’s evolved from flavored snow to the creamy dessert we all enjoy today.');
+VALUES (10, 1, 5, 'Ice cream is such a timeless treat. I’ve always wondered where it came from, so it’s cool to learn about its origins. It’s amazing to think that something so simple could have such a long history.');
+
+INSERT INTO forum.replies (reply_id, created_by, post_id, content)
+VALUES (11, 2, 5, 'I didn’t know ice cream had such debated origins! No matter where it came from, I’m just grateful it exists. It’s interesting to think how it’s evolved from flavored snow to the creamy dessert we all enjoy today.');
+
+INSERT INTO forum.replies (reply_id, created_by, post_id, content)
+VALUES (12, 2, 5, 'Tea has a rich tradition that goes beyond being just a drink. Its cultural significance spans continents and centuries, playing a central role in social rituals, spiritual practices, and daily routines.');
+
+INSERT INTO forum.replies (reply_id, created_by, post_id, content)
+VALUES (13, 2, 5, 'Tea carries a long-standing tradition that is far more than just a simple drink. Its cultural importance spans across different continents and centuries, deeply embedded in the social fabric of numerous societies.');

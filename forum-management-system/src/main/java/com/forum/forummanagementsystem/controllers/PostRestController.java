@@ -10,6 +10,7 @@ import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
+import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -26,12 +27,21 @@ public class PostRestController {
     private final PostService postService;
     private final AuthenticationHelper authenticationHelper;
     private final ModelMapper modelMapper;
+    private final ReplyService replyService;
 
     @Autowired
-    public PostRestController(PostService postService, AuthenticationHelper authenticationHelper, ModelMapper modelMapper) {
+    public PostRestController(PostService postService, AuthenticationHelper authenticationHelper, ModelMapper modelMapper, ReplyService replyService) {
         this.postService = postService;
         this.authenticationHelper = authenticationHelper;
         this.modelMapper = modelMapper;
+        this.replyService = replyService;
+    }
+
+    @GetMapping("/most-commented-posts")
+    public List<PostDto> getTopTenMostCommentedPosts() {
+        List<Post> postsList = replyService.getTopTenMostCommentedPosts();
+
+        return modelMapper.fromListPostToListPostDto(postsList);
     }
 
     @GetMapping

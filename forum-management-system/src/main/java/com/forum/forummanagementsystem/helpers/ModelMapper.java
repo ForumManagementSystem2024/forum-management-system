@@ -71,6 +71,22 @@ public class ModelMapper {
                 .collect(Collectors.toList());
     }
 
+    public List<PostDto> fromListPostToListPostDto (List<Post> postsList) {
+        if (postsList == null) {
+            return new ArrayList<>();
+        }
+
+        return postsList.stream()
+                .map(post -> {
+                    PostDto postDto = new PostDto();
+                    postDto.setTitle(post.getTitle());
+                    postDto.setContent(post.getContent());
+
+                    return postDto;
+                })
+                .collect(Collectors.toList());
+    }
+
     public Post fromPostDto(int id, PostDto postDto) {
         Post post = fromPostDto(postDto);
         post.setId(id);

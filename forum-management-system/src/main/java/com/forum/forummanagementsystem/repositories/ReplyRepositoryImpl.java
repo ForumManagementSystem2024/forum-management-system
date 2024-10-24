@@ -8,6 +8,7 @@ import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -64,6 +65,20 @@ public class ReplyRepositoryImpl implements ReplyRepository {
             session.beginTransaction();
             session.remove(replyToDelete);
             session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<Post> getTopTenMostCommentedPosts() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Post> query = session.createQuery(
+                    "select r.postId from Reply r " +
+                            "group by r.postId " +
+                            "order by count(r.id) DESC", Post.class);
+
+            query.setMaxResults(10);
+
+            return query.getResultList();
         }
     }
 }
