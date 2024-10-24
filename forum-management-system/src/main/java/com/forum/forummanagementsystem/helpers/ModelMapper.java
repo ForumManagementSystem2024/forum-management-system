@@ -3,12 +3,10 @@ package com.forum.forummanagementsystem.helpers;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
-import com.forum.forummanagementsystem.models.dto.PostDto;
-import com.forum.forummanagementsystem.models.dto.ReplyDto;
-import com.forum.forummanagementsystem.models.dto.UserDto;
-import com.forum.forummanagementsystem.models.dto.UserDtoOut;
+import com.forum.forummanagementsystem.models.dto.*;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
+import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,17 +19,13 @@ public class ModelMapper {
 
     private final PostService postService;
     private final ReplyService replyService;
+    private final UserService userService;
 
     @Autowired
-    public ModelMapper(PostService postService, ReplyService replyService) {
+    public ModelMapper(PostService postService, ReplyService replyService, UserService userService) {
         this.postService = postService;
         this.replyService = replyService;
-    }
-
-    public User fromUserDto(int id, UserDto userDto) {
-        User user = fromUserDto(userDto);
-        user.setId(id);
-        return user;
+        this.userService = userService;
     }
 
     public User fromUserDto(UserDto userDto) {
@@ -44,6 +38,19 @@ public class ModelMapper {
 
         return user;
     }
+
+    public User fromUpdateUserDto(int id, UpdateUserDto updateUserDto) {
+        User user = new User();
+        user.setId(id);
+        user.setUsername(userService.getUserById(id).getUsername());
+        user.setFirstName(updateUserDto.getFirstName());
+        user.setLastName(updateUserDto.getLastName());
+        user.setPassword(updateUserDto.getPassword());
+        user.setEmail(updateUserDto.getEmail());
+
+        return user;
+    }
+
 
     public UserDtoOut fromUserToUserDtoOut (User user) {
         UserDtoOut userDtoOut = new UserDtoOut();

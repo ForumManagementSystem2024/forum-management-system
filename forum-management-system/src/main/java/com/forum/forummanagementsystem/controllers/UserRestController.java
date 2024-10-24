@@ -7,6 +7,7 @@ import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.models.dto.UpdateUserDto;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.models.dto.UserDtoOut;
 import com.forum.forummanagementsystem.services.interfaces.AdminService;
@@ -88,10 +89,10 @@ public class UserRestController {
     }
 
     @PutMapping("/{id}")
-    public User updateProfile(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody UserDto userDto) {
+    public User updateProfile(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody UpdateUserDto updateUserDto) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(headers);
-            User userMapped = modelMapper.fromUserDto(id, userDto);
+            User userMapped = modelMapper.fromUpdateUserDto(id, updateUserDto);
             userService.updateProfile(userAuthenticated, userMapped);
             return userMapped;
         } catch (AuthorizationException e) {
