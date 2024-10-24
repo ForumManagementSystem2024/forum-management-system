@@ -1,7 +1,6 @@
 package com.forum.forummanagementsystem.services;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
-import com.forum.forummanagementsystem.exceptions.DuplicateLikeException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
@@ -130,6 +129,11 @@ public class PostServiceImpl implements PostService {
         likeRepository.removeLike(like);
 
         return getPostById(post.getId());
+    }
+
+    @Override
+    public List<Post> getTopTenMostRecentPosts() {
+        return postRepository.getTopTenMostRecentPosts();
     }
 
     public void checkIfUserIsCreator(int postId, User user) {

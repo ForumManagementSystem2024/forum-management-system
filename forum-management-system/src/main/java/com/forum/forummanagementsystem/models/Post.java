@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,6 +32,9 @@ public class Post {
 
     @OneToMany(mappedBy = "postId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Reply> replies;
+
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     public Post() {
     }

@@ -12,4 +12,6 @@ public interface PostRepository {
     void create(Post post);
     void update(Post post);
     void delete(int postId);
+
+    List<Post> getTopTenMostRecentPosts();
 }

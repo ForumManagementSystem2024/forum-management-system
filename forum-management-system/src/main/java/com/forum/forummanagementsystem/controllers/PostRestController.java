@@ -44,6 +44,13 @@ public class PostRestController {
         return modelMapper.fromListPostToListPostDto(postsList);
     }
 
+    @GetMapping("/most-recent-posts")
+    public List<PostDto> getTopTenMostRecentPosts() {
+        List<Post> postList = postService.getTopTenMostRecentPosts();
+
+        return modelMapper.fromListPostToListPostDto(postList);
+    }
+
     @GetMapping
     public List<Post> getAllPosts(@RequestHeader HttpHeaders httpHeaders,
             @RequestParam(required = false) String title,

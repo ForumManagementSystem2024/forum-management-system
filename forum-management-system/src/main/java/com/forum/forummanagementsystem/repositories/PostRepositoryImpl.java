@@ -30,7 +30,7 @@ public class PostRepositoryImpl implements PostRepository {
     public List<Post> getAllPosts(FilterOptions filterOptions) {
         try (Session session = sessionFactory.openSession()) {
             List<String> filters = new ArrayList<>();
-            Map<String,Object> params = new HashMap<>();
+            Map<String, Object> params = new HashMap<>();
 
             filterOptions.getTitle().ifPresent(value -> {
                 filters.add("title like :title");
@@ -97,7 +97,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public void update(Post post) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.merge(post);
             session.getTransaction().commit();
@@ -111,6 +111,17 @@ public class PostRepositoryImpl implements PostRepository {
             session.beginTransaction();
             session.remove(postToDelete);
             session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<Post> getTopTenMostRecentPosts() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Post> query = session.createQuery("from Post p ORDER BY p.createdAt DESC ");
+
+            query.setMaxResults(10);
+
+            return query.getResultList();
         }
     }
 
