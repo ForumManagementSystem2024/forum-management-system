@@ -15,6 +15,7 @@ You can find it in `forum-management-system/build.gradle`;
 3. Check `HibernateConfig.java` and set your `Datasource Driver` and `Hibernate Properties`;
 4. Set connection with database and use `create.sql` and `insert_data.sql` to create forum database and fill it with data.
 You can find them in `forum-management-system/db`.
+5. Basic Authentication is implemented. In Http Headers set Key: `Authorization` and Value: `username password` - check `insert_data.sql` for valid username and password.
 
 ## Database relations
 You can find it in `forum-management-system/db`.
@@ -23,24 +24,31 @@ You can find it in `forum-management-system/db`.
 
 ### Admin `/api/admins`
 
-* `PUT /block/{id}`  - Block User
-* `PUT /unblock/{id}`  - Unblock User
+* `GET /{id}`  - Get user
+* `POST`  - Make user admin 
+* `PUT /block/{id}`  - Block user
+* `PUT /unblock/{id}`  - Unblock user
 
 ### User  `/api/users`
 
-* `POST`  - Register User
+* `GET`  - Search user by username, email, first name 
+* `GET /{id}`  - Get user
+* `POST`  - Register user
 * `PUT /{id}`  - Update profile
+* `DELETE /{id}`  - Delete user
 
 ### Post `/api/posts`
 
-* `GET /{id}`  - Get Post 
-* `POST`  - Create Post
-* `PUT /{id}`  - Update Post
-* `DELETE /{id}`  - Delete Post
+* `GET`  - Posts filter by title, creator and sort by title, likes, ascending, descending
+* `GET /{id}`  - Get post 
+* `POST`  - Create post
+* `PUT /{id}`  - Update post
+* `DELETE /{id}`  - Delete post
 
 ### Reply `api/posts/{postId}/replies`
 
-* `POST`  - Create Reply and Add it to Post
-* `PUT /{replyId}`  - Update Reply
-* `DELETE /{replyId}`  - Delete Reply
+* `GET /{id}`  - Get reply
+* `POST`  - Create reply and add it to post
+* `PUT /{replyId}`  - Update reply
+* `DELETE /{replyId}`  - Delete reply
 
