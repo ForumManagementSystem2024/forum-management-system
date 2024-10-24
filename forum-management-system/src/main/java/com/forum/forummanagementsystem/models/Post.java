@@ -29,7 +29,7 @@ public class Post {
     @Column(name = "likes")
     private int likes;
 
-    @OneToMany(mappedBy = "postId", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "postId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Reply> replies;
 
     public Post() {

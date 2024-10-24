@@ -61,16 +61,16 @@ INSERT INTO forum.posts (post_id, title, content, created_by)
 VALUES (13, 'Sustainable Eating: Embracing Local and Seasonal Foods', 'Sustainable eating focuses on choosing local and seasonal ingredients to reduce environmental impact while supporting local farmers. This approach promotes biodiversity and encourages healthier eating habits. As consumers become more aware of food origins and their ecological footprint, the movement towards sustainability in the food industry continues to grow.', 4);
 
 INSERT INTO forum.posts (post_id, title, content, created_by)
-VALUES (18, 'History of Bread: A Staple Food Across Cultures', 'Bread is one of the oldest prepared foods, dating back thousands of years to ancient civilizations. Its variety is vast, reflecting local ingredients and cultural practices. From sourdough in Europe to naan in India, bread serves as a symbol of sustenance and community. Understanding its history reveals much about human civilization and culinary evolution.', 1);
+VALUES (14, 'History of Bread: A Staple Food Across Cultures', 'Bread is one of the oldest prepared foods, dating back thousands of years to ancient civilizations. Its variety is vast, reflecting local ingredients and cultural practices. From sourdough in Europe to naan in India, bread serves as a symbol of sustenance and community. Understanding its history reveals much about human civilization and culinary evolution.', 1);
 
 INSERT INTO forum.posts (post_id, title, content, created_by)
-VALUES (19, 'Health Benefits of Fermented Foods: Why They Matter', 'Fermented foods have surged in popularity due to their numerous health benefits, including improved digestion and enhanced immunity. Foods like yogurt, kimchi, and kombucha are rich in probiotics, which support gut health. This post explores the science behind fermentation and offers practical tips on incorporating these foods into daily diets.', 2);
+VALUES (15, 'Health Benefits of Fermented Foods: Why They Matter', 'Fermented foods have surged in popularity due to their numerous health benefits, including improved digestion and enhanced immunity. Foods like yogurt, kimchi, and kombucha are rich in probiotics, which support gut health. This post explores the science behind fermentation and offers practical tips on incorporating these foods into daily diets.', 2);
 
 INSERT INTO forum.posts (post_id, title, content, created_by)
-VALUES (20, 'Exploring Culinary Herbs: A Guide for Home Cooks', 'Culinary herbs have been used for centuries to enhance flavor and nutrition in cooking. This guide will delve into the most common herbs, their culinary uses, and health benefits. From basil and thyme to cilantro and rosemary, learning how to grow and use these herbs can elevate any home-cooked meal.', 3);
+VALUES (16, 'Exploring Culinary Herbs: A Guide for Home Cooks', 'Culinary herbs have been used for centuries to enhance flavor and nutrition in cooking. This guide will delve into the most common herbs, their culinary uses, and health benefits. From basil and thyme to cilantro and rosemary, learning how to grow and use these herbs can elevate any home-cooked meal.', 3);
 
 INSERT INTO forum.posts (post_id, title, content, created_by)
-VALUES (21, 'Advent of Food Technology: Changing the Way We Eat', 'Food technology has revolutionized how we produce, preserve, and consume food. Innovations such as freeze-drying, genetic modification, and plant-based alternatives are shaping the future of food. This post examines the impact of technology on food safety, sustainability, and nutritional value, highlighting both advancements and ethical considerations.', 4);
+VALUES (17, 'Advent of Food Technology: Changing the Way We Eat', 'Food technology has revolutionized how we produce, preserve, and consume food. Innovations such as freeze-drying, genetic modification, and plant-based alternatives are shaping the future of food. This post examines the impact of technology on food safety, sustainability, and nutritional value, highlighting both advancements and ethical considerations.', 4);
 
 
 -- Replies Table --
