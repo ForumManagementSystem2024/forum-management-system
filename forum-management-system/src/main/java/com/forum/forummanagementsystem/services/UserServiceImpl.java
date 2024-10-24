@@ -55,8 +55,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateProfile(User userAuthenticated, User userMapped) {
         checkModifyPermissions(userAuthenticated, userMapped);
-        // TODO could implement "Users should not be able to change their username once registered. "
-
         userRepository.updateProfile(userMapped);
 
     }
