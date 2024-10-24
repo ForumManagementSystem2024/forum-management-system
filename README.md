@@ -40,7 +40,9 @@ You can find it in `forum-management-system/db`.
 ### Post `/api/posts`
 
 * `GET`  - Posts filter by title, creator and sort by title, likes, ascending, descending
-* `GET /{id}`  - Get post 
+* `GET /{id}`  - Get post
+* `GET /most-commented-posts`  - Get most commented posts
+* `GET /most-recent-posts`  - Get most recent posts
 * `POST`  - Create post
 * `PUT /{id}`  - Update post
 * `PUT /{id}/like`  - Like post and remove like if second attempt
