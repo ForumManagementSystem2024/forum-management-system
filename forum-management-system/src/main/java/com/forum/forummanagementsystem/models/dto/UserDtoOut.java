@@ -5,16 +5,10 @@ import jakarta.validation.constraints.Size;
 
 public class UserDtoOut {
 
-    @NotNull(message = "Username cannot be empty!")
-    @Size(min = 4, max = 20, message = "Username should be between 4 and 20 symbols!")
     private String username;
 
-    @NotNull(message = "First name cannot be empty!")
-    @Size(min = 4, max = 32, message = "First name should be between 4 and 32 symbols!")
     private String firstName;
 
-    @NotNull(message = "Last name cannot be empty!")
-    @Size(min = 4, max = 32, message = "Last name should be between 4 and 32 symbols!")
     private String lastName;
 
     public UserDtoOut() {

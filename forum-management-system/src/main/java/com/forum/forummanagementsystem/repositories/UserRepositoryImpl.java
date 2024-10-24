@@ -127,34 +127,9 @@ public class UserRepositoryImpl implements UserRepository {
                         .append(String.join(" and ", filters));
             }
 
-            queryString.append(generateOrderBy(filterOptionsUser));
-
             Query<User> query = session.createQuery(queryString.toString(), User.class);
             query.setProperties(params);
             return query.list();
         }
-    }
-
-    private String generateOrderBy(FilterOptionsUser filterOptionsUser) {
-        if (filterOptionsUser.getSortBy().isEmpty()) {
-            return "";
-        }
-
-        String orderBy = "";
-        switch (filterOptionsUser.getSortOrder().get()) {
-            case "firstName":
-                orderBy = "firstName";
-                break;
-            default:
-                return "";
-        }
-
-        orderBy = String.format(" order by %s", orderBy);
-
-        if (filterOptionsUser.getSortOrder().isEmpty() && filterOptionsUser.getSortOrder().get().equalsIgnoreCase("desc")) {
-            orderBy = String.format("%s desc", orderBy);
-        }
-
-        return orderBy;
     }
 }

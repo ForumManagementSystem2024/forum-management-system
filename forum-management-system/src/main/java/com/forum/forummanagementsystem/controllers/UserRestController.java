@@ -42,12 +42,10 @@ public class UserRestController {
     public List<UserDtoOut> search(@RequestHeader HttpHeaders headers,
                                    @RequestParam(required = false) String username,
                                    @RequestParam(required = false) String email,
-                                   @RequestParam(required = false) String firstName,
-                                   @RequestParam(required = false) String sortBy,
-                                   @RequestParam(required = false) String sortOrder) {
+                                   @RequestParam(required = false) String firstName) {
         try {
             authenticationHelper.tryGetUser(headers);
-            FilterOptionsUser filterOptionsUser = new FilterOptionsUser(username, email, firstName, sortBy, sortOrder);
+            FilterOptionsUser filterOptionsUser = new FilterOptionsUser(username, email, firstName);
 
             List<User> userList = userService.search(filterOptionsUser);
             return modelMapper.fromListUserToListUserDtoOut(userList);
