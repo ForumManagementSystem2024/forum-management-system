@@ -38,6 +38,21 @@ create table posts
     check (char_length(content) >= 32 AND char_length(content) <= 8192)
 );
 
+create table likes
+(
+    like_id   int auto_increment primary key,
+    post_id int,
+    user_id int,
+
+    UNIQUE (user_id, post_id),
+
+    constraint likes_users_user_id_fk
+        foreign key (user_id) references users (user_id) on delete set null,
+
+    constraint likes_posts_post_id_fk
+        foreign key (post_id) references posts (post_id) on delete set null
+);
+
 create table replies
 (
     reply_id   int auto_increment primary key,
