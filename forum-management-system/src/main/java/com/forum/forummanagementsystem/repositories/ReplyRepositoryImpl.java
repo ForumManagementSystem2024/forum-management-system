@@ -4,7 +4,6 @@ import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
-import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

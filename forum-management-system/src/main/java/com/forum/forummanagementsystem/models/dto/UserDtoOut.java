@@ -1,8 +1,5 @@
 package com.forum.forummanagementsystem.models.dto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
 public class UserDtoOut {
 
     private String username;

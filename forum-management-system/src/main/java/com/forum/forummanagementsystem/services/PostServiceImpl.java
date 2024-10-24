@@ -24,7 +24,7 @@ public class PostServiceImpl implements PostService {
     public static final int DEFAULT_LIKES = 0;
     public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this post!";
     public static final String USER_NOT_AUTHORIZED_DELETE_POST_ERROR = "Only admins and creator of post can delete it!";
-    public static final String DUPLICATE_LIKE_ERROR = "You already liked this post!";
+
     private final PostRepository postRepository;
     private final AdminService adminService;
     private final LikeRepository likeRepository;
@@ -164,5 +164,4 @@ public class PostServiceImpl implements PostService {
             throw new AuthorizationException(BLOCKED_USER_ERROR);
         }
     }
-
 }

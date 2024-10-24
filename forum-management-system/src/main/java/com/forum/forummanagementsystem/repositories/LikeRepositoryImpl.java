@@ -1,6 +1,5 @@
 package com.forum.forummanagementsystem.repositories;
 
-import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Like;
 import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import org.hibernate.Session;
@@ -55,6 +54,4 @@ public class LikeRepositoryImpl implements LikeRepository {
             session.getTransaction().commit();
         }
     }
-
-
 }

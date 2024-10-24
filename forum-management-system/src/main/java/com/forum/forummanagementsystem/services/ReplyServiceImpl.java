@@ -2,7 +2,6 @@ package com.forum.forummanagementsystem.services;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
-import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
@@ -26,12 +25,6 @@ public class ReplyServiceImpl implements ReplyService {
     public ReplyServiceImpl(ReplyRepository replyRepository, AdminService adminService) {
         this.replyRepository = replyRepository;
         this.adminService = adminService;
-    }
-
-    // TODO
-    @Override
-    public List<Reply> getReplies(FilterOptions filterOptions) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

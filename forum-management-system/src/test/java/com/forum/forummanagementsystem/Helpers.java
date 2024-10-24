@@ -1,6 +1,5 @@
 package com.forum.forummanagementsystem;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 
@@ -47,7 +46,6 @@ public class Helpers {
         return reply;
     }
 
-
     public static FilterOptions createMockFilterOptions() {
         return new FilterOptions(
                 "mockTitle",
@@ -67,17 +65,4 @@ public class Helpers {
 
         return dto;
     }
-
-    /**
-     * Accepts an object and returns the stringified object.
-     * Useful when you need to pass a body to a HTTP request.
-     */
-    public static String toJson(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
