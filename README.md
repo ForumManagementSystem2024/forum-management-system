@@ -43,6 +43,7 @@ You can find it in `forum-management-system/db`.
 * `GET /{id}`  - Get post 
 * `POST`  - Create post
 * `PUT /{id}`  - Update post
+* `PUT /{id}/like`  - Like post
 * `DELETE /{id}`  - Delete post
 
 ### Reply `api/posts/{postId}/replies`
