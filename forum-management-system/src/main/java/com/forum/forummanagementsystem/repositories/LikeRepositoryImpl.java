@@ -22,15 +22,19 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public boolean existsByUserIdAndPostId(int userId, int postId) {
-        try (Session session = sessionFactory.openSession()){
+    public Like existsByUserIdAndPostId(int userId, int postId) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Like> query = session.createQuery("from Like where userId.id = :userId and postId.id = :postId", Like.class);
             query.setParameter("userId", userId);
             query.setParameter("postId", postId);
 
             List<Like> likes = query.list();
 
-            return likes.size()>0;
+            if (likes.isEmpty()) {
+                return null;
+            }
+
+            return likes.get(0);
         }
     }
 
@@ -39,6 +43,15 @@ public class LikeRepositoryImpl implements LikeRepository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(like);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void removeLike(Like like) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.remove(like);
             session.getTransaction().commit();
         }
     }

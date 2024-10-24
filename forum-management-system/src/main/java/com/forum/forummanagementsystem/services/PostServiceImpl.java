@@ -104,10 +104,10 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.getPostById(postId);
         checkIfUserIsBlocked(user);
 
-        boolean likeExists = likeRepository.existsByUserIdAndPostId(user.getId(), postId);
+        Like like = likeRepository.existsByUserIdAndPostId(user.getId(), postId);
 
-        if(likeExists) {
-            throw new DuplicateLikeException(DUPLICATE_LIKE_ERROR);
+        if(like != null) {
+           return removeLikePost(post, like);
         }
 
         post.setLikes(post.getLikes() + 1);
@@ -120,6 +120,16 @@ public class PostServiceImpl implements PostService {
         postRepository.update(post);
 
         return getPostById(postId);
+    }
+
+    @Override
+    public Post removeLikePost(Post post,Like like){
+        post.setLikes(post.getLikes() - 1);
+        postRepository.update(post);
+
+        likeRepository.removeLike(like);
+
+        return getPostById(post.getId());
     }
 
     public void checkIfUserIsCreator(int postId, User user) {
