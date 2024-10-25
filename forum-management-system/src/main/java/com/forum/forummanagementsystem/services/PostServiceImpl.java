@@ -68,7 +68,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void update(Post post, User user) {
-        checkIfUserIsCreator(post.getId(), user);
+        try {
+            checkIfUserIsCreator(post.getId(), user);
+        } catch (AuthorizationException e) {
+            checkIfUserIsAdmin(user);
+        }
 
         boolean duplicateExists = true;
         try{
@@ -86,6 +90,9 @@ public class PostServiceImpl implements PostService {
 
         postRepository.update(post);
     }
+
+
+
 
     @Override
     public void delete(int postId, User user) {
