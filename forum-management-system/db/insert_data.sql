@@ -15,11 +15,13 @@ VALUES (4, 'mihailboychev', 'password', 'Mihail', 'Boychev', 'mihail.boichev@mai
 
 -- Admins Table --
 
+
 INSERT INTO forum.admins (admin_id, user_id, phone_number)
 VALUES (1, 2, '0887435712');
 
 
 -- Posts Table --
+
 
 INSERT INTO forum.posts (post_id, title, content, created_by)
 VALUES (1, 'The Sweet History of Brownies: A Delicious Journey', 'Brownies, the beloved chocolate dessert, have a fascinating history that dates back to the late 19th century. It is widely believed that they originated in the United States, and their creation is often attributed to a culinary mishap. According to popular lore, a chef in a Chicago hotel forgot to add baking powder to his chocolate cake recipe, resulting in a dense, fudgy treat that would later be known as the brownie.', 1);
@@ -75,6 +77,7 @@ VALUES (17, 'Advent of Food Technology: Changing the Way We Eat', 'Food technolo
 
 -- Replies Table --
 
+
 INSERT INTO forum.replies (reply_id, created_by, post_id, content)
 VALUES (1, 4, 1, 'Brownies are my favorite dessert! I had no idea they were the result of a baking mishap. That just makes them even more special. I wonder how different they would have been with the baking powder.');
 
@@ -113,3 +116,84 @@ VALUES (12, 2, 5, 'Tea has a rich tradition that goes beyond being just a drink.
 
 INSERT INTO forum.replies (reply_id, created_by, post_id, content)
 VALUES (13, 2, 5, 'Tea carries a long-standing tradition that is far more than just a simple drink. Its cultural importance spans across different continents and centuries, deeply embedded in the social fabric of numerous societies.');
+
+
+-- Tags Table --
+
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (1, 'brownie');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (2, 'soufflé');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (3, 'foodhistory');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (4, 'pasta');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (5, 'desserts');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (6, 'maincourses');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (7, 'recipes');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (8, 'cookingtips');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (9, 'chocolatedesserts');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (10, 'italiancuisine');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (11, 'sweets');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (12, 'traditionalrecipes');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (13, 'ingredientstechniques');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (14, 'cookingadvice');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (15, 'easyrecipes');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (16, 'homemadedesserts');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (17, 'foodfacts');
+
+INSERT INTO forum.tags (tag_id, tag_name)
+VALUES (18, 'classicrecipes');
+
+
+-- Posts_Tags Table --
+
+
+INSERT INTO forum.posts_tags (post_id, tag_id)
+VALUES (1, 1);
+
+INSERT INTO forum.posts_tags (post_id, tag_id)
+VALUES (1, 11);
+
+INSERT INTO forum.posts_tags (post_id, tag_id)
+VALUES (1, 5);
+
+INSERT INTO forum.posts_tags (post_id, tag_id)
+VALUES (2, 2);
+
+INSERT INTO forum.posts_tags (post_id, tag_id)
+VALUES (2, 3);
+
+INSERT INTO forum.posts_tags (post_id, tag_id)
+VALUES (3, 4);
+

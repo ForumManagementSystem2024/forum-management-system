@@ -27,10 +27,10 @@ create table posts
     post_id    int auto_increment primary key,
     title      varchar(64)   not null,
     content    varchar(8192) not null,
-    created_by int           ,
-    likes      int default 0,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp on update  current_timestamp,
+    created_by int,
+    likes      int       default 0,
+    created_at timestamp default current_timestamp not null,
+    updated_at timestamp default current_timestamp on update current_timestamp,
 
     constraint posts_users_user_id_fk
         foreign key (created_by) references users (user_id) on delete set null,
@@ -41,7 +41,7 @@ create table posts
 
 create table likes
 (
-    like_id   int auto_increment primary key,
+    like_id int auto_increment primary key,
     post_id int,
     user_id int,
 
@@ -57,7 +57,7 @@ create table likes
 create table replies
 (
     reply_id   int auto_increment primary key,
-    created_by int           ,
+    created_by int,
     post_id    int           not null,
     content    varchar(8192) not null,
 
@@ -66,5 +66,23 @@ create table replies
     constraint replies_posts_post_id_fk
         foreign key (post_id) references posts (post_id),
 
-    check (char_length(content) >= 32 AND char_length(content) <= 8192)
+    check (char_length(content) >= 32 and char_length(content) <= 8192)
+);
+
+create table tags
+(
+    tag_id   int auto_increment primary key,
+    tag_name varchar(50) not null unique,
+
+    check (char_length(tag_name) >= 2 and char_length(tag_name) <= 50)
+);
+
+create table posts_tags
+(
+    post_id int,
+    tag_id  int,
+    primary key (post_id, tag_id),
+
+    foreign key (post_id) references posts (post_id) on delete cascade,
+    foreign key (tag_id) references tags (tag_id) on delete cascade
 );
