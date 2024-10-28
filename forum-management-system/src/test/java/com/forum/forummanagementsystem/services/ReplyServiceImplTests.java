@@ -1,12 +1,11 @@
 package com.forum.forummanagementsystem.services;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
-import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
-import com.forum.forummanagementsystem.services.interfaces.AdminService;
+import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +23,7 @@ public class ReplyServiceImplTests {
     ReplyRepository mockReplyRepository;
 
     @Mock
-    AdminService mockAdminService;
+    UserService mockUserService;
 
     @InjectMocks
     ReplyServiceImpl mockReplyService;
@@ -98,14 +97,16 @@ public class ReplyServiceImplTests {
         Mockito.when(mockReplyRepository.getReplyById(Mockito.anyInt()))
                 .thenReturn(mockReply);
 
+        User mockUser = Mockito.mock(User.class);
+
         // Act, Assert
         Assertions.assertThrows(
                 AuthorizationException.class,
-                () -> mockReplyService.updateReply(Mockito.any(), mockReply));
+                () -> mockReplyService.updateReply(mockUser, mockReply));
     }
 
     @Test
-    void delete_Should_CallRepository_When_UserIsCreator() {
+    void delete_Should_CallRepository_When_UserIsAdminOrCreator() {
         // Arrange
         Reply mockReply = createMockReply();
         User mockUserCreator = mockReply.getCreatedBy();
@@ -139,17 +140,28 @@ public class ReplyServiceImplTests {
     }
 
     @Test
-    public void checkIfUserIsAdmin_Should_ThrowAuthorizationException_When_UserIsNotAdmin() {
+    void delete_Should_ThrowException_When_UserIsNotAdminOrCreator() {
         // Arrange
-        User mockUser = createMockUser();
-        Mockito.doThrow(new EntityNotFoundException("Admin", 1))
-                .when(mockAdminService).getAdminByUserId(mockUser.getId());
+        Reply mockReply = createMockReply();
+
+        Mockito.when(mockReplyRepository.getReplyById(Mockito.anyInt()))
+                .thenReturn(mockReply);
+
+        User mockUser = Mockito.mock(User.class);
 
         // Act, Assert
-        Assertions.assertThrows(AuthorizationException.class, () -> {
-            mockReplyService.checkIfUserIsAdmin(mockUser);
-        });
+        Assertions.assertThrows(
+                AuthorizationException.class,
+                () -> mockReplyService.deleteReply(1, mockUser));
     }
 
+    @Test
+    public void getTopTenMostCommentedPosts_Should_CallRepository() {
+        // Act
+        mockReplyService.getTopTenMostCommentedPosts();
 
+        // Assert
+        Mockito.verify(mockReplyRepository, Mockito.times(1))
+                .getTopTenMostCommentedPosts();
+    }
 }
