@@ -150,17 +150,25 @@ public class PostServiceImplTests {
     }
 
     @Test
-    public void update_Should_ThrowException_When_UserIsNotCreat() {
+    public void update_Should_ThrowException_When_UserIsNotCreator() {
         // Arrange
         Post mockPost = createMockPost();
+        User mockNonCreatorUser = createMockUser();
+        mockNonCreatorUser.setId(mockPost.getCreatedBy().getId() + 1);
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
                 .thenReturn(mockPost);
 
+        Mockito.lenient().when(mockPostRepository.getPostByTitle(mockPost.getTitle()))
+                .thenThrow(EntityNotFoundException.class);
+
+        Mockito.when(adminService.getAdminByUserId(mockNonCreatorUser.getId()))
+                .thenThrow(EntityNotFoundException.class);
+
         // Act, Assert
         Assertions.assertThrows(
                 AuthorizationException.class,
-                () -> mockPostService.update(mockPost, Mockito.mock(User.class)));
+                () -> mockPostService.update(mockPost, mockNonCreatorUser));
     }
 
     @Test
