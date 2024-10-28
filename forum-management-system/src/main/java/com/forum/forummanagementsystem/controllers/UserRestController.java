@@ -25,16 +25,13 @@ public class UserRestController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-    private final AdminService adminService;
     private final AuthenticationHelper authenticationHelper;
 
     public UserRestController(UserService userService,
                               ModelMapper modelMapper,
-                              AdminService adminService,
                               AuthenticationHelper authenticationHelper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
-        this.adminService = adminService;
         this.authenticationHelper = authenticationHelper;
     }
 
