@@ -5,6 +5,7 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.repositories.interfaces.AdminRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,14 +17,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static com.forum.forummanagementsystem.Helpers.createMockFilterOptionsUser;
-import static com.forum.forummanagementsystem.Helpers.createMockUser;
+import static com.forum.forummanagementsystem.Helpers.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTests {
 
     @Mock
     UserRepository mockUserRepository;
+
+    @Mock
+    AdminRepository mockAdminRepository;
 
     @InjectMocks
     UserServiceImpl mockUserService;
@@ -39,7 +44,7 @@ public class UserServiceImplTests {
 
         // Assert
         Assertions.assertEquals(mockUser, result);
-        Mockito.verify(mockUserRepository, Mockito.times(1)).getByUsername(mockUser.getUsername());
+        Mockito.verify(mockUserRepository, times(1)).getByUsername(mockUser.getUsername());
     }
 
     @Test
@@ -64,7 +69,7 @@ public class UserServiceImplTests {
 
         // Assert
         Assertions.assertEquals(mockUser, result);
-        Mockito.verify(mockUserRepository, Mockito.times(1)).getById(Mockito.anyInt());
+        Mockito.verify(mockUserRepository, times(1)).getById(Mockito.anyInt());
     }
 
     @Test
@@ -90,7 +95,7 @@ public class UserServiceImplTests {
 
         // Assert
         Assertions.assertEquals(mockUserList.size(), result.size());
-        Mockito.verify(mockUserRepository, Mockito.times(1)).search(filterOptionsUser);
+        Mockito.verify(mockUserRepository, times(1)).search(filterOptionsUser);
     }
 
     @Test
@@ -104,7 +109,7 @@ public class UserServiceImplTests {
 
         // Assert
         Assertions.assertTrue(result.isEmpty());
-        Mockito.verify(mockUserRepository, Mockito.times(1)).search(filterOptionsUser);
+        Mockito.verify(mockUserRepository, times(1)).search(filterOptionsUser);
     }
 
     @Test
@@ -119,7 +124,7 @@ public class UserServiceImplTests {
         mockUserService.register(mockUser);
 
         // Assert
-        Mockito.verify(mockUserRepository, Mockito.times(1))
+        Mockito.verify(mockUserRepository, times(1))
                 .register(mockUser);
     }
 
@@ -148,7 +153,7 @@ public class UserServiceImplTests {
         mockUserService.updateProfile(mockUser, mockMappedUser);
 
         // Assert
-        Mockito.verify(mockUserRepository, Mockito.times(1))
+        Mockito.verify(mockUserRepository, times(1))
                 .updateProfile(mockMappedUser);
     }
 
@@ -169,11 +174,87 @@ public class UserServiceImplTests {
     public void deleteUser_Should_CallRepository_When_UserExists() {
         // Arrange
         User mockUser = createMockUser();
+        User mockUserAuthenticated = createMockUser();
 
         // Act
-        mockUserService.deleteUser(mockUser);
+        mockUserService.deleteUser(mockUser, mockUserAuthenticated);
 
         // Assert
-        Mockito.verify(mockUserRepository, Mockito.times(1)).deleteUser(mockUser);
+        Mockito.verify(mockUserRepository, times(1)).deleteUser(mockUser);
     }
+
+    @Test
+    public void blockUser_Should_CallRepository() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockUserAuthenticated = createMockUser();
+
+        // Act
+        mockUserService.blockUser(mockUser, mockUserAuthenticated);
+
+        // Assert
+        Mockito.verify(mockUserRepository, times(1))
+                .blockUser(Mockito.any());
+    }
+
+    @Test
+    public void unblockUser_Should_CallRepository() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockUserAuthenticated = createMockUser();
+
+        // Act
+        mockUserService.unblockUser(mockUser, mockUserAuthenticated);
+
+        // Assert
+        Mockito.verify(mockUserRepository, times(1))
+                .unblockUser(Mockito.any());
+    }
+
+    @Test
+    public void makeAdmin_Should_ThrowAuthorizationException_When_UserIsNotAdmin() {
+        // Arrange
+        User userToMakeAdmin = createMockUser();
+        User nonAdminUser = createMockUser();
+        nonAdminUser.setAdmin(false);  // User without admin privileges
+
+        // Act & Assert
+        Assertions.assertThrows(AuthorizationException.class, () ->
+                mockUserService.makeAdmin(userToMakeAdmin, nonAdminUser)
+        );
+    }
+
+    @Test
+    public void makeAdmin_Should_SetAdminPrivileges_When_UserIsAdmin() {
+        // Arrange
+        User userToMakeAdmin = createMockUser();
+        User adminUser = createMockUser();
+        adminUser.setAdmin(true);  // Authenticated user with admin privileges
+
+        // Act
+        mockUserService.makeAdmin(userToMakeAdmin, adminUser);
+
+        // Assert
+        Mockito.verify(mockUserRepository, times(1)).updateProfile(userToMakeAdmin);
+        Mockito.verify(mockAdminRepository, times(1)).makeAdmin(userToMakeAdmin);
+        Assertions.assertTrue(userToMakeAdmin.isAdmin());
+    }
+
+    @Test
+    public void makeAdmin_Should_NotModifyOtherUsers_When_Called() {
+        // Arrange
+        User userToMakeAdmin = createMockUser();
+        User anotherUser = createMockUser();
+        anotherUser.setAdmin(false);  // Unrelated user
+        User adminUser = createMockUser();
+        adminUser.setAdmin(true);
+
+        // Act
+        mockUserService.makeAdmin(userToMakeAdmin, adminUser);
+
+        // Assert
+        Mockito.verify(mockUserRepository, never()).updateProfile(anotherUser);
+        Mockito.verify(mockAdminRepository, never()).makeAdmin(anotherUser);
+    }
+
 }
