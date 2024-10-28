@@ -50,6 +50,7 @@ public class Helpers {
         return new FilterOptions(
                 "mockTitle",
                 "mockUsername",
+                "mockTag",
                 "title",
                 "desc"
         );

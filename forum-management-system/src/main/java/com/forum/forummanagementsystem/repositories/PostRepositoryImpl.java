@@ -40,7 +40,17 @@ public class PostRepositoryImpl implements PostRepository {
                 params.put("createdByUsername", String.format("%%%s%%", value));
             });
 
-            StringBuilder queryString = new StringBuilder("from Post");
+            filterOptions.getTagName().ifPresent(value -> {
+                filters.add("tags.tagName = :tagName");
+                params.put("tagName", value);
+            });
+
+            StringBuilder queryString = new StringBuilder("from Post p");
+
+            if (filterOptions.getTagName().isPresent()) {
+                queryString.append(" join p.tags tags");
+            }
+
             if (!filters.isEmpty()) {
                 queryString
                         .append(" where ")

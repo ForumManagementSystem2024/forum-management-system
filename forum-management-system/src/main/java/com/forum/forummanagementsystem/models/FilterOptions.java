@@ -8,10 +8,12 @@ public class FilterOptions {
     private Optional<String> createdByUsername;
     private Optional<String> sortBy;
     private Optional<String> sortOrder;
+    private Optional<String> tagName;
 
-    public FilterOptions(String title, String createdBy,String sortBy, String sortOrder) {
+    public FilterOptions(String title, String createdBy, String tagName, String sortBy, String sortOrder) {
         this.title = Optional.ofNullable(title);
         this.createdByUsername = Optional.ofNullable(createdBy);
+        this.tagName = Optional.ofNullable(tagName);
         this.sortBy = Optional.ofNullable(sortBy);
         this.sortOrder = Optional.ofNullable(sortOrder);
     }
@@ -24,6 +26,9 @@ public class FilterOptions {
         return createdByUsername;
     }
 
+    public Optional<String> getTagName() {
+        return tagName;
+    }
 
     public Optional<String> getSortBy() {
         return sortBy;
