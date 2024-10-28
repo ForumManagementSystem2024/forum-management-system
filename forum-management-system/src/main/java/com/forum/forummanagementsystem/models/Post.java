@@ -27,6 +27,7 @@ public class Post {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
+    //TODO: define Set<Likes> instead
     @Column(name = "likes")
     private int likes;
 

@@ -92,6 +92,7 @@ public class User {
         isBlocked = blocked;
     }
 
+    //TODO: use only id in equals and hash
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

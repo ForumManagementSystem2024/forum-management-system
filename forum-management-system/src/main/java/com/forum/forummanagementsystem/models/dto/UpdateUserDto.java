@@ -2,7 +2,7 @@ package com.forum.forummanagementsystem.models.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
+//TODO: UserUpdateDto is better name
 public class UpdateUserDto {
     @NotNull(message = "Password cannot be empty!")
     @Size(min = 4, max = 15, message = "Password should be between 4 and 15 symbols!")

@@ -51,6 +51,7 @@ public class UserRestController {
             List<User> userList = userService.search(filterOptionsUser);
             return modelMapper.fromListUserToListUserDtoOut(userList);
         } catch (EntityNotFoundException e) {
+            //TODO: Not needed, just return empty list
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
@@ -81,6 +82,7 @@ public class UserRestController {
             return user;
 
         } catch (EntityNotFoundException e) {
+            //TODO: Which scenario causes this exception?
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 
         } catch (EntityDuplicateException e) {
@@ -104,10 +106,12 @@ public class UserRestController {
     public void deleteUser(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(headers);
+            //TODO: result is not used
             adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToDelete = userService.getUserById(id);
 
+            //TODO: check for admin in service
             userService.deleteUser(userToDelete);
 
         } catch (AuthorizationException e) {

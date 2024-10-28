@@ -50,6 +50,7 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void deleteReply(int replyId, User user) {
+        //TODO: rework without try-catch
         try {
             checkIfUserIsCreator(replyId, user);
         } catch (AuthorizationException e) {
@@ -80,6 +81,7 @@ public class ReplyServiceImpl implements ReplyService {
 
     public void checkIfUserIsAdmin(User user) {
         boolean isAdmin = true;
+        //TODO: rework without try-catch
 
         try {
             adminService.getAdminByUserId(user.getId());

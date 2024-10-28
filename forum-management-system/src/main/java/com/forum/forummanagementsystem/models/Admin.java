@@ -14,6 +14,7 @@ public class Admin {
     @Column(name = "admin_id")
     private int id;
 
+    //TODO: field name should be user
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")

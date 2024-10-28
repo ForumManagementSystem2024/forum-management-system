@@ -96,6 +96,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(int postId, User user) {
+        //TODO: rework without try-catch
         try {
             checkIfUserIsCreator(postId, user);
         } catch (AuthorizationException e) {
@@ -152,6 +153,7 @@ public class PostServiceImpl implements PostService {
     }
 
     public void checkIfUserIsAdmin(User user) {
+        //TODO: rework without try-catch
         boolean isAdmin = true;
 
         try {

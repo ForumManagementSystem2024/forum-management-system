@@ -58,6 +58,7 @@ public class PostRestController {
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortOrder) {
         try{
+            //TODO: result not used
             User user = authenticationHelper.tryGetUser(httpHeaders);
             FilterOptions filterOptions = new FilterOptions(title, createdByUsername, sortBy, sortOrder);
             return postService.getAllPosts(filterOptions);
@@ -70,6 +71,7 @@ public class PostRestController {
     @GetMapping("/{id}")
     public Post getPostById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
+            //TODO: result not used
             User user = authenticationHelper.tryGetUser(httpHeaders);
             return postService.getPostById(id);
         } catch (EntityNotFoundException e) {
@@ -87,6 +89,7 @@ public class PostRestController {
             postService.create(post, user);
             return post;
         } catch (EntityNotFoundException e) {
+            //TODO: Which scenario causes this exception?
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());

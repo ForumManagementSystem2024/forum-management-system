@@ -10,6 +10,7 @@ import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//TODO: merge with user service
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -30,20 +31,24 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void blockUser(User userToBlock) {
+        //TODO: check permissions
         userRepository.blockUser(userToBlock);
     }
 
 
     @Override
     public void unblockUser(User userToUnblock) {
+        //TODO: check permissions
         userRepository.unblockUser(userToUnblock);
     }
 
     @Override
     public void makeAdmin(User userToMakeAdmin) {
+        //TODO: check permissions
         try {
            Admin admin = adminRepository.getAdminByUserId(userToMakeAdmin.getId());
 
+            //TODO: why is that check
            if (admin != null) {
                throw new EntityDuplicateException("Admin", admin.getId());
            }

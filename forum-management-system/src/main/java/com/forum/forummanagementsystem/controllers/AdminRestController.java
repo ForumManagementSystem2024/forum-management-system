@@ -36,6 +36,7 @@ public class AdminRestController {
     public User getUserById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
+            //TODO: result not used
             adminService.getAdminByUserId(userAuthenticated.getId());
 
             return userService.getUserById(id);
@@ -49,6 +50,7 @@ public class AdminRestController {
     @PutMapping("/block/{id}")
     public void blockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
+            //TODO: result not used
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
             adminService.getAdminByUserId(userAuthenticated.getId());
 
@@ -66,6 +68,7 @@ public class AdminRestController {
     @PutMapping("/unblock/{id}")
     public void unblockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
+            //TODO: result not used
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
             adminService.getAdminByUserId(userAuthenticated.getId());
 
@@ -83,6 +86,7 @@ public class AdminRestController {
     @PostMapping("/{id}")
     public void makeAdmin(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
+            //TODO: result not used
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
             adminService.getAdminByUserId(userAuthenticated.getId());
 
@@ -93,6 +97,7 @@ public class AdminRestController {
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (EntityDuplicateException e) {
+            //TODO: Which scenario causes this exception?
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
