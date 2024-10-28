@@ -14,11 +14,10 @@ public class Admin {
     @Column(name = "admin_id")
     private int id;
 
-    //TODO: field name should be user
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -42,12 +41,12 @@ public class Admin {
         this.phoneNumber = phoneNumber;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
     @Override

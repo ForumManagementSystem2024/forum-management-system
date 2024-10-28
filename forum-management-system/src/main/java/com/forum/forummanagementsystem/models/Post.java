@@ -27,9 +27,8 @@ public class Post {
     @JoinColumn(name = "created_by")
     private User createdBy;
 
-    //TODO: define Set<Likes> instead
-    @Column(name = "likes")
-    private int likes;
+    @OneToMany(mappedBy = "likeId", fetch = FetchType.EAGER)
+    private Set<Like> likes;
 
     @OneToMany(mappedBy = "postId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Reply> replies;
@@ -80,11 +79,11 @@ public class Post {
         this.createdBy = createdBy;
     }
 
-    public int getLikes() {
+    public Set<Like> getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(Set<Like> likes) {
         this.likes = likes;
     }
 

@@ -1,14 +1,12 @@
 package com.forum.forummanagementsystem.repositories;
 
+import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Like;
 import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public class LikeRepositoryImpl implements LikeRepository {
@@ -21,28 +19,25 @@ public class LikeRepositoryImpl implements LikeRepository {
     }
 
     @Override
-    public Like existsByUserIdAndPostId(int userId, int postId) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Like> query = session.createQuery("from Like where userId.id = :userId and postId.id = :postId", Like.class);
-            query.setParameter("userId", userId);
-            query.setParameter("postId", postId);
-
-            List<Like> likes = query.list();
-
-            if (likes.isEmpty()) {
-                return null;
-            }
-
-            return likes.get(0);
-        }
-    }
-
-    @Override
-    public void save(Like like) {
+    public Like save(Like like) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.persist(like);
             session.getTransaction().commit();
+        }
+
+        return getLikeById(like.getLikeId());
+    }
+    @Override
+    public Like getLikeById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Like like = session.get(Like.class, id);
+
+            if (like == null) {
+                throw new EntityNotFoundException("Like", id);
+            }
+
+            return like;
         }
     }
 

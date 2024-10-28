@@ -33,6 +33,9 @@ public class User {
     @Column(name = "is_blocked")
     private boolean isBlocked;
 
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
     public User() {
     }
 
@@ -92,17 +95,24 @@ public class User {
         isBlocked = blocked;
     }
 
-    //TODO: use only id in equals and hash
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username);
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username);
+        return Objects.hashCode(id);
     }
 }

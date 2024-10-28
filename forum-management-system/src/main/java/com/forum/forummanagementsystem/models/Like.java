@@ -12,40 +12,40 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
-    private int id;
+    private int likeId;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post postId;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     public Like() {
     }
 
-    public Post getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Post postId) {
-        this.postId = postId;
+    public void setPost(Post postId) {
+        this.post = postId;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
-    public int getId() {
-        return id;
+    public int getLikeId() {
+        return likeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLikeId(int id) {
+        this.likeId = id;
     }
 }

@@ -1,11 +1,9 @@
 package com.forum.forummanagementsystem.controllers;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
-import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.models.User;
-import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -17,17 +15,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/admins")
 public class AdminRestController {
 
-    private final AdminService adminService;
+
     private final UserService userService;
     private final AuthenticationHelper authenticationHelper;
 
     @Autowired
     public AdminRestController(
-            AdminService adminService,
             UserService userService,
             AuthenticationHelper authenticationHelper) {
 
-        this.adminService = adminService;
         this.userService = userService;
         this.authenticationHelper = authenticationHelper;
     }
@@ -35,9 +31,7 @@ public class AdminRestController {
     @GetMapping("/{id}")
     public User getUserById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
-            User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            //TODO: result not used
-            adminService.getAdminByUserId(userAuthenticated.getId());
+            authenticationHelper.tryGetUser(httpHeaders);
 
             return userService.getUserById(id);
         } catch (EntityNotFoundException e) {
@@ -50,13 +44,11 @@ public class AdminRestController {
     @PutMapping("/block/{id}")
     public void blockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
-            //TODO: result not used
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToBlock = userService.getUserById(id);
 
-            adminService.blockUser(userToBlock);
+            userService.blockUser(userToBlock, userAuthenticated);
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -68,13 +60,11 @@ public class AdminRestController {
     @PutMapping("/unblock/{id}")
     public void unblockUser(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
-            //TODO: result not used
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToUnblock = userService.getUserById(id);
 
-            adminService.unblockUser(userToUnblock);
+            userService.unblockUser(userToUnblock, userAuthenticated);
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -86,19 +76,14 @@ public class AdminRestController {
     @PostMapping("/{id}")
     public void makeAdmin(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
-            //TODO: result not used
             User userAuthenticated = authenticationHelper.tryGetUser(httpHeaders);
-            adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToMakeAdmin = userService.getUserById(id);
 
-            adminService.makeAdmin(userToMakeAdmin);
+            userService.makeAdmin(userToMakeAdmin, userAuthenticated);
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        } catch (EntityDuplicateException e) {
-            //TODO: Which scenario causes this exception?
-            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

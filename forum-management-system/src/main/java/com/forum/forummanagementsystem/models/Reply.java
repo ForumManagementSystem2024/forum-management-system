@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +27,9 @@ public class Reply {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
     public Reply() {
     }
@@ -60,6 +64,14 @@ public class Reply {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

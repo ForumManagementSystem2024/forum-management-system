@@ -13,9 +13,6 @@ public class Tag {
 
     @Column(name = "tag_name")
     private String tagName;
-//
-//    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
-//    private Set<Post> posts;
 
     public Tag() {
     }

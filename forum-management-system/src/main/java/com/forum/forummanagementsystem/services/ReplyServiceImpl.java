@@ -1,12 +1,10 @@
 package com.forum.forummanagementsystem.services;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
-import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
-import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +14,12 @@ import java.util.List;
 public class ReplyServiceImpl implements ReplyService {
     public static final String BLOCKED_USER_ERROR =
             "You are not allowed to create a reply! Please contact customer support!";
-    public static final String USER_NOT_CREATOR_ERROR = "You are not allowed to modify this reply!";
-    public static final String USER_NOT_AUTHORIZED_DELETE_REPLY_ERROR = "Only admins and creator of reply can delete it!";
+    private static final String MODIFY_REPLY_ERROR_MESSAGE = "Only admin or reply creator can modify a reply.";
 
     private final ReplyRepository replyRepository;
-    private final AdminService adminService;
 
-    public ReplyServiceImpl(ReplyRepository replyRepository, AdminService adminService) {
+    public ReplyServiceImpl(ReplyRepository replyRepository) {
         this.replyRepository = replyRepository;
-        this.adminService = adminService;
     }
 
     @Override
@@ -43,19 +38,14 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void updateReply(User user, Reply reply) {
-        checkIfUserIsCreator(reply.getId(), user);
+        checkModifyPermissions(reply.getId(), user);
 
         replyRepository.updateReply(reply);
     }
 
     @Override
     public void deleteReply(int replyId, User user) {
-        //TODO: rework without try-catch
-        try {
-            checkIfUserIsCreator(replyId, user);
-        } catch (AuthorizationException e) {
-            checkIfUserIsAdmin(user);
-        }
+        checkModifyPermissions(replyId, user);
 
         replyRepository.deleteReply(replyId);
     }
@@ -71,27 +61,10 @@ public class ReplyServiceImpl implements ReplyService {
         }
     }
 
-    public void checkIfUserIsCreator(int replyId, User user) {
+    private void checkModifyPermissions(int replyId, User user) {
         Reply reply = replyRepository.getReplyById(replyId);
-
-        if (!(reply.getCreatedBy().equals(user))) {
-            throw new AuthorizationException(USER_NOT_CREATOR_ERROR);
+        if (!(user.isAdmin() || reply.getCreatedBy().equals(user))) {
+            throw new AuthorizationException(MODIFY_REPLY_ERROR_MESSAGE);
         }
-    }
-
-    public void checkIfUserIsAdmin(User user) {
-        boolean isAdmin = true;
-        //TODO: rework without try-catch
-
-        try {
-            adminService.getAdminByUserId(user.getId());
-        } catch (EntityNotFoundException e) {
-            isAdmin = false;
-        }
-
-        if (!isAdmin) {
-            throw new AuthorizationException(USER_NOT_AUTHORIZED_DELETE_REPLY_ERROR);
-        }
-
     }
 }

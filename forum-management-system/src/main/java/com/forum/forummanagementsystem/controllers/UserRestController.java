@@ -7,10 +7,9 @@ import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
-import com.forum.forummanagementsystem.models.dto.UpdateUserDto;
+import com.forum.forummanagementsystem.models.dto.UserDtoUpdate;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 import com.forum.forummanagementsystem.models.dto.UserDtoOut;
-import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -50,9 +49,6 @@ public class UserRestController {
 
             List<User> userList = userService.search(filterOptionsUser);
             return modelMapper.fromListUserToListUserDtoOut(userList);
-        } catch (EntityNotFoundException e) {
-            //TODO: Not needed, just return empty list
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
@@ -80,21 +76,16 @@ public class UserRestController {
             userService.register(user);
 
             return user;
-
-        } catch (EntityNotFoundException e) {
-            //TODO: Which scenario causes this exception?
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-
         } catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public User updateProfile(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody UpdateUserDto updateUserDto) {
+    public User updateProfile(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody UserDtoUpdate userDtoUpdate) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(headers);
-            User userMapped = modelMapper.fromUpdateUserDto(id, updateUserDto);
+            User userMapped = modelMapper.fromUpdateUserDto(id, userDtoUpdate);
             userService.updateProfile(userAuthenticated, userMapped);
             return userMapped;
         } catch (AuthorizationException e) {
@@ -106,13 +97,10 @@ public class UserRestController {
     public void deleteUser(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(headers);
-            //TODO: result is not used
-            adminService.getAdminByUserId(userAuthenticated.getId());
 
             User userToDelete = userService.getUserById(id);
 
-            //TODO: check for admin in service
-            userService.deleteUser(userToDelete);
+            userService.deleteUser(userToDelete, userAuthenticated);
 
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());

@@ -47,14 +47,14 @@ public class ModelMapper {
         return user;
     }
 
-    public User fromUpdateUserDto(int id, UpdateUserDto updateUserDto) {
+    public User fromUpdateUserDto(int id, UserDtoUpdate userDtoUpdate) {
         User user = new User();
         user.setId(id);
         user.setUsername(userService.getUserById(id).getUsername());
-        user.setFirstName(updateUserDto.getFirstName());
-        user.setLastName(updateUserDto.getLastName());
-        user.setPassword(updateUserDto.getPassword());
-        user.setEmail(updateUserDto.getEmail());
+        user.setFirstName(userDtoUpdate.getFirstName());
+        user.setLastName(userDtoUpdate.getLastName());
+        user.setPassword(userDtoUpdate.getPassword());
+        user.setEmail(userDtoUpdate.getEmail());
 
         return user;
     }
@@ -110,6 +110,7 @@ public class ModelMapper {
         post.setCreatedBy(repositoryPost.getCreatedBy());
         post.setReplies(repositoryPost.getReplies());
         post.setCreatedAt(repositoryPost.getCreatedAt());
+        post.setLikes(repositoryPost.getLikes());
 
         Set<Tag> tags = tagService.findTagsByName(postDto.getTags());
         post.setTags(tags);

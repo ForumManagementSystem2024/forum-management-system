@@ -8,7 +8,7 @@ public class Helpers {
     public static Admin createMockAdmin() {
         Admin mockAdmin = new Admin();
         mockAdmin.setId(1);
-        mockAdmin.setUserId(createMockUser());
+        mockAdmin.setUser(createMockUser());
 
         return mockAdmin;
     }

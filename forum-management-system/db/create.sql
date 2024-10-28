@@ -6,6 +6,7 @@ create table users
     first_name varchar(32) not null,
     last_name  varchar(32) not null,
     email      varchar(50) not null unique,
+    is_admin    boolean     not null default false,
     is_blocked boolean     not null default false,
 
     check (char_length(first_name) >= 4 AND char_length(first_name) <= 32),
@@ -25,10 +26,9 @@ create table admins
 create table posts
 (
     post_id    int auto_increment primary key,
-    title      varchar(64)   not null,
-    content    varchar(8192) not null,
+    title      varchar(64)                         not null,
+    content    varchar(8192)                       not null,
     created_by int,
-    likes      int       default 0,
     created_at timestamp default current_timestamp not null,
     updated_at timestamp default current_timestamp on update current_timestamp,
 
@@ -60,6 +60,8 @@ create table replies
     created_by int,
     post_id    int           not null,
     content    varchar(8192) not null,
+    created_at timestamp default current_timestamp not null,
+    updated_at timestamp default current_timestamp on update current_timestamp,
 
     constraint replies_users_user_id_fk
         foreign key (created_by) references users (user_id) on delete set null,

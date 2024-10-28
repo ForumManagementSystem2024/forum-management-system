@@ -3,8 +3,8 @@
 INSERT INTO forum.users (user_id, username, password, first_name, last_name, email)
 VALUES (1, 'nikolayvoynov', 'password', 'Nikolay', 'Voynov', 'nikolay.voynov@mail.com');
 
-INSERT INTO forum.users (user_id, username, password, first_name, last_name, email)
-VALUES (2, 'annavulcheva', 'password', 'Anna', 'Vulcheva', 'anna.vulcheva@mail.com');
+INSERT INTO forum.users (user_id, username, password, first_name, last_name, email, is_admin)
+VALUES (2, 'annavulcheva', 'password', 'Anna', 'Vulcheva', 'anna.vulcheva@mail.com', true);
 
 INSERT INTO forum.users (user_id, username, password, first_name, last_name, email)
 VALUES (3, 'kirilkirilov', 'password', 'Kiril', 'Kirilov', 'kiril.kirilov@mail.com');

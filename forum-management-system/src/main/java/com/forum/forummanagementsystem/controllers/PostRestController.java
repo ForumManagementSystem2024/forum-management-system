@@ -37,14 +37,14 @@ public class PostRestController {
         this.replyService = replyService;
     }
 
-    @GetMapping("/most-commented-posts")
+    @GetMapping("/most-commented")
     public List<PostDto> getTopTenMostCommentedPosts() {
         List<Post> postsList = replyService.getTopTenMostCommentedPosts();
 
         return modelMapper.fromListPostToListPostDto(postsList);
     }
 
-    @GetMapping("/most-recent-posts")
+    @GetMapping("/most-recent")
     public List<PostDto> getTopTenMostRecentPosts() {
         List<Post> postList = postService.getTopTenMostRecentPosts();
 
@@ -58,8 +58,7 @@ public class PostRestController {
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortOrder) {
         try{
-            //TODO: result not used
-            User user = authenticationHelper.tryGetUser(httpHeaders);
+            authenticationHelper.tryGetUser(httpHeaders);
             FilterOptions filterOptions = new FilterOptions(title, createdByUsername, sortBy, sortOrder);
             return postService.getAllPosts(filterOptions);
         } catch (AuthorizationException e) {
@@ -71,8 +70,7 @@ public class PostRestController {
     @GetMapping("/{id}")
     public Post getPostById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
-            //TODO: result not used
-            User user = authenticationHelper.tryGetUser(httpHeaders);
+            authenticationHelper.tryGetUser(httpHeaders);
             return postService.getPostById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -88,9 +86,6 @@ public class PostRestController {
             Post post = modelMapper.fromPostDto(postDto);
             postService.create(post, user);
             return post;
-        } catch (EntityNotFoundException e) {
-            //TODO: Which scenario causes this exception?
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         } catch (AuthorizationException e) {
