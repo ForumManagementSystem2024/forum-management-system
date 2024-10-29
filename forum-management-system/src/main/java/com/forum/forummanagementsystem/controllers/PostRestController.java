@@ -9,6 +9,7 @@ import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.PostDto;
+import com.forum.forummanagementsystem.models.dto.PostDtoOut;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import jakarta.validation.Valid;
@@ -38,21 +39,21 @@ public class PostRestController {
     }
 
     @GetMapping("/most-commented")
-    public List<PostDto> getTopTenMostCommentedPosts() {
+    public List<PostDtoOut> getTopTenMostCommentedPosts() {
         List<Post> postsList = replyService.getTopTenMostCommentedPosts();
 
-        return modelMapper.fromListPostToListPostDto(postsList);
+        return modelMapper.fromListPostToListPostDtoOut(postsList);
     }
 
     @GetMapping("/most-recent")
-    public List<PostDto> getTopTenMostRecentPosts() {
-        List<Post> postList = postService.getTopTenMostRecentPosts();
+    public List<PostDtoOut> getTopTenMostRecentPosts() {
+        List<Post> posts = postService.getTopTenMostRecentPosts();
 
-        return modelMapper.fromListPostToListPostDto(postList);
+        return modelMapper.fromListPostToListPostDtoOut(posts);
     }
 
     @GetMapping
-    public List<Post> getAllPosts(@RequestHeader HttpHeaders httpHeaders,
+    public List<PostDtoOut> getAllPosts(@RequestHeader HttpHeaders httpHeaders,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String createdByUsername,
             @RequestParam(required = false) String tagName,
@@ -61,18 +62,21 @@ public class PostRestController {
         try{
             authenticationHelper.tryGetUser(httpHeaders);
             FilterOptions filterOptions = new FilterOptions(title, createdByUsername, tagName, sortBy, sortOrder);
-            return postService.getAllPosts(filterOptions);
+            List<Post> postList = postService.getAllPosts(filterOptions);
+
+            return modelMapper.fromListPostToListPostDtoOut(postList);
         } catch (AuthorizationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
-
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
+    public PostDtoOut getPostById(@RequestHeader HttpHeaders httpHeaders, @PathVariable int id) {
         try {
             authenticationHelper.tryGetUser(httpHeaders);
-            return postService.getPostById(id);
+
+            return modelMapper.fromPostToPostDtoOut(postService.getPostById(id));
+            //return postService.getPostById(id);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {
@@ -81,12 +85,13 @@ public class PostRestController {
     }
 
     @PostMapping()
-    public Post createPost(@RequestHeader HttpHeaders headers, @Valid @RequestBody PostDto postDto) {
+    public PostDtoOut createPost(@RequestHeader HttpHeaders headers, @Valid @RequestBody PostDto postDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Post post = modelMapper.fromPostDto(postDto);
             postService.create(post, user);
-            return post;
+
+            return modelMapper.fromPostToPostDtoOut(post);
         } catch (EntityDuplicateException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         } catch (AuthorizationException e) {
@@ -95,12 +100,13 @@ public class PostRestController {
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody PostDto postDto) {
+    public PostDtoOut updatePost(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody PostDto postDto) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             Post post = modelMapper.fromPostDto(id, postDto);
             postService.update(post, user);
-            return post;
+
+            return modelMapper.fromPostToPostDtoOut(post);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (EntityDuplicateException e) {
@@ -111,11 +117,12 @@ public class PostRestController {
     }
 
     @PutMapping("/{id}/like")
-    public Post likePost(@RequestHeader HttpHeaders headers, @PathVariable int id) {
+    public PostDtoOut likePost(@RequestHeader HttpHeaders headers, @PathVariable int id) {
         try {
             User user = authenticationHelper.tryGetUser(headers);
             postService.likePost(id, user);
-            return postService.getPostById(id);
+
+            return modelMapper.fromPostToPostDtoOut(postService.getPostById(id));
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {

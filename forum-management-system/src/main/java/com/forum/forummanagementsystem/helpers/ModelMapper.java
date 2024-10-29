@@ -9,10 +9,12 @@ import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import com.forum.forummanagementsystem.services.interfaces.TagService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
+import org.antlr.v4.runtime.misc.Array2DHashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -144,5 +146,62 @@ public class ModelMapper {
         return reply;
     }
 
+    private PostDtoOut convertPostToPostDtoOut(Post post) {
+        PostDtoOut postDtoOut = new PostDtoOut();
+        postDtoOut.setTitle(post.getTitle());
+        postDtoOut.setContent(post.getContent());
+        postDtoOut.setCreatedBy(post.getCreatedBy().getUsername());
+        postDtoOut.setLikes(post.getLikes().size());
+        postDtoOut.setReplies(fromSetReplyToSetReplyDtoOut(post.getReplies()));
+        postDtoOut.setCreatedAt(post.getCreatedAt());
+        postDtoOut.setTags(fromSetTagToSetTagDtoOut(post.getTags()));
 
+        return postDtoOut;
+    }
+
+    public PostDtoOut fromPostToPostDtoOut(Post post) {
+        return convertPostToPostDtoOut(post);
+    }
+
+    public List<PostDtoOut> fromListPostToListPostDtoOut(List<Post> postsList) {
+        if (postsList == null) {
+            return new ArrayList<>();
+        }
+
+        return postsList.stream()
+                .map(this::convertPostToPostDtoOut)
+                .collect(Collectors.toList());
+    }
+
+    public Set<ReplyDtoOut> fromSetReplyToSetReplyDtoOut(Set<Reply> replySet) {
+        if (replySet == null) {
+            return new HashSet<>();
+        }
+
+        return replySet.stream()
+                .map(reply -> {
+                    ReplyDtoOut replyDtoOut = new ReplyDtoOut();
+                    replyDtoOut.setCreatedBy(reply.getCreatedBy().getUsername());
+                    replyDtoOut.setCreatedAt(reply.getCreatedAt());
+                    replyDtoOut.setContent(reply.getContent());
+
+                    return replyDtoOut;
+                })
+                .collect(Collectors.toSet());
+    }
+
+    public Set<TagDtoOut> fromSetTagToSetTagDtoOut(Set<Tag> tagSet) {
+        if (tagSet == null) {
+            return new HashSet<>();
+        }
+
+        return tagSet.stream()
+                .map(tag -> {
+                    TagDtoOut tagDtoOut = new TagDtoOut();
+                    tagDtoOut.setTagName(tag.getTagName());
+
+                    return tagDtoOut;
+                })
+                .collect(Collectors.toSet());
+    }
 }
