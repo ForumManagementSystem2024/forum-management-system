@@ -12,7 +12,7 @@ import java.util.Set;
 @Service
 public class TagServiceImpl implements TagService {
 
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
     @Autowired
     public TagServiceImpl(TagRepository tagRepository) {

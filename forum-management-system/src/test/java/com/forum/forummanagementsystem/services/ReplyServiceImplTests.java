@@ -5,7 +5,6 @@ import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
-import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,9 +20,6 @@ public class ReplyServiceImplTests {
 
     @Mock
     ReplyRepository mockReplyRepository;
-
-    @Mock
-    UserService mockUserService;
 
     @InjectMocks
     ReplyServiceImpl mockReplyService;
