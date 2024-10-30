@@ -2,6 +2,7 @@ package com.forum.forummanagementsystem.helpers;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class AuthenticationHelper {
     private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
     private static final String INVALID_AUTHENTICATION_ERROR = "Invalid authentication.";
+    public static final String ADMIN_AUTHENTICATION_ERROR = "User not Admin!";
 
     private final UserService userService;
 
@@ -39,6 +41,16 @@ public class AuthenticationHelper {
         } catch (EntityNotFoundException e) {
             throw new AuthorizationException(INVALID_AUTHENTICATION_ERROR);
         }
+    }
+
+    public User tryGetAdmin(HttpHeaders headers) {
+        User userAuthenticated = tryGetUser(headers);
+
+        if (!userAuthenticated.isAdmin()) {
+            throw new AuthorizationException(ADMIN_AUTHENTICATION_ERROR);
+        }
+
+        return userAuthenticated;
     }
 
     private String getUsername(String userInfo) {

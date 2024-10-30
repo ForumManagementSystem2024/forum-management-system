@@ -23,12 +23,33 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public void makeAdmin(User userToMakeAdmin) {
-
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Admin admin = new Admin();
             admin.setUser(userToMakeAdmin);
             session.persist(admin);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public Admin getAdminById(int adminId) {
+        try (Session session = sessionFactory.openSession()) {
+            Admin admin = session.get(Admin.class, adminId);
+
+            if (admin == null) {
+                throw new EntityNotFoundException("Admin", adminId);
+            }
+
+            return admin;
+        }
+    }
+
+    @Override
+    public void updatePhoneOfAdmin(Admin admin) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(admin);
             session.getTransaction().commit();
         }
     }

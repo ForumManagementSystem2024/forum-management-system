@@ -103,6 +103,11 @@ public class UserServiceImpl implements UserService {
         adminRepository.makeAdmin(userToMakeAdmin);
     }
 
+    @Override
+    public void updatePhoneOfAdmin(Admin admin) {
+        adminRepository.updatePhoneOfAdmin(admin);
+    }
+
     private void checkModifyPermissions(User userAuthenticated, User userMapped) {
         if (!(userAuthenticated.equals(userMapped))) {
             throw new AuthorizationException(MODIFY_PROFILE_ERROR_MESSAGE);

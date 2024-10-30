@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.repositories.interfaces;
 
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 

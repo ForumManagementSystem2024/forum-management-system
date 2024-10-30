@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.services.interfaces;
 
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 
@@ -24,4 +25,6 @@ public interface UserService {
     void unblockUser(User userToUnblock, User userAuthenticated);
 
     void makeAdmin(User userToMakeAdmin, User userAuthenticated);
+
+    void updatePhoneOfAdmin(Admin admin);
 }

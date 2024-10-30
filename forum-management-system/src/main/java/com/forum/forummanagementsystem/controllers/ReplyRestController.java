@@ -8,6 +8,7 @@ import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.ReplyDto;
+import com.forum.forummanagementsystem.models.dto.ReplyDtoOut;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import jakarta.validation.Valid;
@@ -16,6 +17,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/posts/{postId}/replies")
@@ -35,6 +39,18 @@ public class ReplyRestController {
         this.postService = postService;
         this.modelMapper = modelMapper;
         this.authenticationHelper = authenticationHelper;
+    }
+
+    @GetMapping
+    public List<ReplyDtoOut> getAllRepliesOfPost(@RequestHeader HttpHeaders httpHeaders,
+                                                 @PathVariable int postId) {
+        try {
+            // TODO
+
+            return new ArrayList<>(); // replace with working list
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")

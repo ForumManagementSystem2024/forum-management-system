@@ -79,7 +79,9 @@ public class UserRestController {
     }
 
     @PutMapping("/{id}")
-    public User updateProfile(@RequestHeader HttpHeaders headers, @PathVariable int id, @Valid @RequestBody UserDtoUpdate userDtoUpdate) {
+    public User updateProfile(@RequestHeader HttpHeaders headers,
+                              @PathVariable int id,
+                              @Valid @RequestBody UserDtoUpdate userDtoUpdate) {
         try {
             User userAuthenticated = authenticationHelper.tryGetUser(headers);
             User userMapped = modelMapper.fromUpdateUserDto(id, userDtoUpdate);
