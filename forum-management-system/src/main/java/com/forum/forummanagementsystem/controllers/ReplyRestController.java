@@ -45,12 +45,15 @@ public class ReplyRestController {
     public List<ReplyDtoOut> getAllRepliesOfPost(@RequestHeader HttpHeaders httpHeaders,
                                                  @PathVariable int postId) {
         try {
-            // TODO
-
-            return new ArrayList<>(); // replace with working list
+            authenticationHelper.tryGetUser(httpHeaders);
+            List<Reply> replies = replyService.getAllRepliesOfPost(postId);
+            return modelMapper.fromListReplyToListReplyDtoOut(replies); // replace with working list
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        } catch (AuthorizationException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
+
     }
 
     @GetMapping("/{id}")

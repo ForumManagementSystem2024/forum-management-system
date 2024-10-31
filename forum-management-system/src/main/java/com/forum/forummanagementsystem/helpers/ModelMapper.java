@@ -214,4 +214,21 @@ public class ModelMapper {
                 })
                 .collect(Collectors.toSet());
     }
+
+    public List<ReplyDtoOut> fromListReplyToListReplyDtoOut(List<Reply> replies) {
+        if (replies == null) {
+            return new ArrayList<>();
+        }
+
+        return replies.stream()
+                .map(reply -> {
+                    ReplyDtoOut replyDtoOut = new ReplyDtoOut();
+                    replyDtoOut.setCreatedBy(reply.getCreatedBy().getUsername());
+                    replyDtoOut.setCreatedAt(reply.getCreatedAt());
+                    replyDtoOut.setContent(reply.getContent());
+
+                    return replyDtoOut;
+                })
+                .collect(Collectors.toList());
+    }
 }

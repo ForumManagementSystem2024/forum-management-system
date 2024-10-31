@@ -55,6 +55,11 @@ public class ReplyServiceImpl implements ReplyService {
         return replyRepository.getTopTenMostCommentedPosts();
     }
 
+    @Override
+    public List<Reply> getAllRepliesOfPost(int postId) {
+        return replyRepository.get(postId);
+    }
+
     public void checkIfUserIsBlocked(User user) {
         if (user.isBlocked()) {
             throw new AuthorizationException(BLOCKED_USER_ERROR);
