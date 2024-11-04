@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.AdminRepository;
@@ -138,7 +139,7 @@ public class UserServiceImplTests {
         // Act, Assert
 
         Assertions.assertThrows(EntityDuplicateException.class,
-                ()->mockUserService.register(mockUser));
+                () -> mockUserService.register(mockUser));
 
     }
 
@@ -166,7 +167,7 @@ public class UserServiceImplTests {
         // Act, Assert
         Assertions.assertThrows(
                 AuthorizationException.class,
-                () -> mockUserService.updateProfile(mockUser,mockMappedUser));
+                () -> mockUserService.updateProfile(mockUser, mockMappedUser));
     }
 
     @Test
@@ -242,21 +243,16 @@ public class UserServiceImplTests {
         Assertions.assertTrue(userToMakeAdmin.isAdmin());
     }
 
-//    @Test
-//    public void makeAdmin_Should_NotModifyOtherUsers_When_Called() {
-//        // Arrange
-//        User userToMakeAdmin = createMockUser();
-//        User anotherUser = createMockUser();
-//        anotherUser.setAdmin(false);  // Unrelated user
-//        User adminUser = createMockUser();
-//        adminUser.setAdmin(true);
-//
-//        // Act
-//        mockUserService.makeAdmin(userToMakeAdmin, adminUser);
-//
-//        // Assert
-//        Mockito.verify(mockUserRepository, never()).updateProfile(anotherUser);
-//        Mockito.verify(mockAdminRepository, never()).makeAdmin(anotherUser);
-//    }
+    @Test
+    public void updatePhoneOfAdmin_Should_CallRepository_When_AdminExists() {
+        // Arrange
+        Admin mockAdmin = createMockAdmin();
+
+        // Act
+        mockUserService.updatePhoneOfAdmin(mockAdmin);
+
+        // Assert
+        Mockito.verify(mockAdminRepository, times(1)).updatePhoneOfAdmin(mockAdmin);
+    }
 
 }
