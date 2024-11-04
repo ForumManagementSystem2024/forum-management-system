@@ -28,7 +28,7 @@ You can find it in `forum-management-system/db`.
 * `POST /{id}`  - Make user admin 
 * `PUT /block/{id}`  - Block user
 * `PUT /unblock/{id}`  - Unblock user
-* `PUT /{adminId}`  - Update phonenumber of admin
+* `PUT /{adminId}`  - Update phone number of admin
 
 ### User  `/api/users`
 
