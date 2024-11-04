@@ -6,6 +6,7 @@ import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
+import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -250,15 +251,18 @@ public class PostServiceImplTests {
         // Arrange
         Post mockPost = createMockPost();
         User mockUser = createMockUser();
+        mockPost.setLikes(0);
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
                 .thenReturn(mockPost);
+        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
+                .thenReturn(null);
 
         // Act
         Post result = mockPostService.likePost(mockPost.getId(), mockUser);
 
         // Assert
-        Assertions.assertEquals(1, result.getLikes().size());
+        Assertions.assertEquals(1, result.getLikes());
         Mockito.verify(mockLikeRepository, Mockito.times(1)).save(Mockito.any(Like.class));
         Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
     }

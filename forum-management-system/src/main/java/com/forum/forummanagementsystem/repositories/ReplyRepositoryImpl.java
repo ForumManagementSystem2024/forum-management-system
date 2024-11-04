@@ -1,7 +1,6 @@
 package com.forum.forummanagementsystem.repositories;
 
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
-import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.repositories.interfaces.ReplyRepository;
@@ -22,8 +21,12 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     }
 
     @Override
-    public List<Reply> get(FilterOptions filterOptions) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Reply> get(int postId) {
+        try(Session session = sessionFactory.openSession()) {
+            Query<Reply> query = session.createQuery("from Reply where postId.id = :postId", Reply.class);
+            query.setParameter("postId", postId);
+            return query.list();
+        }
     }
 
     @Override

@@ -76,7 +76,7 @@ public class PostRestController {
             authenticationHelper.tryGetUser(httpHeaders);
 
             return modelMapper.fromPostToPostDtoOut(postService.getPostById(id));
-            //return postService.getPostById(id);
+
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (AuthorizationException e) {

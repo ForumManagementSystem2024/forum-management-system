@@ -12,4 +12,5 @@ public interface ReplyService {
     void updateReply(User user, Reply reply);
     void deleteReply(int replyId, User user);
     List<Post> getTopTenMostCommentedPosts();
+    List<Reply> getAllRepliesOfPost(int postId);
 }

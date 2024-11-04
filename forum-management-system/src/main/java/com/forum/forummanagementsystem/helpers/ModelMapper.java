@@ -1,10 +1,8 @@
 package com.forum.forummanagementsystem.helpers;
 
-import com.forum.forummanagementsystem.models.Post;
-import com.forum.forummanagementsystem.models.Reply;
-import com.forum.forummanagementsystem.models.Tag;
-import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.*;
+import com.forum.forummanagementsystem.repositories.interfaces.AdminRepository;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import com.forum.forummanagementsystem.services.interfaces.TagService;
@@ -26,16 +24,28 @@ public class ModelMapper {
     private final ReplyService replyService;
     private final UserService userService;
     private final TagService tagService;
+    private final AdminRepository adminRepository;
 
     @Autowired
     public ModelMapper(PostService postService,
                        ReplyService replyService,
                        UserService userService,
-                       TagService tagService) {
+                       TagService tagService,
+                       AdminRepository adminRepository) {
         this.postService = postService;
         this.replyService = replyService;
         this.userService = userService;
         this.tagService = tagService;
+        this.adminRepository = adminRepository;
+    }
+
+    public Admin fromAdminDto(int adminId, AdminDto adminDto) {
+        Admin admin = new Admin();
+        admin.setId(adminId);
+        admin.setPhoneNumber(adminDto.getPhoneNumber());
+        admin.setUser(adminRepository.getAdminById(adminId).getUser());
+
+        return admin;
     }
 
     public User fromUserDto(UserDto userDto) {
@@ -203,5 +213,22 @@ public class ModelMapper {
                     return tagDtoOut;
                 })
                 .collect(Collectors.toSet());
+    }
+
+    public List<ReplyDtoOut> fromListReplyToListReplyDtoOut(List<Reply> replies) {
+        if (replies == null) {
+            return new ArrayList<>();
+        }
+
+        return replies.stream()
+                .map(reply -> {
+                    ReplyDtoOut replyDtoOut = new ReplyDtoOut();
+                    replyDtoOut.setCreatedBy(reply.getCreatedBy().getUsername());
+                    replyDtoOut.setCreatedAt(reply.getCreatedAt());
+                    replyDtoOut.setContent(reply.getContent());
+
+                    return replyDtoOut;
+                })
+                .collect(Collectors.toList());
     }
 }

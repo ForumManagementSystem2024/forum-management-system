@@ -5,4 +5,8 @@ import com.forum.forummanagementsystem.models.User;
 
 public interface AdminRepository {
     void makeAdmin(User userToMakeAdmin);
+
+    Admin getAdminById(int adminId);
+
+    void updatePhoneOfAdmin(Admin admin);
 }
