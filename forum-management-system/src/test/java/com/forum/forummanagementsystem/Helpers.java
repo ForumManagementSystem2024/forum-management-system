@@ -3,6 +3,8 @@ package com.forum.forummanagementsystem;
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.UserDto;
 
+import java.util.HashSet;
+
 public class Helpers {
 
     public static Admin createMockAdmin() {
@@ -31,6 +33,7 @@ public class Helpers {
         mockPost.setTitle("MockPost");
         mockPost.setContent("A History of Chocolate: From Mesoamerica to the Modern World', 'Chocolate has been cherished for thousands of years, dating back to the ancient civilizations of Mesoamerica. The Mayans and Aztecs believed cocoa beans were a gift from the gods, and today, chocolate is enjoyed in countless forms around the world.");
         mockPost.setCreatedBy(createMockUser());
+        mockPost.setLikes(new HashSet<>());
 
         return mockPost;
     }
@@ -43,6 +46,15 @@ public class Helpers {
         reply.setContent("Very good! Perfect cake! The best in the world!");
 
         return reply;
+    }
+
+    public static Like createMockLike() {
+        Like like = new Like();
+        like.setLikeId(1);
+        like.setPost(createMockPost());
+        like.setUser(createMockUser());
+
+        return like;
     }
 
     public static FilterOptions createMockFilterOptions() {

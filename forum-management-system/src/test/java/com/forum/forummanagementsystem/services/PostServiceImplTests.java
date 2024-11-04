@@ -6,7 +6,6 @@ import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
-import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.HashSet;
 
 import static com.forum.forummanagementsystem.Helpers.*;
 
@@ -25,9 +26,6 @@ public class PostServiceImplTests {
 
     @Mock
     LikeRepository mockLikeRepository;
-
-    @Mock
-    AdminService adminService;
 
     @InjectMocks
     PostServiceImpl mockPostService;
@@ -162,8 +160,9 @@ public class PostServiceImplTests {
         Mockito.lenient().when(mockPostRepository.getPostByTitle(mockPost.getTitle()))
                 .thenThrow(EntityNotFoundException.class);
 
-        Mockito.when(adminService.getAdminByUserId(mockNonCreatorUser.getId()))
-                .thenThrow(EntityNotFoundException.class);
+        //TODO check if the below is needed
+//        Mockito.when(adminService.getAdminByUserId(mockNonCreatorUser.getId()))
+//                .thenThrow(EntityNotFoundException.class);
 
         // Act, Assert
         Assertions.assertThrows(
@@ -213,16 +212,10 @@ public class PostServiceImplTests {
         Post mockPost = createMockPost();
 
         User mockAdminUser = createMockUser();
-        mockAdminUser.setId(2);
-
-        Admin mockAdmin = createMockAdmin();
-        mockAdmin.setId(1);
+        mockAdminUser.setAdmin(true);
 
         Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
                 .thenReturn(mockPost);
-
-        Mockito.when(adminService.getAdminByUserId(mockAdminUser.getId()))
-                .thenReturn(mockAdmin);
 
         mockPostService.delete(mockPost.getId(), mockAdminUser);
 
@@ -241,8 +234,9 @@ public class PostServiceImplTests {
         Mockito.when(mockPostRepository.getPostById(Mockito.anyInt()))
                 .thenReturn(mockPost);
 
-        Mockito.when(adminService.getAdminByUserId(mockNonCreator.getId()))
-                .thenThrow(EntityNotFoundException.class);
+        //TODO check if the below is needed
+//        Mockito.when(adminService.getAdminByUserId(mockNonCreator.getId()))
+//                .thenThrow(EntityNotFoundException.class);
 
         Assertions.assertThrows(
                 AuthorizationException.class,
@@ -256,18 +250,15 @@ public class PostServiceImplTests {
         // Arrange
         Post mockPost = createMockPost();
         User mockUser = createMockUser();
-        mockPost.setLikes(0);
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
                 .thenReturn(mockPost);
-        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
-                .thenReturn(null);
 
         // Act
         Post result = mockPostService.likePost(mockPost.getId(), mockUser);
 
         // Assert
-        Assertions.assertEquals(1, result.getLikes());
+        Assertions.assertEquals(1, result.getLikes().size());
         Mockito.verify(mockLikeRepository, Mockito.times(1)).save(Mockito.any(Like.class));
         Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
     }
@@ -277,22 +268,18 @@ public class PostServiceImplTests {
         // Arrange
         Post mockPost = createMockPost();
         User mockUser = createMockUser();
-        Like mockLike = new Like();
-        mockLike.setUserId(mockUser);
-        mockLike.setPostId(mockPost);
-
-        mockPost.setLikes(1);
+        Like mockLike = createMockLike();
+        mockLike.setUser(mockUser);
+        mockLike.setPost(mockPost);
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
                 .thenReturn(mockPost);
-        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
-                .thenReturn(mockLike);
 
         // Act
         Post result = mockPostService.likePost(mockPost.getId(), mockUser);
 
         // Assert
-        Assertions.assertEquals(0, result.getLikes());
+        Assertions.assertEquals(0, result.getLikes().size());
         Mockito.verify(mockLikeRepository, Mockito.times(1)).removeLike(mockLike);
         Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
     }
@@ -328,9 +315,8 @@ public class PostServiceImplTests {
     public void removeLikePost_Should_DecrementLikesAndRemoveLike() {
         // Arrange
         Post mockPost = createMockPost();
-        mockPost.setLikes(1);
         Like mockLike = new Like();
-        mockLike.setUserId(mockPost.getCreatedBy());
+        mockLike.setUser(mockPost.getCreatedBy());
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId())).thenReturn(mockPost);
 
