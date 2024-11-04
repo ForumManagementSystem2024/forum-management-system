@@ -25,9 +25,10 @@ You can find it in `forum-management-system/db`.
 ### Admin `/api/admins`
 
 * `GET /{id}`  - Get user
-* `POST`  - Make user admin 
+* `POST /{id}`  - Make user admin 
 * `PUT /block/{id}`  - Block user
 * `PUT /unblock/{id}`  - Unblock user
+* `PUT /{adminId}`  - Update phonenumber of admin
 
 ### User  `/api/users`
 
@@ -50,6 +51,7 @@ You can find it in `forum-management-system/db`.
 
 ### Reply `api/posts/{postId}/replies`
 
+* `GET`  - Get replies of post
 * `GET /{id}`  - Get reply
 * `POST`  - Create reply and add it to post
 * `PUT /{replyId}`  - Update reply
