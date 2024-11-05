@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static com.forum.forummanagementsystem.Helpers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,6 +25,23 @@ public class ReplyServiceImplTests {
 
     @InjectMocks
     ReplyServiceImpl mockReplyService;
+
+    @Test
+    void getAllRepliesOfPost_Should_CallRepository() {
+        // Arrange
+        Post mockPost = createMockPost();
+        List<Reply> mockReplies = List.of(createMockReply(), createMockReply());
+
+        Mockito.when(mockReplyRepository.get(mockPost.getId()))
+                .thenReturn(mockReplies);
+
+        // Act
+        List<Reply> result = mockReplyService.getAllRepliesOfPost(mockPost.getId());
+
+        // Assert
+        Mockito.verify(mockReplyRepository, Mockito.times(1))
+                .get(mockPost.getId());
+    }
 
     @Test
     public void get_Should_ReturnReply_When_MatchByIdExist() {
