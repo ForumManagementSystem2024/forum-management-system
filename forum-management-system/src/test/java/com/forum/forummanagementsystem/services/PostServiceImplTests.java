@@ -6,7 +6,6 @@ import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.repositories.interfaces.LikeRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
-import com.forum.forummanagementsystem.services.interfaces.AdminService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import static com.forum.forummanagementsystem.Helpers.*;
 
@@ -251,18 +252,18 @@ public class PostServiceImplTests {
         // Arrange
         Post mockPost = createMockPost();
         User mockUser = createMockUser();
-        mockPost.setLikes(0);
+        mockPost.setLikes(new HashSet<>());
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
                 .thenReturn(mockPost);
-        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
-                .thenReturn(null);
+//        Mockito.when(mockLikeRepository.existsByUserIdAndPostId(mockUser.getId(), mockPost.getId()))
+//                .thenReturn(null);
 
         // Act
         Post result = mockPostService.likePost(mockPost.getId(), mockUser);
 
         // Assert
-        Assertions.assertEquals(1, result.getLikes());
+        Assertions.assertEquals(1, result.getLikes().size());
         Mockito.verify(mockLikeRepository, Mockito.times(1)).save(Mockito.any(Like.class));
         Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
     }
@@ -275,6 +276,7 @@ public class PostServiceImplTests {
         Like mockLike = createMockLike();
         mockLike.setUser(mockUser);
         mockLike.setPost(mockPost);
+        mockPost.setLikes(new HashSet<>(Collections.singleton(mockLike)));
 
         Mockito.when(mockPostRepository.getPostById(mockPost.getId()))
                 .thenReturn(mockPost);
@@ -328,7 +330,7 @@ public class PostServiceImplTests {
         Post result = mockPostService.removeLikePost(mockPost, mockLike);
 
         // Assert
-        Assertions.assertEquals(0, result.getLikes());
+        Assertions.assertEquals(0, result.getLikes().size());
         Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
         Mockito.verify(mockLikeRepository, Mockito.times(1)).removeLike(mockLike);
     }
