@@ -114,22 +114,15 @@ public class UserServiceImpl implements UserService {
         adminRepository.updatePhoneOfAdmin(admin);
     }
 
-//    @Override
-//    public void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage) {
-//        checkModifyPermissions(userAuthenticated, userToUploadPhoto);
-//
-//        profilePhotoRepository.uploadProfilePhoto(cloudinaryImage);
-//
-//        ProfilePhoto profilePhoto = profilePhotoRepository.findByUrl(cloudinaryImage.getUrl());
-//
-//        userRepository.uploadProfilePhotoToUser(profilePhoto, userToUploadPhoto);
-//    }
-
     @Override
-    public void uploadProfilePicture(User userAuthenticated, String filename, User userToUploadPicture) {
-        checkModifyPermissions(userAuthenticated, userToUploadPicture);
+    public void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage) {
+        checkModifyPermissions(userAuthenticated, userToUploadPhoto);
 
-        userRepository.uploadProfilePicture(filename, userToUploadPicture);
+        profilePhotoRepository.uploadProfilePhoto(cloudinaryImage);
+
+        ProfilePhoto profilePhoto = profilePhotoRepository.findByUrl(cloudinaryImage.getUrl());
+
+        userRepository.uploadProfilePhotoToUser(profilePhoto, userToUploadPhoto);
     }
 
     private void checkModifyPermissions(User userAuthenticated, User userMapped) {

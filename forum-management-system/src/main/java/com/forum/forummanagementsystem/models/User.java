@@ -36,12 +36,9 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    @Column(name = "profile_picture")
-    private String profilePicture;
-
-//    @OneToOne
-//    @JoinColumn(name = "profile_photo_id")
-//    private ProfilePhoto profilePhoto;
+    @OneToOne
+    @JoinColumn(name = "profile_photo_id")
+    private ProfilePhoto profilePhoto;
 
     public User() {
     }
@@ -110,22 +107,13 @@ public class User {
         isAdmin = admin;
     }
 
-    public String getProfilePicture() {
-        return profilePicture;
+    public ProfilePhoto getProfilePhoto() {
+        return profilePhoto;
     }
 
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setProfilePhoto(ProfilePhoto profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
-
-
-//    public ProfilePhoto getProfilePhoto() {
-//        return profilePhoto;
-//    }
-//
-//    public void setProfilePhoto(ProfilePhoto profilePhoto) {
-//        this.profilePhoto = profilePhoto;
-//    }
 
     @Override
     public boolean equals(Object o) {

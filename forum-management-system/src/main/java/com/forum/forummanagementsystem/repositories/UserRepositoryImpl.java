@@ -101,22 +101,12 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-//    @Override
-//    public void uploadProfilePhotoToUser(ProfilePhoto profilePhoto, User userToUploadPhoto) {
-//        userToUploadPhoto.setProfilePhoto(profilePhoto);
-//        try (Session session = sessionFactory.openSession()) {
-//            session.beginTransaction();
-//            session.merge(userToUploadPhoto);
-//            session.getTransaction().commit();
-//        }
-//    }
-
     @Override
-    public void uploadProfilePicture(String filename, User userToUploadPicture) {
-        userToUploadPicture.setProfilePicture(filename);
+    public void uploadProfilePhotoToUser(ProfilePhoto profilePhoto, User userToUploadPhoto) {
+        userToUploadPhoto.setProfilePhoto(profilePhoto);
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.merge(userToUploadPicture);
+            session.merge(userToUploadPhoto);
             session.getTransaction().commit();
         }
     }

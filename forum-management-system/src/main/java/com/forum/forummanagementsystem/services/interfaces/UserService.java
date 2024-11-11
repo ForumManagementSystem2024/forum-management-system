@@ -29,7 +29,5 @@ public interface UserService {
 
     void updatePhoneOfAdmin(Admin admin);
 
-    void uploadProfilePicture(User userAuthenticated, String filename, User userToUploadPicture);
-
-//    void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage);
+    void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage);
 }

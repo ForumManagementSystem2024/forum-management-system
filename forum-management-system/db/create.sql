@@ -1,9 +1,9 @@
-# create table profile_photos
-# (
-#     profile_photo_id int auto_increment primary key,
-#     url              varchar(255) not null,
-#     public_id        varchar(255) not null unique
-# );
+create table profile_photos
+(
+    profile_photo_id int auto_increment primary key,
+    url              varchar(255) not null,
+    public_id        varchar(255) not null unique
+);
 
 create table users
 (
@@ -15,11 +15,10 @@ create table users
     email      varchar(50) not null unique,
     is_admin   boolean     not null default false,
     is_blocked boolean     not null default false,
-    profile_picture varchar(255) null,
-#     profile_photo_id int,
-#
-#     constraint users_profile_photos_profile_photo_id_fk
-#         foreign key (profile_photo_id) references profile_photos (profile_photo_id) on delete set null,
+    profile_photo_id int,
+
+    constraint users_profile_photos_profile_photo_id_fk
+        foreign key (profile_photo_id) references profile_photos (profile_photo_id) on delete set null,
 
     check (char_length(first_name) >= 4 AND char_length(first_name) <= 32),
     check ( char_length(last_name) >= 4 AND char_length(last_name) <= 32)

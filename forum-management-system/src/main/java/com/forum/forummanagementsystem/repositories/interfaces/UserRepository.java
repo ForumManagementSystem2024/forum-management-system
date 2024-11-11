@@ -23,7 +23,5 @@ public interface UserRepository {
 
     void deleteUser(User user);
 
-    void uploadProfilePicture(String filename, User userToUploadPicture);
-
-//    void uploadProfilePhotoToUser(ProfilePhoto profilePhoto, User userToUploadPicture);
+    void uploadProfilePhotoToUser(ProfilePhoto profilePhoto, User userToUploadPicture);
 }
