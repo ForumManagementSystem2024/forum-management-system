@@ -1,3 +1,10 @@
+# create table profile_photos
+# (
+#     profile_photo_id int auto_increment primary key,
+#     url              varchar(255) not null,
+#     public_id        varchar(255) not null unique
+# );
+
 create table users
 (
     user_id    int auto_increment primary key,
@@ -6,8 +13,13 @@ create table users
     first_name varchar(32) not null,
     last_name  varchar(32) not null,
     email      varchar(50) not null unique,
-    is_admin    boolean     not null default false,
+    is_admin   boolean     not null default false,
     is_blocked boolean     not null default false,
+    profile_picture varchar(255) null,
+#     profile_photo_id int,
+#
+#     constraint users_profile_photos_profile_photo_id_fk
+#         foreign key (profile_photo_id) references profile_photos (profile_photo_id) on delete set null,
 
     check (char_length(first_name) >= 4 AND char_length(first_name) <= 32),
     check ( char_length(last_name) >= 4 AND char_length(last_name) <= 32)
@@ -58,8 +70,8 @@ create table replies
 (
     reply_id   int auto_increment primary key,
     created_by int,
-    post_id    int           not null,
-    content    varchar(8192) not null,
+    post_id    int                                 not null,
+    content    varchar(8192)                       not null,
     created_at timestamp default current_timestamp not null,
     updated_at timestamp default current_timestamp on update current_timestamp,
 
@@ -88,3 +100,4 @@ create table posts_tags
     foreign key (post_id) references posts (post_id) on delete cascade,
     foreign key (tag_id) references tags (tag_id) on delete cascade
 );
+

@@ -2,6 +2,7 @@ package com.forum.forummanagementsystem.repositories;
 
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
+import com.forum.forummanagementsystem.models.ProfilePhoto;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.UserRepository;
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,6 +97,26 @@ public class UserRepositoryImpl implements UserRepository {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.remove(user);
+            session.getTransaction().commit();
+        }
+    }
+
+//    @Override
+//    public void uploadProfilePhotoToUser(ProfilePhoto profilePhoto, User userToUploadPhoto) {
+//        userToUploadPhoto.setProfilePhoto(profilePhoto);
+//        try (Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+//            session.merge(userToUploadPhoto);
+//            session.getTransaction().commit();
+//        }
+//    }
+
+    @Override
+    public void uploadProfilePicture(String filename, User userToUploadPicture) {
+        userToUploadPicture.setProfilePicture(filename);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.merge(userToUploadPicture);
             session.getTransaction().commit();
         }
     }

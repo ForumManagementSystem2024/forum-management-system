@@ -5,8 +5,10 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
+import com.forum.forummanagementsystem.models.ProfilePhoto;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.AdminRepository;
+import com.forum.forummanagementsystem.repositories.interfaces.ProfilePhotoRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.UserRepository;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
+    private final ProfilePhotoRepository profilePhotoRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AdminRepository adminRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           AdminRepository adminRepository,
+                           ProfilePhotoRepository profilePhotoRepository) {
         this.adminRepository = adminRepository;
         this.userRepository = userRepository;
+        this.profilePhotoRepository = profilePhotoRepository;
     }
 
     @Override
@@ -106,6 +112,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePhoneOfAdmin(Admin admin) {
         adminRepository.updatePhoneOfAdmin(admin);
+    }
+
+//    @Override
+//    public void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage) {
+//        checkModifyPermissions(userAuthenticated, userToUploadPhoto);
+//
+//        profilePhotoRepository.uploadProfilePhoto(cloudinaryImage);
+//
+//        ProfilePhoto profilePhoto = profilePhotoRepository.findByUrl(cloudinaryImage.getUrl());
+//
+//        userRepository.uploadProfilePhotoToUser(profilePhoto, userToUploadPhoto);
+//    }
+
+    @Override
+    public void uploadProfilePicture(User userAuthenticated, String filename, User userToUploadPicture) {
+        checkModifyPermissions(userAuthenticated, userToUploadPicture);
+
+        userRepository.uploadProfilePicture(filename, userToUploadPicture);
     }
 
     private void checkModifyPermissions(User userAuthenticated, User userMapped) {

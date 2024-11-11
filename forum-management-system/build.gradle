@@ -24,6 +24,9 @@ dependencies {
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 
+	implementation 'com.cloudinary:cloudinary-http42:1.29.0'
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.4-alpha1'
+
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

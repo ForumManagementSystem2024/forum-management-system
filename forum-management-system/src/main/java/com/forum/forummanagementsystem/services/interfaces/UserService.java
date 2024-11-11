@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.services.interfaces;
 import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.services.CloudinaryImage;
 
 import java.util.List;
 
@@ -27,4 +28,8 @@ public interface UserService {
     void makeAdmin(User userToMakeAdmin, User userAuthenticated);
 
     void updatePhoneOfAdmin(Admin admin);
+
+    void uploadProfilePicture(User userAuthenticated, String filename, User userToUploadPicture);
+
+//    void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage);
 }
