@@ -1,4 +1,4 @@
-package com.forum.forummanagementsystem.controllers;
+package com.forum.forummanagementsystem.controllers.rest;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;

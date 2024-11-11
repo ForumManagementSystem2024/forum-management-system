@@ -1,4 +1,4 @@
-package com.forum.forummanagementsystem.controllers;
+package com.forum.forummanagementsystem.controllers.rest;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

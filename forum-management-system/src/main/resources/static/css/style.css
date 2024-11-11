@@ -660,7 +660,7 @@ textarea.form-control {
   }
 }
 .article-full-width .post-content {
-  width: 50%;
+  width: 100%;
 }
 @media (max-width: 767px) {
   .article-full-width .post-content {
