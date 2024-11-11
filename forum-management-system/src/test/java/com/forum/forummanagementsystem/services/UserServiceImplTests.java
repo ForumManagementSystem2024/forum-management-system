@@ -5,8 +5,10 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
+import com.forum.forummanagementsystem.models.ProfilePhoto;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.AdminRepository;
+import com.forum.forummanagementsystem.repositories.interfaces.ProfilePhotoRepository;
 import com.forum.forummanagementsystem.repositories.interfaces.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,9 @@ public class UserServiceImplTests {
 
     @Mock
     AdminRepository mockAdminRepository;
+
+    @Mock
+    ProfilePhotoRepository mockProfilePhotoRepository;
 
     @InjectMocks
     UserServiceImpl mockUserService;
@@ -185,6 +190,19 @@ public class UserServiceImplTests {
     }
 
     @Test
+    public void deleteUser_Should_ThrowException_WhenUserNotAdmin() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockUserAuthenticated = createMockUser();
+        mockUserAuthenticated.setAdmin(false);
+
+        // Act, Assert
+        Assertions.assertThrows(AuthorizationException.class, () -> {
+            mockUserService.deleteUser(mockUser, mockUserAuthenticated);
+        });
+    }
+
+    @Test
     public void blockUser_Should_CallRepository() {
         // Arrange
         User mockUser = createMockUser();
@@ -200,6 +218,19 @@ public class UserServiceImplTests {
     }
 
     @Test
+    public void blockUser_Should_ThrowException_WhenUserNotAdmin() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockUserAuthenticated = createMockUser();
+        mockUserAuthenticated.setAdmin(false);
+
+        // Act, Assert
+        Assertions.assertThrows(AuthorizationException.class, () -> {
+            mockUserService.blockUser(mockUser, mockUserAuthenticated);
+        });
+    }
+
+    @Test
     public void unblockUser_Should_CallRepository() {
         // Arrange
         User mockUser = createMockUser();
@@ -212,6 +243,19 @@ public class UserServiceImplTests {
         // Assert
         Mockito.verify(mockUserRepository, times(1))
                 .unblockUser(Mockito.any());
+    }
+
+    @Test
+    public void unblockUser_Should_ThrowException_WhenUserNotAdmin() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockUserAuthenticated = createMockUser();
+        mockUserAuthenticated.setAdmin(false);
+
+        // Act, Assert
+        Assertions.assertThrows(AuthorizationException.class, () -> {
+            mockUserService.unblockUser(mockUser, mockUserAuthenticated);
+        });
     }
 
     @Test
@@ -253,6 +297,52 @@ public class UserServiceImplTests {
 
         // Assert
         Mockito.verify(mockAdminRepository, times(1)).updatePhoneOfAdmin(mockAdmin);
+    }
+
+    @Test
+    public void uploadProfilePhotoToUser_Should_ThrowException_When_UserIsNotOwner() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockMappedUser = createMockUser();
+        mockMappedUser.setId(2);
+
+        CloudinaryImage mockCloudinaryImage = createMockCloudinaryImage();
+
+        // Act, Assert
+        Assertions.assertThrows(
+                AuthorizationException.class,
+                () -> mockUserService.uploadProfilePhotoToUser(mockUser, mockMappedUser, mockCloudinaryImage));
+    }
+
+    @Test
+    public void uploadProfilePhotoToUser_Should_CallProfilePhotoRepository_When_UserIsOwner() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockMappedUser = createMockUser();
+        CloudinaryImage mockCloudinaryImage = createMockCloudinaryImage();
+
+        // Act
+        mockUserService.uploadProfilePhotoToUser(mockUser, mockMappedUser, mockCloudinaryImage);
+
+        // Assert
+        Mockito.verify(mockProfilePhotoRepository, times(1)).uploadProfilePhoto(mockCloudinaryImage);
+        Mockito.verify(mockProfilePhotoRepository, times(1)).findByUrl(Mockito.anyString());
+    }
+
+    @Test
+    public void uploadProfilePhotoToUser_Should_CallUserRepository_When_UserIsOwner() {
+        // Arrange
+        User mockUser = createMockUser();
+        User mockMappedUser = createMockUser();
+        CloudinaryImage mockCloudinaryImage = createMockCloudinaryImage();
+
+        // Act
+        mockUserService.uploadProfilePhotoToUser(mockUser, mockMappedUser, mockCloudinaryImage);
+        mockProfilePhotoRepository.uploadProfilePhoto(mockCloudinaryImage);
+        ProfilePhoto mockProfilePhoto = mockProfilePhotoRepository.findByUrl(Mockito.anyString());
+
+        // Assert
+        Mockito.verify(mockUserRepository, times(1)).uploadProfilePhotoToUser(mockProfilePhoto, mockMappedUser);
     }
 
 }

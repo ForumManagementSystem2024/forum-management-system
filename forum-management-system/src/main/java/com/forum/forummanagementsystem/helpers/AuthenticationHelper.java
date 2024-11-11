@@ -2,7 +2,6 @@ package com.forum.forummanagementsystem.helpers;
 
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
-import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

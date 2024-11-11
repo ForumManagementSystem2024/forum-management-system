@@ -13,11 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
-
 import static com.forum.forummanagementsystem.Helpers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -333,5 +330,14 @@ public class PostServiceImplTests {
         Assertions.assertEquals(0, result.getLikes().size());
         Mockito.verify(mockPostRepository, Mockito.times(1)).update(mockPost);
         Mockito.verify(mockLikeRepository, Mockito.times(1)).removeLike(mockLike);
+    }
+
+    @Test
+    void getTopTenMostRecentPosts_Should_CallRepository() {
+        // Act
+        mockPostService.getTopTenMostRecentPosts();
+
+        // Assert
+        Mockito.verify(mockPostRepository, Mockito.times(1)).getTopTenMostRecentPosts();
     }
 }

@@ -1,7 +1,7 @@
 package com.forum.forummanagementsystem.repositories.interfaces;
 
-import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
+import com.forum.forummanagementsystem.models.ProfilePhoto;
 import com.forum.forummanagementsystem.models.User;
 
 import java.util.List;
@@ -22,4 +22,6 @@ public interface UserRepository {
     List<User> search(FilterOptionsUser filterOptionsUser);
 
     void deleteUser(User user);
+
+    void uploadProfilePhotoToUser(ProfilePhoto profilePhoto, User userToUploadPicture);
 }
