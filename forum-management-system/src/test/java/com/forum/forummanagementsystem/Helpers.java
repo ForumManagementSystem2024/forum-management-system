@@ -2,6 +2,7 @@ package com.forum.forummanagementsystem;
 
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.UserDto;
+import com.forum.forummanagementsystem.services.CloudinaryImage;
 
 import java.util.HashSet;
 
@@ -55,6 +56,22 @@ public class Helpers {
         like.setUser(createMockUser());
 
         return like;
+    }
+
+    public static CloudinaryImage createMockCloudinaryImage() {
+        CloudinaryImage mockCloudinaryImage = new CloudinaryImage();
+        mockCloudinaryImage.setPublicId("MockPublicId");
+        mockCloudinaryImage.setUrl("MockUrl");
+
+        return mockCloudinaryImage;
+    }
+
+    public static ProfilePhoto createMockProfilePhoto() {
+        ProfilePhoto mockProfilePhoto = new ProfilePhoto();
+        mockProfilePhoto.setPublicId("MockPublicId");
+        mockProfilePhoto.setUrl("MockUrl");
+
+        return mockProfilePhoto;
     }
 
     public static FilterOptions createMockFilterOptions() {
