@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:insert="~{fragments/page-fragment :: head('Posts')}"></div>
+
+<body>
+<div th:replace="~{/fragments/page-fragment :: navbar}"></div>
+<!-- preloader -->
+<div class="preloader">
+    <div class="loader">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- /preloader -->
+
+<!-- blog post home page 2-->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-30" th:each="post : ${posts}">
+                <article data-file="articles/b.html" data-target="article" class="article-full-width">
+                    <div class="post-content">
+                        <h4 class="mb-4 font-size-rem" ><a href="blog-single.html" class="text-dark" th:text="${post.getTitle()}">This is the post title</a></h4>
+                        <p class="mb-0 post-summary" th:text="${#strings.substring(post.getContent(), 0, 200) + '...'}">This is the post description</p>
+                        <a class="btn btn-transparent mb-4" href="blog-single.html">Continue...</a>
+                        <ul class="list-inline d-flex justify-content-between border-bottom post-meta pb-2 mb-4">
+                            <li class="list-inline-item"><i class="ti-calendar mr-2"></i><span th:text="${#dates.format(post.getCreatedAt(), 'HH:mm')}"></span></li>
+                            <li class="list-inline-item"><i class="ti-user mr-2"></i><span th:text="${post.getCreatedBy().getUsername()}"></span></li>
+                            <li class="list-inline-item"><i class="ti-heart mr-2"></i><span
+                                    class="eta" th:text="${post.getLikes().size()}">8 min</span>
+                            </li>
+                            <li class="list-inline-item"><i class="ti-pencil mr-2"></i><span
+                                    class="eta" th:text="${post.getReplies().size()}">Replies</span>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /blog post home page 2-->
+
+<footer th:replace="~{/fragments/page-fragment :: footer}"></footer>
+
+<div th:replace="~{/fragments/page-fragment :: scripts}"></div>
+
+</body>
+</html>
