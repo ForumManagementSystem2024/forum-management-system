@@ -71,20 +71,23 @@
                         <a class="dropdown-item" href="homepage-2.html">Create New Post</a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li th:if="${isAuthenticated}" class="nav-item">
                     <a class="nav-link text-uppercase text-dark" href="category.html">Settings</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-uppercase text-dark" href="about.html">About</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-dark" href="admin-portal.html">Admin Portal</a>
+                <li th:if="${(isAuthenticated ?: false) && (session?.isAdmin ?: false)}" class="nav-item">
+                    <a th:href="@{/admin}" class="nav-link text-uppercase text-dark" href="admin-portal.html">Admin Portal</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-dark" href="category.html">Login</a>
+                <li th:unless="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/auth/login}" class="nav-link text-uppercase text-dark" href="login.html">Login</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-uppercase text-dark" href="category.html">Register</a>
+                <li th:unless="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/auth/register}" class="nav-link text-uppercase text-dark" href="register.html">Register</a>
+                </li>
+                <li th:if="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/auth/logout}" class="nav-link text-uppercase text-dark" href="#">Logout</a>
                 </li>
             </ul>
             <form class="form-inline position-relative ml-lg-4">
