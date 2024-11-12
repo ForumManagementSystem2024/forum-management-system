@@ -7,172 +7,111 @@
  // GITHUB: https://github.com/themefisher/
 -->
 
-<html lang="zxx">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-  <meta charset="utf-8">
-  <title>Parsa | Portfolio Template</title>
 
-  <!-- mobile responsive meta -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<div th:insert="~{fragments/page-fragment :: head('Home')}"></div>
 
-  <!-- ** Plugins Needed for the Project ** -->
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="../static/assets/plugins/bootstrap/bootstrap.min.css">
-  <!-- slick slider -->
-  <link rel="stylesheet" href="../static/assets/plugins/slick/slick.css">
-  <!-- themefy-icon -->
-  <link rel="stylesheet" href="../static/assets/plugins/themify-icons/themify-icons.css">
-
-  <!-- Main Stylesheet -->
-  <link href="../static/css/style.css" rel="stylesheet">
-
-  <!--Favicon-->
-  <link rel="shortcut icon" href="../static/images/favicon.png" type="image/x-icon">
-  <link rel="icon" href="../static/images/favicon.png" type="image/x-icon">
-
-</head>
 
 <body>
-  <!-- preloader -->
-<!--  <div class="preloader">-->
-<!--    <div class="loader">-->
-<!--      <span class="dot"></span>-->
-<!--      <div class="dots">-->
-<!--        <span></span>-->
-<!--        <span></span>-->
-<!--        <span></span>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-  <!-- /preloader -->
-
-<header class="navigation">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="index.html"><img class="img-fluid" src="../static/images/tasteHub-logo.png" alt="tasteHub"></a>
-    <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navogation"
-      aria-controls="navogation" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse text-center" id="navogation">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
-            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Home
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.html">Homepage 1</a>
-            <a class="dropdown-item" href="homepage-2.html">Homepage 2</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-uppercase text-dark" href="about.html">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-uppercase text-dark" href="category.html">Categories</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-uppercase text-dark" href="contact.html">Contact</a>
-        </li>
-      </ul>
-      <form class="form-inline position-relative ml-lg-4">
-        <input class="form-control px-0 w-100" type="search" placeholder="Search">
-        <!-- <button class="search-icon" type="submit"><i class="ti-search text-dark"></i></button> -->
-        <a href="search.html" class="search-icon"><i class="ti-search text-dark"></i></a>
-      </form>
+<div th:replace="~{/fragments/page-fragment :: navbar}"></div>
+<!-- preloader -->
+<div class="preloader">
+    <div class="loader">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </div>
-  </nav>
-</header>
+</div>
+<!-- /preloader -->
 
 <section class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <h2 class="mb-4">About TasteHub</h2>
-        <img src="../static/images/author.jpg" alt="author" class="img-fluid w-100 mb-4">
-        <h3 class="font-weight-light">Hello, we are <span class="font-weight-bold">TasteHub !</span></h3>
-        <p>Creative UI/UX desingerr how loves to craft beautiful that satisfy users needs the product. A best idea generate for the agency complay smart and elegant design When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me.<br><br> I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains.
-        <br><br>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem deserunt tempora doloribus non, voluptas dolor? Consequuntur et ad officiis iste, vero natus possimus labore veritatis a eius doloremque. Optio amet quis harum nulla vitae repellat officiis veniam accusamus error hic deleniti in, quas est illum cum natus neque possimus delectus dolore ipsam. Pariatur, ad molestias alias voluptas iusto quam debitis beatae sint similique velit, dicta eos dolorum cumque mollitia officia iure labore voluptatibus. Non at sequi, natus dolores, cum accusamus repudiandae hic blanditiis ipsum possimus qui assumenda quaerat optio ab molestias ipsa iste molestiae dignissimos. Reprehenderit quod totam nostrum nihil.
-        <br><br>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem deserunt tempora doloribus non, voluptas dolor? Consequuntur et ad officiis iste, vero natus possimus labore veritatis a eius doloremque. Optio amet quis harum nulla vitae repellat officiis veniam accusamus error hic deleniti in, quas est illum cum natus neque possimus delectus dolore ipsam. Pariatur, ad molestias alias voluptas iusto quam debitis beatae sint similique velit, dicta eos dolorum cumque mollitia officia iure labore voluptatibus. Non at sequi, natus dolores, cum accusamus repudiandae hic blanditiis ipsum possimus qui assumenda quaerat optio ab molestias ipsa iste molestiae dignissimos. Reprehenderit quod totam nostrum nihil.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- instagram -->
-<section>
-  <div class="container-fluid px-0">
-    <div class="row no-gutters instagram-slider" id="instafeed" data-userId="4044026246"
-      data-accessToken="4044026246.1677ed0.8896752506ed4402a0519d23b8f50a17"></div>
-  </div>
-</section>
-<!-- /instagram -->
-
-<footer class="bg-secondary">
-  <div class="section">
     <div class="container">
-      <div class="row">
-        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
-          <a href="index.html"><img src="../static/images/logo.png" alt="persa" class="img-fluid"></a>
+        <div class="row">
+            <div class="col-lg-12">
+                <h4><span class="font-weight-bold">Welcome to TasteHub – Your Flavorful Community for Culinary Inspiration!</span></h4>
+                <img src="../static/images/about-img.jpg" alt="about" th:src="@{/images/about-img.jpg}"
+                     class="img-fluid w-100 mb-4">
+                <p>Step into TasteHub, a place where food lovers, home cooks, and culinary creatives come together to
+                    share, learn, and celebrate all things delicious! At TasteHub, we're passionate about food, but
+                    we're even more passionate about building a vibrant, supportive community that’s as warm as a
+                    freshly baked pie and as inspiring as your favorite cookbook.
+                    <br><br>
+                    <span class="font-weight-bold"> What’s Cooking at TasteHub? </span>
+                    <br><br>
+                    Have you ever wanted to recreate that mouth-watering dish from your favorite restaurant? Or maybe
+                    you're on the lookout for quick weeknight dinner ideas, decadent desserts, or that one perfect sauce
+                    to elevate your meal? At TasteHub, you’ll find a trove of recipes that range from the simplest
+                    comfort foods to exotic dishes that bring global flavors right to your kitchen.
+                    <br><br>
+                    But we’re more than just recipes! Here, you'll discover:
+                <ul>
+                    <li><span class="font-weight-bold">Tips and Tricks from Fellow Food Enthusiasts:</span> Get advice
+                        on kitchen
+                        hacks, ingredient substitutions, and how to make any recipe your own! Our members love sharing
+                        their
+                        best-kept secrets, so you’ll always have something new to try.
+                    </li>
+                    <li>
+                        <span class="font-weight-bold">Community Challenges and Cook-Alongs:</span> Participate in
+                        monthly themed challenges, where you can test your skills, try new cuisines, and win fun badges!
+                        Feeling competitive? Join our cook-alongs, where members take on the same recipe and share their
+                        personal twists.
+                        <br><br>
+                    </li>
+                    <li><span class="font-weight-bold">The Stories Behind the Plates:</span> Each recipe has a story,
+                        and at
+                        TasteHub, we believe those stories make the dish even richer. Our members share not only the
+                        how, but
+                        the why – whether it’s a family recipe passed down through generations or a flavor discovery
+                        from a
+                        recent adventure abroad.
+                    </li>
+                    <li><span class="font-weight-bold">Ask, Learn, and Grow:</span> Wondering why your soufflé won’t
+                        rise?
+                        Curious about vegan substitutes? Or perhaps you're diving into food photography and need some
+                        tips to
+                        make your dishes camera-ready? Our Q&A forums are buzzing with curious cooks and experts ready
+                        to help
+                        you out.
+                    </li>
+                </ul>
+                <br><br>
+                <span class="font-weight-bold"> Why Join TasteHub? </span>
+                <br><br>
+                At TasteHub, you’re not just joining a forum; you’re becoming part of a family. Here, everyone is
+                welcomed, whether you're a seasoned chef or a curious beginner. By registering, you unlock the full
+                TasteHub experience:
+                <br><br>
+                <ul>
+                    <li><span class="font-weight-bold">Exclusive Member Content: </span> Get access to members-only
+                        recipes, early bird notifications about upcoming challenges, and secret tips from our TasteHub
+                        “Insiders.”
+                    </li>
+                </ul>
+                <br><br>
+                <span class="font-weight-bold"> Get Inspired, Stay Connected </span>
+                <br><br>
+                We know that cooking can be an art, a science, and sometimes a puzzle! At TasteHub, you’ll never have to
+                figure it out alone. Our community is here to inspire, support, and celebrate you every step of the way.
+                And who knows? You might make a few new foodie friends along the way.
+                <br><br>
+                So why wait? Join us on this flavorful adventure, where each recipe is a journey, and every discussion
+                is a step towards mastering the art of good food. At TasteHub, the kitchen is always open, and the
+                company is as warm as the meals we create. Come for the recipes, stay for the community – TasteHub is
+                here to make every meal a memorable experience!
+                </p>
+            </div>
         </div>
-        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
-          <h6>Address</h6>
-          <ul class="list-unstyled">
-            <li class="font-secondary text-dark">Sydney</li>
-            <li class="font-secondary text-dark">6 rip carl Avenue CA 90733</li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
-          <h6>Contact Info</h6>
-          <ul class="list-unstyled">
-            <li class="font-secondary text-dark">Tel: +90 000 333 22</li>
-            <li class="font-secondary text-dark">Mail: exmaple@ymail.com</li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
-          <h6>Follow</h6>
-          <ul class="list-inline d-inline-block">
-            <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-facebook"></i></a></li>
-            <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-twitter-alt"></i></a></li>
-            <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-linkedin"></i></a></li>
-            <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-github"></i></a></li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="text-center pb-3">
-    <p class="mb-0">Copyright ©<script>var CurrentYear = new Date().getFullYear()
-    document.write(CurrentYear)</script> a theme by  <a href="https://themefisher.com/">themefisher.com</a></p>
-  </div>
-</footer>
+</section>
 
-<!-- jQuery -->
-<script src="../static/assets/plugins/jQuery/jquery.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="../static/assets/plugins/bootstrap/bootstrap.min.js"></script>
-<!-- slick slider -->
-<script src="../static/assets/plugins/slick/slick.min.js"></script>
-<!-- masonry -->
-<script src="../static/assets/plugins/masonry/masonry.js"></script>
-<!-- instafeed -->
-<script src="../static/assets/plugins/instafeed/instafeed.min.js"></script>
-<!-- smooth scroll -->
-<script src="../static/assets/plugins/smooth-scroll/smooth-scroll.js"></script>
-<!-- headroom -->
-<script src="../static/assets/plugins/headroom/headroom.js"></script>
-<!-- reading time -->
-<script src="../static/assets/plugins/reading-time/readingTime.min.js"></script>
+<footer th:replace="~{/fragments/page-fragment :: footer}"></footer>
 
-<!-- Main Script -->
-<script src="../static/js/script.js"></script>
+<div th:replace="~{/fragments/page-fragment :: scripts}"></div>
 
 </body>
 </html>
