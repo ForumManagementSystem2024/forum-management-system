@@ -1,6 +1,8 @@
 package com.forum.forummanagementsystem.controllers.mvc;
 
+import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
+import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.dto.FilterDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -35,6 +38,18 @@ public class PostMvcController {
         model.addAttribute("posts", postService.getAllPosts(filterOptions));
         model.addAttribute("filterDto", filterDto);
         return "posts-view";
+    }
+
+    @GetMapping("/{id}")
+    public String showSinglePost(@PathVariable int id, Model model) {
+        try {
+            Post post = postService.getPostById(id);
+            model.addAttribute("post", post);
+            return "blog-single";
+        } catch (EntityNotFoundException e) {
+            //TODO Needs to create an error page!
+            return "blog-single";
+        }
     }
 
     @GetMapping("/most-commented")
