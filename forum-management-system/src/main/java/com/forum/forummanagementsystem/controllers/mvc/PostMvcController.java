@@ -72,7 +72,7 @@ public class PostMvcController {
     @GetMapping("/new")
     public String showCreateNewPostView(Model model, HttpSession session) {
         model.addAttribute("post", new PostDto());
-        return "post-create";
+        return "post-create-new";
     }
 
     @PostMapping("/new")
@@ -88,7 +88,7 @@ public class PostMvcController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "post-create";
+            return "post-create-new";
         }
 
         try {
