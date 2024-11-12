@@ -4,10 +4,10 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class LoginDto {
 
-    @NotEmpty(message = "Username cannot be empty!")
+    @NotEmpty(message = "Cannot be empty!")
     private String username;
 
-    @NotEmpty(message = "Password cannot be empty!")
+    @NotEmpty(message = "Cannot be empty!")
     private String password;
 
     public LoginDto() {
