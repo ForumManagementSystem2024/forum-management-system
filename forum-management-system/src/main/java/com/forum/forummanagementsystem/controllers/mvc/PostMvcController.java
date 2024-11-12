@@ -4,8 +4,10 @@ import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.dto.FilterDto;
+import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,5 +58,11 @@ public class PostMvcController {
     public String getTopTenMostCommentedPosts(Model model) {
         model.addAttribute("posts", replyService.getTopTenMostCommentedPosts());
         return "index";
+    }
+
+    @GetMapping("/new")
+    public String showCreateNewPostView(Model model, HttpSession session) {
+        model.addAttribute("post", new PostDto());
+        return "post-create";
     }
 }
