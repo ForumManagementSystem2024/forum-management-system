@@ -7,7 +7,6 @@ import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import com.forum.forummanagementsystem.services.interfaces.TagService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
-import org.antlr.v4.runtime.misc.Array2DHashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +57,18 @@ public class ModelMapper {
 
         return user;
     }
+
+    public User fromUserDto(RegisterDto registerDto) {
+        User user = new User();
+        user.setUsername(registerDto.getUsername());
+        user.setPassword(registerDto.getPassword());
+        user.setFirstName(registerDto.getFirstName());
+        user.setLastName(registerDto.getLastName());
+        user.setEmail(registerDto.getEmail());
+        return user;
+    }
+
+
 
     public User fromUpdateUserDto(int id, UserDtoUpdate userDtoUpdate) {
         User user = new User();

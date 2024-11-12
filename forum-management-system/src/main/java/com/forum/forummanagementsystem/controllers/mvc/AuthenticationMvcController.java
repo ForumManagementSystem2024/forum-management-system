@@ -4,7 +4,6 @@ import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
-import com.forum.forummanagementsystem.helpers.UserMapper;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.LoginDto;
 import com.forum.forummanagementsystem.models.dto.RegisterDto;
@@ -28,17 +27,15 @@ public class AuthenticationMvcController {
     private final UserService userService;
     private final AuthenticationHelper authenticationHelper;
     private final ModelMapper modelMapper;
-    private final UserMapper userMapper;
+
 
     @Autowired
     public AuthenticationMvcController(UserService userService,
                                        AuthenticationHelper authenticationHelper,
                                        ModelMapper modelMapper) {
-    public AuthenticationMvcController(UserService userService, AuthenticationHelper authenticationHelper, UserMapper userMapper) {
         this.userService = userService;
         this.authenticationHelper = authenticationHelper;
         this.modelMapper = modelMapper;
-        this.userMapper = userMapper;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -50,8 +47,6 @@ public class AuthenticationMvcController {
     public String showLoginPage(Model model) {
         model.addAttribute("login", new LoginDto());
         return "login";
-        //TODO Display the proper view
-        return "login-view";
     }
 
     @PostMapping("/login")
@@ -59,8 +54,7 @@ public class AuthenticationMvcController {
                               BindingResult bindingResult,
                               HttpSession session) {
         if (bindingResult.hasErrors()) {
-            //TODO Display the proper view
-            return "login-view";
+            return "login";
         }
 
         try {
@@ -70,8 +64,7 @@ public class AuthenticationMvcController {
             return "redirect:/";
         } catch (AuthorizationException e) {
             bindingResult.rejectValue("username", "auth_error", e.getMessage());
-            //TODO Display the proper view
-            return "login-view";
+            return "login";
         }
     }
 
@@ -84,33 +77,28 @@ public class AuthenticationMvcController {
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("register", new RegisterDto());
-        //TODO Display the proper view
-        return "register-view";
+        return "register";
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute("register") RegisterDto register,
+    public String handleRegister(@Valid @ModelAttribute("register") RegisterDto registerDto,
                                  BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            //TODO Display the proper view
-            return "register-view";
+            return "register";
         }
 
-        if (!register.getPassword().equals(register.getPasswordConfirm())) {
+        if (!registerDto.getPassword().equals(registerDto.getPasswordConfirm())) {
             bindingResult.rejectValue("passwordConfirm", "password_error", PASSWORD_CONFIRMATION_ERROR_MESSAGE);
-            //TODO Display the proper view
-            return "register-view";
+            return "register";
         }
 
         try {
-            User user = userMapper.fromDto(register);
+            User user = modelMapper.fromUserDto(registerDto);
             userService.register(user);
-            //TODO Display the proper view
             return "redirect:/auth/login";
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("username", "username_error", e.getMessage());
-            //TODO Display the proper view
-            return "register-view";
+            return "register";
         }
     }
 }
