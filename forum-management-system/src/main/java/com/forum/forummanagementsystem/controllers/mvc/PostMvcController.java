@@ -120,7 +120,7 @@ public class PostMvcController {
     }
 
     @GetMapping("/{postId}/reply")
-    public String showCreateNewReplyView(@PathVariable int postId, Model model, HttpSession session) {
+    public String showCreateNewReplyView(@PathVariable int postId, Model model) {
         model.addAttribute("reply", new ReplyDto());
         model.addAttribute("postId", postId);
         return "reply-create-new";
@@ -150,6 +150,7 @@ public class PostMvcController {
 
             replyService.createReply(post, user, reply);
             return "redirect:/posts/{postId}";
+
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());

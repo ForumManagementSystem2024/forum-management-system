@@ -1,0 +1,64 @@
+
+body {
+    margin: 0;
+    height: 100vh;
+    background-image: url('/settings/images/bg_1.jpg'); /* Background image for the whole page */
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+
+    /* Flexbox to center the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Profile card styles */
+.profile-card {
+    position: relative;
+    max-width: 400px; /* Increase this value to make the card wider */
+    width: 100%; /* Optional: Make sure the card uses the full width up to the max-width */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for profile */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 2; /* Ensure profile card is above background */
+}
+
+/* Profile background (optional, you can adjust as needed) */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px; /* Height of the background section */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 10px 0 0;
+    z-index: -1; /* Make sure background is behind the profile card content */
+}
+
+/* Profile picture */
+.profile-content {
+    text-align: center;
+    padding-top: 50px; /* Move content below the background */
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    margin-top: -30px; /* Negative margin to lift the picture more */
+}
+
+/* Other profile details */
+.user-name {
+    font-size: 24px;
+    margin: 10px 0 5px;
+}
+
+.user-title {
+    font-size: 18px;
+    color: #555;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TasteHub | User Profile</title>
+    <link rel="stylesheet" href="/settings/profile/styles.css" th:href="@{/settings/profile/styles.css}">
+</head>
+<body>
+<div class="profile-card" th:object="${user}">
+    <div class="profile-content">
+        <!-- Profile picture -->
+        <img class="profile-picture"
+             th:src="${user.profilePhoto != null ? user.profilePhoto.url : '/settings/profile/images/default_profile_photo.png'}"
+             alt="User Profile Picture">
+        <!-- Profile info -->
+        <h2 class="user-name" th:text="${user.firstName} + ' ' +${user.lastName}">User Full Name</h2>
+        <p class="user-title" th:text="${user.isAdmin() ? 'Role: Admin' : 'Role: User'}">User Role</p>
+        <p class="user-title" th:text="${'Username: ' + user.username}">User Role</p>
+        <p class="user-title" th:text="${'Email: '+ user.email}">Email</p>
+        <p class="user-title" th:if="${user.isBlocked()}"><strong>Blocked</strong></p>
+    </div>
+</div>
+</body>
+</html>
