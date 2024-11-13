@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:insert="~{fragments/page-fragment :: head('About')}"></div>
+<body>
+<div th:replace="~{/fragments/page-fragment :: navbar}"></div>
+<!-- preloader -->
+<div class="preloader">
+  <div class="loader">
+    <span class="dot"></span>
+    <div class="dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+<!-- /preloader -->
+
+<!-- Main Content -->
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Заглавие и търсачка -->
+    <h3>User Management</h3>
+    <input type="text" class="form-control w-25" placeholder="Search user">
+  </div>
+
+  <!-- Списък с потребители -->
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Role</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.getId()}">ID</td>
+      <td th:text="${user.firstName} + ' ' + ${user.lastName}">User Name</td>
+      <td th:text="${user.email}">Email</td>
+      <td th:text="${user.isAdmin ? 'admin' : 'user'}">Role</td>
+      <td>
+        <form th:action="@{/admin/makeAdmin/{id}(id=${user.id})}" method="post" th:if="${!user.isAdmin}">
+          <button class="btn btn-primary" type="submit">Make Admin</button>
+        </form>
+        <button class="btn btn-secondary" th:if="${user.isAdmin}"  type="button">Make User</button>
+        <button class="btn btn-danger" type="button">Delete</button>
+        <button th:if="${!user.isBlocked}" class="btn btn-dark" type="button">Block</button>
+        <button th:if="${user.isBlocked}" class="btn btn-success" type="button">Unblock</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<footer th:replace="~{/fragments/page-fragment :: footer}"></footer>
+
+<div th:replace="~{/fragments/page-fragment :: scripts}"></div>
+</body>
+</html>

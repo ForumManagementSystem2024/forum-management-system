@@ -78,7 +78,7 @@
                     <a th:href="@{/about}" class="nav-link text-uppercase text-dark" href="about.html">About</a>
                 </li>
                 <li th:if="${(isAuthenticated ?: false) && (session?.isAdmin ?: false)}" class="nav-item">
-                    <a th:href="@{/admin}" class="nav-link text-uppercase text-dark" href="admin-portal.html">Admin Portal</a>
+                    <a th:href="@{/admin}" class="nav-link text-uppercase text-dark" href="admin-portal-view.html">Admin Portal</a>
                 </li>
                 <li th:unless="${isAuthenticated}" class="nav-item">
                     <a th:href="@{/auth/login}" class="nav-link text-uppercase text-dark" href="login.html">Login</a>
