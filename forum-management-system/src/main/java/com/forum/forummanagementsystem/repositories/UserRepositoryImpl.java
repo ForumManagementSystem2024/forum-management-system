@@ -26,6 +26,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public List<User> getAllUsers() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("from User", User.class);
+            return query.list();
+        }
+    }
+
+    @Override
     public User getByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("from User where username = :username", User.class);
