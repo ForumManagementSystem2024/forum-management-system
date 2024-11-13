@@ -125,9 +125,7 @@ public class PostMvcController {
     }
 
     @GetMapping("/{id}/update")
-    public String showEditPostPage(@PathVariable int id,
-                                   Model model,
-                                   HttpSession session) {
+    public String showEditPostPage(@PathVariable int id, Model model, HttpSession session) {
         try {
             authenticationHelper.tryGetCurrentUser(session);
         } catch (AuthorizationException e) {
@@ -219,7 +217,7 @@ public class PostMvcController {
     public String showCreateNewReplyView(@PathVariable int postId, Model model, HttpSession session) {
         model.addAttribute("reply", new ReplyDto());
         model.addAttribute("postId", postId);
-        return "reply-create-new";
+        return "reply-create";
     }
 
     @PostMapping("/{postId}/reply")
@@ -236,7 +234,7 @@ public class PostMvcController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "reply-create-new";
+            return "reply-create";
         }
 
         try {
@@ -255,4 +253,90 @@ public class PostMvcController {
 
     }
 
+    @GetMapping("/{id}/reply/{replyId}/update")
+    public String showEditReplyPage(@PathVariable int id,
+                                    @PathVariable int replyId,
+                                    Model model,
+                                    HttpSession session) {
+        try {
+            authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            Reply reply = replyService.getReplyById(replyId);
+            model.addAttribute("reply", reply);
+            model.addAttribute("postId", id);
+
+            return "reply-update";
+        } catch (UnsupportedOperationException e) {
+            return "error";
+        }
+    }
+
+    @PostMapping("/{id}/reply/{replyId}/update")
+    public String updateReply(@PathVariable int id,
+                              @PathVariable int replyId,
+                              @Valid @ModelAttribute("reply") ReplyDto replyDto,
+                              BindingResult bindingResult,
+                              Model model,
+                              HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("postId", id);
+            model.addAttribute("replyId", replyId);
+            return "reply-update";
+        }
+
+        try {
+            Reply reply = modelMapper.fromReplyDto(replyId, replyDto);
+
+            replyService.updateReply(user, reply);
+            return "redirect:/posts/{id}";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        } catch (EntityDuplicateException e) {
+            bindingResult.rejectValue("name", "duplicate_post", e.getMessage());
+            return "reply-update";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    @PostMapping("/{id}/reply/{replyId}/delete")
+    public String deleteReply(@PathVariable int id,
+                              @PathVariable int replyId,
+                              Model model,
+                              HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            replyService.deleteReply(replyId, user);
+            return "redirect:/posts/{id}";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
 }
