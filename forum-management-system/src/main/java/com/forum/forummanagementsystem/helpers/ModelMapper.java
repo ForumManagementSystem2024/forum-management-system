@@ -145,6 +145,15 @@ public class ModelMapper {
         return post;
     }
 
+    public PostDto fromPostToPostDto(Post post) {
+        PostDto postDto = new PostDto();
+        postDto.setTitle(post.getTitle());
+        postDto.setContent(post.getContent());
+//        postDto.setTags(fromSetTagToSetStrings(post.getTags()));
+
+        return postDto;
+    }
+
     public Reply fromReplyDto(int replyId, ReplyDto replyDto) {
         Reply reply = fromReplyDto(replyDto);
         reply.setId(replyId);
@@ -240,6 +249,7 @@ public class ModelMapper {
     }
 
     public Set<String> fromStringToSetStrings(String str) {
+        //TODO If input is passed like that: "sweep,sour,salty" with comma and no space one tag will be created : "sweep,sour,salty"
         if (str == null || str.trim().isEmpty()) {
             return Set.of();
         } else {
@@ -249,5 +259,11 @@ public class ModelMapper {
                     .filter(s -> !s.isEmpty())
                     .collect(Collectors.toSet());
         }
+    }
+
+    public Set<String> fromSetTagToSetStrings(Set<Tag> tagSet) {
+        return tagSet.stream()
+                .map(Tag::getTagName)
+                .collect(Collectors.toSet());
     }
 }

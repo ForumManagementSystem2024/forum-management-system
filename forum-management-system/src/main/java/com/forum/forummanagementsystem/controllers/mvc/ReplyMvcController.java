@@ -3,7 +3,6 @@ package com.forum.forummanagementsystem.controllers.mvc;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
-import com.forum.forummanagementsystem.models.Reply;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.ReplyDto;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
@@ -31,7 +30,7 @@ public class ReplyMvcController {
     @GetMapping("/new")
     public String showCreateNewReplyView(Model model, HttpSession session) {
         model.addAttribute("reply", new ReplyDto());
-        return "reply-create-new";
+        return "reply-create";
     }
 
     @PostMapping("/new")
@@ -48,9 +47,9 @@ public class ReplyMvcController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "reply-create-new";
+            return "reply-create";
         }
 
-        return "reply-create-new";
+        return "reply-create";
     }
 }
