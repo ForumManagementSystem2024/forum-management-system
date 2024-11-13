@@ -135,7 +135,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     private String generateOrderBy(FilterOptions filterOptions) {
         if (filterOptions.getSortBy().isEmpty()) {
-            return "";
+            return " order by p.createdAt desc";
         }
 
         String orderBy = "";
@@ -152,8 +152,8 @@ public class PostRepositoryImpl implements PostRepository {
 
         orderBy = String.format(" order by %s", orderBy);
 
-        if (filterOptions.getSortOrder().isPresent() && filterOptions.getSortOrder().get().equalsIgnoreCase("desc")) {
-            orderBy = String.format("%s desc", orderBy);
+        if (filterOptions.getSortOrder().isPresent() && filterOptions.getSortOrder().get().equalsIgnoreCase("asc")) {
+            orderBy = String.format("%s asc", orderBy);
         }
 
         return orderBy;

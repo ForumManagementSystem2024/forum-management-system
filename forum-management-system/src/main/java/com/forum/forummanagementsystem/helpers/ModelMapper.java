@@ -10,10 +10,7 @@ import com.forum.forummanagementsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -67,7 +64,6 @@ public class ModelMapper {
         user.setEmail(registerDto.getEmail());
         return user;
     }
-
 
 
     public User fromUpdateUserDto(int id, UserDtoUpdate userDtoUpdate) {
@@ -241,5 +237,17 @@ public class ModelMapper {
                     return replyDtoOut;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Set<String> fromStringToSetStrings(String str) {
+        if (str == null || str.trim().isEmpty()) {
+            return Set.of();
+        } else {
+            return Arrays.stream(str.trim().split("\\s+"))
+                    .map(String::toLowerCase)
+                    .map(s -> s.replaceAll("[^a-z]", ""))
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.toSet());
+        }
     }
 }

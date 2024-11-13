@@ -7,11 +7,14 @@ import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
+import com.forum.forummanagementsystem.models.Tag;
 import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.FilterDto;
 import com.forum.forummanagementsystem.models.dto.PostDto;
+import com.forum.forummanagementsystem.models.dto.ReplyDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
+import com.forum.forummanagementsystem.services.interfaces.TagService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @Controller
 @RequestMapping("/posts")
 public class PostMvcController {
@@ -29,13 +34,15 @@ public class PostMvcController {
     private final ReplyService replyService;
     private final AuthenticationHelper authenticationHelper;
     private final ModelMapper modelMapper;
+    private final TagService tagService;
 
     @Autowired
-    public PostMvcController(PostService postService, ReplyService replyService, AuthenticationHelper authenticationHelper, ModelMapper modelMapper) {
+    public PostMvcController(PostService postService, ReplyService replyService, AuthenticationHelper authenticationHelper, ModelMapper modelMapper, TagService tagService) {
         this.postService = postService;
         this.replyService = replyService;
         this.authenticationHelper = authenticationHelper;
         this.modelMapper = modelMapper;
+        this.tagService = tagService;
     }
 
     @GetMapping()
@@ -72,12 +79,13 @@ public class PostMvcController {
     @GetMapping("/new")
     public String showCreateNewPostView(Model model, HttpSession session) {
         model.addAttribute("post", new PostDto());
-        return "post-create-new";
+        return "post-create";
     }
 
     @PostMapping("/new")
     public String createPost(@Valid @ModelAttribute("post") PostDto postDto,
                              BindingResult bindingResult,
+                             @RequestParam(name = "tags", required = false) String tagsInput,
                              Model model,
                              HttpSession session) {
         User user;
@@ -88,11 +96,17 @@ public class PostMvcController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "post-create-new";
+            return "post-create";
         }
 
         try {
+            Set<String> tagNames = modelMapper.fromStringToSetStrings(tagsInput);
+            postDto.setTags(tagNames);
+            Set<Tag> tags = tagService.findTagsByName(tagNames);
+
             Post post = modelMapper.fromPostDto(postDto);
+            post.setTags(tags);
+
             postService.create(post, user);
             return "redirect:/posts";
         } catch (EntityNotFoundException e) {
@@ -107,4 +121,11 @@ public class PostMvcController {
             return "error";
         }
     }
+
+//    @GetMapping("/new")
+//    public String showCreateNewReplyView(Model model, HttpSession session) {
+//        model.addAttribute("reply", new ReplyDto());
+//        return "reply-create-new";
+//    }
+
 }
