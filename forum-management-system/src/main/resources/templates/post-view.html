@@ -59,7 +59,7 @@
                 <!-- Reply Button-->
                 <div class="content">
                     <hr style="border-top: 2px solid grey; margin-bottom: 15px;">
-                    <a href="#" th:href="@{/replies/new}" class="btn btn-lg btn-primary" th:text="Reply">Reply</a>
+                    <a href="#" th:href="@{/posts/{postId}/reply(postId=${post.id})}" class="btn btn-lg btn-primary" th:text="Reply">Reply</a>
                 </div>
                 <!-- /Reply Button-->
             </div>
@@ -87,7 +87,7 @@
 <!--                                <li class="list-inline-item">Post By Jhon</li>-->
 <!--                                <li class="list-inline-item">June 2, 2018</li>-->
 <!--                            </ul>-->
-<!--                            <h6><a class="text-dark" href="blog-single.html">Lorem ipsum dolor sit amet, consectetur</a>-->
+<!--                            <h6><a class="text-dark" href="post-view.html">Lorem ipsum dolor sit amet, consectetur</a>-->
 <!--                            </h6>-->
 <!--                        </div>-->
 <!--                    </div>-->
@@ -100,7 +100,7 @@
 <!--                                <li class="list-inline-item">Post By Jhon</li>-->
 <!--                                <li class="list-inline-item">June 2, 2018</li>-->
 <!--                            </ul>-->
-<!--                            <h6><a class="text-dark" href="blog-single.html">Lorem ipsum dolor sit amet, consectetur</a>-->
+<!--                            <h6><a class="text-dark" href="post-view.html">Lorem ipsum dolor sit amet, consectetur</a>-->
 <!--                            </h6>-->
 <!--                        </div>-->
 <!--                    </div>-->
@@ -113,7 +113,7 @@
 <!--                                <li class="list-inline-item">Post By Jhon</li>-->
 <!--                                <li class="list-inline-item">June 2, 2018</li>-->
 <!--                            </ul>-->
-<!--                            <h6><a class="text-dark" href="blog-single.html">Lorem ipsum dolor sit amet, consectetur</a>-->
+<!--                            <h6><a class="text-dark" href="post-view.html">Lorem ipsum dolor sit amet, consectetur</a>-->
 <!--                            </h6>-->
 <!--                        </div>-->
 <!--                    </div>-->
@@ -125,9 +125,9 @@
                     <h6 class="mb-4">TAGS</h6>
                     <ul class="list-inline tag-list">
                         <li class="list-inline-item m-1" th:each="tag : ${post.getTags()}" >
-                            <a href="blog-single.html" th:text="${tag.tagName}">ui ux</a>
+                            <a href="post-view.html" th:text="${tag.tagName}">ui ux</a>
                             <!-- Clicking on the tag can take us somewhere -->
-                            <!--<a href="blog-single.html" th:text="${tag.tagName}">ui ux</a>-->
+                            <!--<a href="post-view.html" th:text="${tag.tagName}">ui ux</a>-->
                         </li>
                     </ul>
                 </div>
@@ -137,14 +137,14 @@
 <!--                <div class="widget">-->
 <!--                    <h6 class="mb-4">CATEGORIES</h6>-->
 <!--                    <ul class="list-inline tag-list">-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">ui ux</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">developmetns</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">travel</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">article</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">travel</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">ui ux</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">article</a></li>-->
-<!--                        <li class="list-inline-item m-1"><a href="blog-single.html">developmetns</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">ui ux</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">developmetns</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">travel</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">article</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">travel</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">ui ux</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">article</a></li>-->
+<!--                        <li class="list-inline-item m-1"><a href="post-view.html">developmetns</a></li>-->
 <!--                    </ul>-->
 <!--                </div>-->
                 <!--/Categories-->

@@ -5,10 +5,7 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
-import com.forum.forummanagementsystem.models.FilterOptions;
-import com.forum.forummanagementsystem.models.Post;
-import com.forum.forummanagementsystem.models.Tag;
-import com.forum.forummanagementsystem.models.User;
+import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.FilterDto;
 import com.forum.forummanagementsystem.models.dto.PostDto;
 import com.forum.forummanagementsystem.models.dto.ReplyDto;
@@ -63,10 +60,10 @@ public class PostMvcController {
         try {
             Post post = postService.getPostById(id);
             model.addAttribute("post", post);
-            return "blog-single";
+            return "post-view";
         } catch (EntityNotFoundException e) {
             //TODO Needs to create an error page!
-            return "blog-single";
+            return "post-view";
         }
     }
 
@@ -122,10 +119,44 @@ public class PostMvcController {
         }
     }
 
-//    @GetMapping("/new")
-//    public String showCreateNewReplyView(Model model, HttpSession session) {
-//        model.addAttribute("reply", new ReplyDto());
-//        return "reply-create-new";
-//    }
+    @GetMapping("/{postId}/reply")
+    public String showCreateNewReplyView(@PathVariable int postId, Model model, HttpSession session) {
+        model.addAttribute("reply", new ReplyDto());
+        model.addAttribute("postId", postId);
+        return "reply-create-new";
+    }
+
+    @PostMapping("/{postId}/reply")
+    public String createReply(@Valid @ModelAttribute("reply") ReplyDto replyDto,
+                              BindingResult bindingResult,
+                              Model model,
+                              HttpSession session,
+                              @PathVariable("postId") int postId) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "reply-create-new";
+        }
+
+        try {
+            Post post = postService.getPostById(postId);
+            Reply reply = modelMapper.fromReplyDto(replyDto);
+//            model.addAttribute("reply", reply);
+
+            replyService.createReply(post, user, reply);
+            return "redirect:/posts/postId";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            //TODO Needs to create an error page!
+            return "error";
+        }
+
+    }
 
 }
