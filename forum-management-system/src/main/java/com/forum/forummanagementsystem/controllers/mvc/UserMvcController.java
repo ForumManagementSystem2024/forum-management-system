@@ -28,7 +28,7 @@ public class UserMvcController {
         return session.getAttribute("currentUser") != null;
     }
 
-    @GetMapping("/settings")
+    @GetMapping("/profile")
     public String getUserProfileInfo(Model model, HttpSession session) {
         User user;
 

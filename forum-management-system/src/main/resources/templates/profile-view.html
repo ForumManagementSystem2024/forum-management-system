@@ -19,7 +19,10 @@
         <p class="user-title" th:text="${'Username: ' + user.username}">User Role</p>
         <p class="user-title" th:text="${'Email: '+ user.email}">Email</p>
         <p class="user-title" th:if="${user.isBlocked()}"><strong>Blocked</strong></p>
+
+        <a th:href="@{/users/update}" class="btn">Update Profile</a>
     </div>
+
 </div>
 </body>
 </html>

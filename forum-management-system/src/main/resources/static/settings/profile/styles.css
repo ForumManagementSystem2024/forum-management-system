@@ -2,7 +2,7 @@
 body {
     margin: 0;
     height: 100vh;
-    background-image: url('/settings/images/bg_1.jpg'); /* Background image for the whole page */
+    background-image: url('/settings/profile/images/bg_1.jpg'); /* Background image for the whole page */
     background-size: cover;
     background-position: center;
     font-family: Arial, sans-serif;
@@ -62,3 +62,27 @@ body {
     font-size: 18px;
     color: #555;
 }
+
+/* Стилизиране на бутона */
+.btn {
+    display: inline-block;
+    padding: 10px 20px; /* Размери на бутона */
+    background-color: #E65C00; /* Още по-тъмен оранжев цвят */
+    color: white; /* Бял текст */
+    font-size: 16px; /* Размер на шрифта */
+    font-weight: bold; /* Удебелен текст */
+    text-align: center; /* Центриране на текста */
+    text-decoration: none; /* Премахване на подчертаването */
+    border-radius: 5px; /* Закръглени ръбове */
+    transition: background-color 0.3s ease; /* Плавен преход при hover */
+    margin-top: 20px; /* Разстояние от другите елементи */
+}
+
+/* Промяна на цвета при задържане на курсора върху бутона */
+.btn:hover {
+    background-color: #BF4C00; /* Още по-тъмен оранжев за hover */
+    cursor: pointer; /* Промяна на курсора при hover */
+}
+
+
+
