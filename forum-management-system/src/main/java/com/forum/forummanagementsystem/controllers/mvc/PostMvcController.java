@@ -119,6 +119,73 @@ public class PostMvcController {
         }
     }
 
+    @GetMapping("/{id}/update")
+    public String showEditPostPage(@PathVariable int id,
+                                   Model model,
+                                   HttpSession session) {
+        try {
+            authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            Post post = postService.getPostById(id);
+            Set<String> tagSetStrings = modelMapper.fromSetTagToSetStrings(post.getTags());
+            PostDto postDto = modelMapper.fromPostToPostDto(post);
+            postDto.setTags(tagSetStrings);
+            model.addAttribute("postId", id);
+            model.addAttribute("postDto", postDto);
+
+            return "post-update";
+        } catch (UnsupportedOperationException e) {
+            return "error";
+        }
+    }
+
+    @PostMapping("/{id}/update")
+    public String updatePost(@PathVariable int id,
+                             @Valid @ModelAttribute("postDto") PostDto postDto,
+                             BindingResult bindingResult,
+                             Model model,
+                             HttpSession session,
+                             @RequestParam(name = "tags", required = false) String tagsInput) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "post-update";
+        }
+
+        try {
+            // Setting the tags from a string in the request params
+            Set<String> tagNames = modelMapper.fromStringToSetStrings(tagsInput);
+            postDto.setTags(tagNames);
+            Set<Tag> tags = tagService.findTagsByName(tagNames);
+
+            Post post = modelMapper.fromPostDto(id, postDto);
+            post.setTags(tags);
+
+            postService.update(post, user);
+            return "redirect:/posts/" + id;
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        } catch (EntityDuplicateException e) {
+            bindingResult.rejectValue("name", "duplicate_post", e.getMessage());
+            return "post-update";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
     @GetMapping("/{postId}/reply")
     public String showCreateNewReplyView(@PathVariable int postId, Model model, HttpSession session) {
         model.addAttribute("reply", new ReplyDto());

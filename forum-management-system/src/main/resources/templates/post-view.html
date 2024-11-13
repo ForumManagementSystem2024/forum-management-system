@@ -35,6 +35,12 @@
                 </ul>
                 <!--        <img src="../static/images/post-single.jpg" alt="post-thumb" class="w-100 img-fluid mb-4">-->
 
+                <!-- Edit/Delete Buttons -->
+                <div class="content">
+                    <a href="#" th:href="@{/posts/{id}/update(id=${post.id})}" class="btn btn-lg btn-primary" th:text="Update">Update</a>
+                </div>
+                <!-- /Edit/Delete Buttons -->
+
                 <!--Post Content-->
                 <div class="content">
                     <p th:utext="${post.getContent()}"></p>
