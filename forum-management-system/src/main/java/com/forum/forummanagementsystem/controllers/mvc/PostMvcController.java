@@ -149,7 +149,7 @@ public class PostMvcController {
 //            model.addAttribute("reply", reply);
 
             replyService.createReply(post, user, reply);
-            return "redirect:/posts/postId";
+            return "redirect:/posts/{postId}";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());

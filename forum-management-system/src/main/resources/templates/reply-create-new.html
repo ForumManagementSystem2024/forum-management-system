@@ -37,17 +37,13 @@
               <h3>Create New Reply</h3>
 
             </div>
-            <form action="#" th:action="@{/posts/{postId}/reply(postId=${postId})}" th:object="${postId}" method="post">
+            <form action="#" th:action="@{/posts/{postId}/reply(postId=${postId})}" th:object="${reply}" method="post">
               <div class="form-group first">
                 <label for="username">Content</label>
-                <textarea th:field="*{content}" th:object="${reply}" type="text" class="form-control"
-                          placeholder="Please put your amazing post content here :)" id="username"
-                          style="height: 300px"></textarea>
-                <label class="text-danger font-weight-bold" th:errors="*{content}" th:object="${reply}">Last name error
-                  placeholder</label>
+                <textarea th:field="*{content}" class="form-control" placeholder="Please put your amazing post content here :)" id="username" style="height: 300px"></textarea>
+                <label class="text-danger font-weight-bold" th:errors="*{content}">Content error</label>
               </div>
               <input type="submit" value="Submit" class="btn btn-block btn-primary">
-
             </form>
           </div>
         </div>
