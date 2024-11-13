@@ -74,6 +74,7 @@ public class ModelMapper {
         user.setLastName(userDtoUpdate.getLastName());
         user.setPassword(userDtoUpdate.getPassword());
         user.setEmail(userDtoUpdate.getEmail());
+        user.setProfilePhoto(userService.getUserById(id).getProfilePhoto());
 
         return user;
     }
