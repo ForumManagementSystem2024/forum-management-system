@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:insert="~{fragments/page-fragment :: head('Post')}"></div>
+
+<body>
+<div th:replace="~{/fragments/page-fragment :: navbar}"></div>
+<div th:replace="~{/fragments/page-fragment :: loadinganimation}"></div>
+
+<div>
+    <h2 th:text="${statusCode}">HTTP Status Code</h2>
+    <h3 th:text="${error}">Error placeholder</h3>
+</div>
+
+<footer th:replace="~{/fragments/page-fragment :: footer}"></footer>
+<div th:replace="~{/fragments/page-fragment :: scripts}"></div>
+</body>
+</html>

@@ -75,8 +75,9 @@ public class PostMvcController {
             model.addAttribute("hasUserLikedPost", postService.hasUserLikedPost(id, user));
             return "post-view";
         } catch (EntityNotFoundException e) {
-            //TODO Needs to create an error page!
-            return "post-view";
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
         }
     }
 
@@ -120,15 +121,13 @@ public class PostMvcController {
             postService.create(post, user);
             return "redirect:/posts";
         } catch (EntityNotFoundException e) {
+            //TODO Is this EntityNotFoundException e needed?
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
-            //TODO Needs to create an error page!
             return "error";
         } catch (EntityDuplicateException e) {
-            //TODO Needs to create an error page!
-            //TODO Is this the correct binding result?
-            bindingResult.rejectValue("name", "duplicate_post", e.getMessage());
-            return "error";
+            bindingResult.rejectValue("title", "duplicate_post", e.getMessage());
+            return "post-create";
         }
     }
 
@@ -149,7 +148,9 @@ public class PostMvcController {
             model.addAttribute("post", postDto);
 
             return "post-update";
-        } catch (UnsupportedOperationException e) {
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
             return "error";
         }
     }
@@ -189,7 +190,7 @@ public class PostMvcController {
             model.addAttribute("error", e.getMessage());
             return "error";
         } catch (EntityDuplicateException e) {
-            bindingResult.rejectValue("name", "duplicate_post", e.getMessage());
+            bindingResult.rejectValue("title", "duplicate_post", e.getMessage());
             return "post-update";
         } catch (AuthorizationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
@@ -222,7 +223,7 @@ public class PostMvcController {
     }
 
     @GetMapping("/{postId}/reply")
-    public String showCreateNewReplyView(@PathVariable int postId, Model model) {
+    public String showCreateNewReplyPage(@PathVariable int postId, Model model) {
         model.addAttribute("reply", new ReplyDto());
         model.addAttribute("postId", postId);
         return "reply-create";
@@ -248,7 +249,6 @@ public class PostMvcController {
         try {
             Post post = postService.getPostById(postId);
             Reply reply = modelMapper.fromReplyDto(replyDto);
-//            model.addAttribute("reply", reply);
 
             replyService.createReply(post, user, reply);
             return "redirect:/posts/{postId}";
@@ -256,7 +256,6 @@ public class PostMvcController {
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
-            //TODO Needs to create an error page!
             return "error";
         }
 
@@ -279,7 +278,9 @@ public class PostMvcController {
             model.addAttribute("postId", id);
 
             return "reply-update";
-        } catch (UnsupportedOperationException e) {
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
             return "error";
         }
     }
@@ -313,9 +314,6 @@ public class PostMvcController {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
             return "error";
-        } catch (EntityDuplicateException e) {
-            bindingResult.rejectValue("name", "duplicate_post", e.getMessage());
-            return "reply-update";
         } catch (AuthorizationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
