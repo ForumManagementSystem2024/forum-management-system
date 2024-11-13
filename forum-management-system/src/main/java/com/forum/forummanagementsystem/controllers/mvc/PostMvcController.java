@@ -43,7 +43,7 @@ public class PostMvcController {
     }
 
     @ModelAttribute("currentLoggedInUser")
-    public User getCurrentUserFromSession (HttpSession session) {
+    public User getCurrentUserFromSession(HttpSession session) {
         return authenticationHelper.tryGetCurrentUser(session);
     }
 
@@ -61,10 +61,18 @@ public class PostMvcController {
     }
 
     @GetMapping("/{id}")
-    public String showSinglePost(@PathVariable int id, Model model) {
+    public String showSinglePost(@PathVariable int id, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
         try {
             Post post = postService.getPostById(id);
             model.addAttribute("post", post);
+            model.addAttribute("hasUserLikedPost", postService.hasUserLikedPost(id, user));
             return "post-view";
         } catch (EntityNotFoundException e) {
             //TODO Needs to create an error page!
@@ -328,6 +336,29 @@ public class PostMvcController {
 
         try {
             replyService.deleteReply(replyId, user);
+            return "redirect:/posts/{id}";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    @GetMapping("/{id}/like")
+    public String likePost(@PathVariable int id, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            postService.likePost(id, user);
             return "redirect:/posts/{id}";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());

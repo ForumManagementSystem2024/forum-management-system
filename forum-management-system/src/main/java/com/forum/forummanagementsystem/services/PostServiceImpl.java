@@ -140,6 +140,10 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    public boolean hasUserLikedPost(int postId, User user) {
+        return postRepository.hasUserLikedPost(postId, user);
+    }
+
     private void checkModifyPermissions(int postId, User user) {
         Post post = postRepository.getPostById(postId);
         if (!(user.isAdmin() || post.getCreatedBy().equals(user))) {

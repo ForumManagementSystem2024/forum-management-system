@@ -76,12 +76,13 @@
                 </div>
                 <!-- /Replies-->
 
-                <!-- Reply Button-->
+                <!-- Reply and Like Buttons-->
                 <div class="content">
                     <hr style="border-top: 2px solid grey; margin-bottom: 15px;">
                     <a href="#" th:href="@{/posts/{postId}/reply(postId=${post.id})}" class="btn btn-lg btn-primary" th:text="Reply">Reply</a>
+                    <a href="#" th:href="@{/posts/{postId}/like(postId=${post.id})}" class="btn btn-lg btn-primary" th:text="${hasUserLikedPost ? 'Dislike' : 'Like'}">Like</a>
                 </div>
-                <!-- /Reply Button-->
+                <!-- /Reply and Like Buttons-->
             </div>
 
             <!--Side Bar-->

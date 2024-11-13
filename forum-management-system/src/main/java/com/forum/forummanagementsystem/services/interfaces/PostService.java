@@ -16,6 +16,7 @@ public interface PostService {
     void delete(int postId, User user);
     Post likePost(int postId, User user);
     Post removeLikePost(Post post, Like like);
+    boolean hasUserLikedPost(int postId, User user);
 
     List<Post> getTopTenMostRecentPosts();
 }

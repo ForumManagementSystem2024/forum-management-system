@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.repositories;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
+import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.repositories.interfaces.PostRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -119,6 +120,21 @@ public class PostRepositoryImpl implements PostRepository {
             session.beginTransaction();
             session.remove(postToDelete);
             session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public boolean hasUserLikedPost(int postId, User user) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery(
+                    "SELECT COUNT(l) FROM Like l WHERE l.post.id = :postId AND l.user.id = :userId", Long.class
+            );
+            query.setParameter("postId", postId);
+            query.setParameter("userId", user.getId());
+
+            Long count = query.uniqueResult();
+
+            return count > 0;
         }
     }
 

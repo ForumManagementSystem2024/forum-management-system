@@ -2,6 +2,7 @@ package com.forum.forummanagementsystem.repositories.interfaces;
 
 import com.forum.forummanagementsystem.models.FilterOptions;
 import com.forum.forummanagementsystem.models.Post;
+import com.forum.forummanagementsystem.models.User;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface PostRepository {
     void create(Post post);
     void update(Post post);
     void delete(int postId);
+    boolean hasUserLikedPost(int postId, User user);
 
     List<Post> getTopTenMostRecentPosts();
 }
