@@ -7,6 +7,8 @@ import com.forum.forummanagementsystem.models.User;
 import java.util.List;
 
 public interface UserRepository {
+    List<User> getAllUsers();
+
     User getByUsername(String username);
 
     User getById(int id);
