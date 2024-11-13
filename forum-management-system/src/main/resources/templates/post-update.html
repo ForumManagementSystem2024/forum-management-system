@@ -37,7 +37,7 @@
               <h3>Update Post</h3>
 
             </div>
-            <form action="#" th:action="@{/posts/{id}/update(id=${postId})}" th:object="${postDto}" method="post">
+            <form action="#" th:action="@{/posts/{id}/update(id=${postId})}" th:object="${post}" method="post">
               <div class="form-group first">
                 <label for="name">Title</label>
                 <input th:field="*{title}" type="text" class="form-control" placeholder="Your updated post title here" id="name">

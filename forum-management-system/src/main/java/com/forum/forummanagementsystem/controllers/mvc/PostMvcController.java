@@ -135,7 +135,7 @@ public class PostMvcController {
             PostDto postDto = modelMapper.fromPostToPostDto(post);
             postDto.setTags(tagSetStrings);
             model.addAttribute("postId", id);
-            model.addAttribute("postDto", postDto);
+            model.addAttribute("post", postDto);
 
             return "post-update";
         } catch (UnsupportedOperationException e) {
@@ -145,7 +145,7 @@ public class PostMvcController {
 
     @PostMapping("/{id}/update")
     public String updatePost(@PathVariable int id,
-                             @Valid @ModelAttribute("postDto") PostDto postDto,
+                             @Valid @ModelAttribute("post") PostDto postDto,
                              BindingResult bindingResult,
                              Model model,
                              HttpSession session,
@@ -158,6 +158,7 @@ public class PostMvcController {
         }
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("postId", id);
             return "post-update";
         }
 
