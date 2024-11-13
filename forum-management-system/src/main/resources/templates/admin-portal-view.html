@@ -34,8 +34,8 @@
     <input type="text" class="form-control w-25" placeholder="Search user">
   </div>
 
-  <!-- Списък с потребители -->
-  <table class="table table-striped">
+  <!-- Users list -->
+  <table class="table table-striped w-100 text-center">
     <thead>
     <tr>
       <th scope="col">ID</th>
@@ -52,13 +52,20 @@
       <td th:text="${user.email}">Email</td>
       <td th:text="${user.isAdmin ? 'admin' : 'user'}">Role</td>
       <td>
-        <form th:action="@{/admin/makeAdmin/{id}(id=${user.id})}" method="post" th:if="${!user.isAdmin}">
-          <button class="btn btn-primary" type="submit">Make Admin</button>
-        </form>
-        <button class="btn btn-secondary" th:if="${user.isAdmin}"  type="button">Make User</button>
-        <button class="btn btn-danger" type="button">Delete</button>
-        <button th:if="${!user.isBlocked}" class="btn btn-dark" type="button">Block</button>
-        <button th:if="${user.isBlocked}" class="btn btn-success" type="button">Unblock</button>
+        <div class="d-flex justify-content-center" style="gap:0.5rem">
+          <form th:action="@{/admin/makeAdmin/{id}(id=${user.id})}" method="post" th:if="${!user.isAdmin}">
+            <button class="btn btn-primary btn-sm " type="submit">Make Admin</button>
+          </form>
+          <form th:action="@{/admin/delete/{id}(id=${user.id})}" method="post">
+            <button class="btn btn-danger btn-sm " type="submit">Delete</button>
+          </form>
+          <form th:action="@{/admin/block/{id}(id=${user.id})}" method="post">
+            <button th:if="${!user.isBlocked}" class="btn btn-dark btn-sm " type="submit">Block</button>
+          </form>
+          <form th:action="@{/admin/unblock/{id}(id=${user.id})}" method="post">
+            <button th:if="${user.isBlocked}" class="btn btn-success btn-sm" type="submit">Unblock</button>
+          </form>
+        </div>
       </td>
     </tr>
     </tbody>

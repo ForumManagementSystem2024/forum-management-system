@@ -82,14 +82,94 @@ public class HomeMvcController {
         }
 
         try {
-            // Проверка и блокиране на потребителя
             User userToBlock = userService.getUserById(userId);
-            userService.blockUser(userToBlock, user); // Използва метода за блокиране на потребител
+            userService.blockUser(userToBlock, user);
+
+            model.addAttribute("users", userService.getAllUsers());
+
+            return "admin-portal-view";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            return "error";
+        }
+    }
+
+    @PostMapping("admin/unblock/{userId}")
+    public String unblockUser(@PathVariable int userId,
+                            Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            User userToBlock = userService.getUserById(userId);
+            userService.unblockUser(userToBlock, user);
+
+            model.addAttribute("users", userService.getAllUsers());
+
+            return "admin-portal-view";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            return "error";
+        }
+    }
+
+    @PostMapping("admin/makeAdmin/{id}")
+    public String makeAdmin(@PathVariable int id, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+        try {
+            // Проверка и блокиране на потребителя
+            User userToMakeAdmin = userService.getUserById(id);
+
+            userService.makeAdmin(userToMakeAdmin, user);
 
             // Актуализиране на списъка с потребители след блокиране
             model.addAttribute("users", userService.getAllUsers());
 
-            return "admin-portal-view";  // Предполага се, че това е view за администраторския портал
+            return "admin-portal-view";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";  // Страница за грешка
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            return "error";  // Страница за грешка при липса на права
+        }
+    }
+
+    @PostMapping("admin/delete/{id}")
+    public String deleteUser(@PathVariable int id, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            User userToDelete = userService.getUserById(id);
+
+            userService.deleteUser(userToDelete,user);
+
+            model.addAttribute("users", userService.getAllUsers());
+
+            return "admin-portal-view";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
