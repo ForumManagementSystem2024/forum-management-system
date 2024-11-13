@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="/edit-create-styles/css/style.css"
         th:href="@{/edit-create-styles/css/style.css}">
 
-  <title>TasteHub | Create Reply</title>
+  <title>TasteHub | Update Post</title>
 </head>
 <body>
 
@@ -34,16 +34,30 @@
         <div class="col-md-6">
           <div class="form-block">
             <div class="text-center mb-5">
-              <h3>Create New Reply</h3>
+              <h3>Update Post</h3>
 
             </div>
-            <form action="#" th:action="@{/posts/{postId}/reply(postId=${postId})}" th:object="${reply}" method="post">
+            <form action="#" th:action="@{/posts/{id}/update(id=${postId})}" th:object="${post}" method="post">
+              <div class="form-group first">
+                <label for="name">Title</label>
+                <input th:field="*{title}" type="text" class="form-control" placeholder="Your updated post title here" id="name">
+                <label class="text-danger font-weight-bold" th:errors="*{title}">Last name error
+                  placeholder</label>
+              </div>
               <div class="form-group first">
                 <label for="username">Content</label>
-                <textarea th:field="*{content}" class="form-control" placeholder="Please put your amazing post content here :)" id="username" style="height: 300px"></textarea>
-                <label class="text-danger font-weight-bold" th:errors="*{content}">Content error</label>
+                <textarea th:field="*{content}" type="text" class="form-control"
+                          placeholder="Please put your amazing post content here :)" id="username"
+                          style="height: 300px"></textarea>
+                <label class="text-danger font-weight-bold" th:errors="*{content}">Last name error
+                  placeholder</label>
+              </div>
+              <div class="form-group">
+                <label for="post-tags">Tags</label>
+                <input th:field="*{tags}" type="text" class="form-control" placeholder="recipe, tasty, sweet" id="post-tags">
               </div>
               <input type="submit" value="Submit" class="btn btn-block btn-primary">
+
             </form>
           </div>
         </div>

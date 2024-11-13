@@ -37,7 +37,7 @@
               <h3>Create New Reply</h3>
 
             </div>
-            <form action="#" th:action="@{/posts/{postId}/reply(postId=${postId})}" th:object="${reply}" method="post">
+            <form action="#" th:action="@{/posts/{id}/reply/{replyId}/update(id=${postId}, replyId=${replyId})}" th:object="${reply}" method="post">
               <div class="form-group first">
                 <label for="username">Content</label>
                 <textarea th:field="*{content}" class="form-control" placeholder="Please put your amazing post content here :)" id="username" style="height: 300px"></textarea>
