@@ -42,6 +42,11 @@ public class PostMvcController {
         this.tagService = tagService;
     }
 
+    @ModelAttribute("currentLoggedInUser")
+    public User getCurrentUserFromSession (HttpSession session) {
+        return authenticationHelper.tryGetCurrentUser(session);
+    }
+
     @GetMapping()
     public String getAllPosts(@ModelAttribute FilterDto filterDto, Model model) {
         FilterOptions filterOptions = new FilterOptions(
@@ -180,6 +185,29 @@ public class PostMvcController {
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("name", "duplicate_post", e.getMessage());
             return "post-update";
+        } catch (AuthorizationException e) {
+            model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deletePost(@PathVariable int id, Model model, HttpSession session) {
+        User user;
+        try {
+            user = authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
+
+        try {
+            postService.delete(id, user);
+            return "redirect:/posts";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
+            model.addAttribute("error", e.getMessage());
+            return "error";
         } catch (AuthorizationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
