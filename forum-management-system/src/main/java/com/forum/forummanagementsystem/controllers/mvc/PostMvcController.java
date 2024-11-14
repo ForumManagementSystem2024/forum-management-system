@@ -13,6 +13,7 @@ import com.forum.forummanagementsystem.models.dto.ReplyDto;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import com.forum.forummanagementsystem.services.interfaces.TagService;
+import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +31,29 @@ public class PostMvcController {
 
     private final PostService postService;
     private final ReplyService replyService;
+    private final UserService userService;
     private final AuthenticationHelper authenticationHelper;
     private final ModelMapper modelMapper;
     private final TagService tagService;
 
     @Autowired
-    public PostMvcController(PostService postService, ReplyService replyService, AuthenticationHelper authenticationHelper, ModelMapper modelMapper, TagService tagService) {
+    public PostMvcController(PostService postService,
+                             ReplyService replyService,
+                             AuthenticationHelper authenticationHelper,
+                             ModelMapper modelMapper,
+                             TagService tagService,
+                             UserService userService) {
         this.postService = postService;
         this.replyService = replyService;
         this.authenticationHelper = authenticationHelper;
         this.modelMapper = modelMapper;
         this.tagService = tagService;
+        this.userService = userService;
+    }
+
+    @ModelAttribute("isAuthenticated")
+    public boolean populateIsAuthenticated(HttpSession session) {
+        return session.getAttribute("currentUser") != null;
     }
 
     @ModelAttribute("currentLoggedInUser")
@@ -49,15 +62,23 @@ public class PostMvcController {
     }
 
     @GetMapping()
-    public String getAllPosts(@ModelAttribute FilterDto filterDto, Model model) {
+    public String getAllPosts(@ModelAttribute("filterDto") FilterDto filterDto,
+                              Model model,
+                              HttpSession session) {
         FilterOptions filterOptions = new FilterOptions(
                 filterDto.getTitle(),
                 filterDto.getCreatedByUsername(),
                 filterDto.getTagName(),
                 filterDto.getSortBy(),
                 filterDto.getSortOrder());
-        model.addAttribute("posts", postService.getAllPosts(filterOptions));
+
+        if (populateIsAuthenticated(session)) {
+            String currentUsername = (String) session.getAttribute("currentUser");
+            model.addAttribute("currentUser", userService.getByUsername(currentUsername));
+        }
+
         model.addAttribute("filterDto", filterDto);
+        model.addAttribute("posts", postService.getAllPosts(filterOptions));
         return "posts-view";
     }
 

@@ -8,6 +8,28 @@
 
 <!-- POST -->
 <section class="section">
+    <div class="container d-flex align-items-center flex-column">
+        <form action="#" th:action="@{/posts}" method="get" th:object="${filterDto}">
+            <div class="input-group">
+                <input type="text" placeholder="Title" th:field="*{title}"/>
+                <input type="text" placeholder="Username" th:field="*{createdByUsername}"/>
+                <input type="text" placeholder="Tag" th:field="*{tagName}"/>
+                <select th:field="*{sortBy}">
+                    <option value="">Sort By</option>
+                    <option value="likes">Likes</option>
+                    <option value="title">Title</option>
+                </select>
+                <select th:field="*{sortOrder}">
+                    <option value="">Sort Order</option>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+                <br/>
+                <input class="btn-primary" type="submit" value="Search"/>
+            </div>
+        </form>
+    </div>
+    <br/><br/><br/>
     <div class="container">
         <div class="row">
             <div class="col-12 mb-30" th:each="post : ${posts}">
