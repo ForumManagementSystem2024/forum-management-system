@@ -43,6 +43,11 @@ public class PostMvcController {
         this.tagService = tagService;
     }
 
+    @ModelAttribute("isAuthenticated")
+    public boolean populateIsAuthenticated(HttpSession session) {
+        return session.getAttribute("currentUser") != null;
+    }
+
     @ModelAttribute("currentLoggedInUser")
     public User getCurrentUserFromSession(HttpSession session) {
         return authenticationHelper.tryGetCurrentUser(session);

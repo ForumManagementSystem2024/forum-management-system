@@ -5,9 +5,12 @@ import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
+import com.forum.forummanagementsystem.models.Post;
 import com.forum.forummanagementsystem.models.User;
 
 import com.forum.forummanagementsystem.models.dto.UserDtoOut;
+import com.forum.forummanagementsystem.services.interfaces.PostService;
+import com.forum.forummanagementsystem.services.interfaces.ReplyService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -23,13 +27,15 @@ public class HomeMvcController {
 
     private final AuthenticationHelper authenticationHelper;
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final ReplyService replyService;
+    private final PostService postService;
 
     public HomeMvcController(AuthenticationHelper authenticationHelper,
-                             UserService userService, ModelMapper modelMapper) {
+                             UserService userService, ReplyService replyService, PostService postService) {
         this.authenticationHelper = authenticationHelper;
         this.userService = userService;
-        this.modelMapper = modelMapper;
+        this.replyService = replyService;
+        this.postService = postService;
     }
 
     @ModelAttribute("isAuthenticated")
@@ -38,7 +44,13 @@ public class HomeMvcController {
     }
 
     @GetMapping
-    public String showHomePage() {
+    public String showHomePage(Model model) {
+        List<Post> mostCommentedPosts = replyService.getTopTenMostCommentedPosts();
+        List<Post> mostRecentPosts = postService.getTopTenMostRecentPosts();
+
+        model.addAttribute("mostCommentedPosts", mostCommentedPosts);
+        model.addAttribute("mostRecentPosts", mostRecentPosts);
+
         return "index";
     }
 
