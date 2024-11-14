@@ -7,19 +7,19 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/register-style/fonts/icomoon/style.css"
-        th:href="@{/settings/fonts/icomoon/style.css}">
+        th:href="@{/settings/update/fonts/icomoon/style.css}">
 
   <link rel="stylesheet" href="/register-style/css/owl.carousel.min.css"
-        th:href="@{/settings/css/owl.carousel.min.css}">
+        th:href="@{/settings/update/css/owl.carousel.min.css}">
 
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/register-style/css/bootstrap.min.css"
-        th:href="@{/settings/css/bootstrap.min.css}">
+        th:href="@{/settings/update/css/bootstrap.min.css}">
 
   <!-- Style -->
   <link rel="stylesheet" href="/register-style/css/style.css"
-        th:href="@{/settings/css/style.css}">
+        th:href="@{/settings/update/css/style.css}">
 
   <title>TasteHub | User Profile</title>
 </head>
@@ -36,62 +36,52 @@
           <div style="text-align: center;">
             <img src="../static/images/tasteHub-logo.png" alt="tasteHub"
                  th:src="@{/images/tasteHub-logo.png}"/>
-            <h3 class="mt-4"><strong>Profile</strong></h3>
+            <h3 class="mt-4"><strong>Update Profile</strong></h3>
           </div>
-          <form action="#" th:action="@{/auth/register}" th:object="${user}" method="post">
+          <form action="#" th:action="@{/users/update}" th:object="${user}" method="post" enctype="multipart/form-data">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group first">
                   <label for="fname">First Name</label>
-                  <input th:field="*{firstName}" type="text" class="form-control"
-                         placeholder="e.g. John" id="fname">
-                  <label class="text-danger font-weight-bold" th:errors="*{firstName}">First name
-                    error placeholder</label>
+                  <input th:field="*{firstName}" type="text" class="form-control" placeholder="e.g. John" id="fname">
+                  <label class="text-danger font-weight-bold" th:errors="*{firstName}">First name error placeholder</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group first">
                   <label for="lname">Last Name</label>
-                  <input th:field="*{lastName}" type="text" class="form-control"
-                         placeholder="e.g. Smith" id="lname">
-                  <label class="text-danger font-weight-bold" th:errors="*{lastName}">Last name error
-                    placeholder</label>
+                  <input th:field="*{lastName}" type="text" class="form-control" placeholder="e.g. Smith" id="lname">
+                  <label class="text-danger font-weight-bold" th:errors="*{lastName}">Last name error placeholder</label>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group first">
-                  <label for="lname">Username</label>
-                  <input th:field="*{username}" type="text" class="form-control"
-                         placeholder="johnsmith" id="lname">
-                  <label class="text-danger font-weight-bold" th:errors="*{username}">Username error
-                    placeholder</label>
+                  <label for="password">Password</label>
+                  <input th:field="*{password}" type="password" class="form-control" placeholder="Your Password" id="password">
+                  <label class="text-danger font-weight-bold" th:errors="*{password}">Password error placeholder</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group first">
                   <label for="email">Email Address</label>
-                  <input th:field="*{email}" type="email" class="form-control"
-                         placeholder="e.g. john@your-domain.com" id="email">
-                  <label class="text-danger font-weight-bold" th:errors="*{email}">Email error
-                    placeholder</label>
+                  <input th:field="*{email}" type="email" class="form-control" placeholder="e.g. john@your-domain.com" id="email">
+                  <label class="text-danger font-weight-bold" th:errors="*{email}">Email error placeholder</label>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group last mb-3">
-                  <label for="password">Password</label>
-                  <input th:field="*{password}" type="password" class="form-control"
-                         placeholder="Your Password" id="password">
-                  <label class="text-danger font-weight-bold" th:errors="*{password}">Password error
-                    placeholder</label>
+              <div class="col-md-12">
+                <div class="form-group first">
+                  <label for="profilePhoto">Profile Photo</label>
+                  <input type="file" class="form-control" id="profilePhoto" name="profilePhoto">
+                  <label class="text-danger font-weight-bold" th:errors="*{profilePhoto.url}">Profile photo error placeholder</label>
                 </div>
               </div>
             </div>
             <div style="text-align: center;">
-              <input type="submit" value="Register" class="btn px-4 btn-primary">
+              <input type="submit" value="Update" class="btn px-4 btn-primary">
             </div>
           </form>
         </div>
@@ -104,12 +94,12 @@
 
 
 <script src="/register-style/js/jquery-3.3.1.min.js"
-        th:src="@{/settings/js/jquery-3.3.1.min.js}"></script>
+        th:src="@{/settings/update/js/jquery-3.3.1.min.js}"></script>
 <script src="/register-style/js/popper.min.js"
-        th:src="@{/settings/js/popper.min.js}"></script>
+        th:src="@{/settings/update/js/popper.min.js}"></script>
 <script src="/register-style/js/bootstrap.min.js"
-        th:src="@{/settings/js/bootstrap.min.js}"></script>
+        th:src="@{/settings/update/js/bootstrap.min.js}"></script>
 <script src="/register-style/js/main.js"
-        th:src="@{/settings/js/main.js}"></script>
+        th:src="@{/settings/update/js/main.js}"></script>
 </body>
 </html>
