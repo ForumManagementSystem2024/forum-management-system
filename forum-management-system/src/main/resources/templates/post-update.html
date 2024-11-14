@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="/edit-create-styles/css/style.css"
         th:href="@{/edit-create-styles/css/style.css}">
 
-  <title>TasteHub | Update Post</title>
+  <title>TasteHub | Edit Post</title>
 </head>
 <body>
 
@@ -34,7 +34,7 @@
         <div class="col-md-6">
           <div class="form-block">
             <div class="text-center mb-5">
-              <h3>Update Post</h3>
+              <h3>Edit Post</h3>
 
             </div>
             <form action="#" th:action="@{/posts/{id}/update(id=${postId})}" th:object="${post}" method="post">
@@ -54,7 +54,7 @@
               </div>
               <div class="form-group">
                 <label for="post-tags">Tags</label>
-                <input th:field="*{tags}" type="text" class="form-control" placeholder="recipe, tasty, sweet" id="post-tags">
+                <input th:value="${post.tagsForDisplay}" type="text" name="tags" class="form-control" placeholder="recipe, tasty, sweet" id="post-tags">
               </div>
               <input type="submit" value="Submit" class="btn btn-block btn-primary">
 

@@ -44,4 +44,8 @@ public class PostDto {
     public void setTags(Set<String> tags) {
         this.tags = tags;
     }
+
+    public String getTagsForDisplay() {
+        return String.join(" ", tags);
+    }
 }

@@ -5,6 +5,7 @@ import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
 import com.forum.forummanagementsystem.helpers.AuthenticationHelper;
 import com.forum.forummanagementsystem.helpers.ModelMapper;
+import com.forum.forummanagementsystem.helpers.ParsingHelper;
 import com.forum.forummanagementsystem.models.*;
 import com.forum.forummanagementsystem.models.dto.FilterDto;
 import com.forum.forummanagementsystem.models.dto.PostDto;
@@ -111,7 +112,7 @@ public class PostMvcController {
         }
 
         try {
-            Set<String> tagNames = modelMapper.fromStringToSetStrings(tagsInput);
+            Set<String> tagNames = ParsingHelper.fromStringToSetStrings(tagsInput);
             postDto.setTags(tagNames);
             Set<Tag> tags = tagService.findTagsByName(tagNames);
 
@@ -141,11 +142,16 @@ public class PostMvcController {
 
         try {
             Post post = postService.getPostById(id);
-            Set<String> tagSetStrings = modelMapper.fromSetTagToSetStrings(post.getTags());
+            Set<String> tagSetStrings = ParsingHelper.fromSetTagToSetStrings(post.getTags());
+
             PostDto postDto = modelMapper.fromPostToPostDto(post);
             postDto.setTags(tagSetStrings);
+
+            String tagsForDisplay = String.join(" ", tagSetStrings);
+
             model.addAttribute("postId", id);
             model.addAttribute("post", postDto);
+            model.addAttribute("tagsForDisplay", tagsForDisplay);
 
             return "post-update";
         } catch (EntityNotFoundException e) {
@@ -176,7 +182,7 @@ public class PostMvcController {
 
         try {
             // Setting the tags from a string in the request params
-            Set<String> tagNames = modelMapper.fromStringToSetStrings(tagsInput);
+            Set<String> tagNames = ParsingHelper.fromStringToSetStrings(tagsInput);
             postDto.setTags(tagNames);
             Set<Tag> tags = tagService.findTagsByName(tagNames);
 
