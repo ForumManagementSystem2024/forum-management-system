@@ -107,12 +107,12 @@ public class UserMvcController {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
 
-//             return "error";
+             return "error";
         } catch (IOException e) {
             model.addAttribute("statusCode", HttpStatus.UNSUPPORTED_MEDIA_TYPE.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
 
-//             return "error";
+             return "error";
         }
 
         model.addAttribute("user", userService.getUserById(userAuthenticated.getId()));
