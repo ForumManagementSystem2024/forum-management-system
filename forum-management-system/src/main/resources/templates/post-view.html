@@ -38,7 +38,7 @@
                 <!-- Edit/Delete Buttons -->
                 <div class="content">
                     <a href="#" th:href="@{/posts/{id}/update(id=${post.id})}" class="btn btn-lg btn-primary"
-                       th:text="Update" th:if="${post.createdBy == currentLoggedInUser}" style="display: inline-block;">Update</a>
+                       th:text="Edit" th:if="${post.createdBy == currentLoggedInUser}" style="display: inline-block;">Update</a>
                     <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" th:if="${post.createdBy == currentLoggedInUser || session.isAdmin}" style="display: inline-block;">
                         <input type="hidden" name="_method" value="delete" />
                         <button type="submit" class="btn btn-lg btn-primary">Delete</button>

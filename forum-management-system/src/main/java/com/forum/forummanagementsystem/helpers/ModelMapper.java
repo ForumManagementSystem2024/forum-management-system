@@ -247,23 +247,4 @@ public class ModelMapper {
                 })
                 .collect(Collectors.toList());
     }
-
-    public Set<String> fromStringToSetStrings(String str) {
-        //TODO If input is passed like that: "sweep,sour,salty" with comma and no space one tag will be created : "sweep,sour,salty"
-        if (str == null || str.trim().isEmpty()) {
-            return Set.of();
-        } else {
-            return Arrays.stream(str.trim().split("\\s+"))
-                    .map(String::toLowerCase)
-                    .map(s -> s.replaceAll("[^a-z]", ""))
-                    .filter(s -> !s.isEmpty())
-                    .collect(Collectors.toSet());
-        }
-    }
-
-    public Set<String> fromSetTagToSetStrings(Set<Tag> tagSet) {
-        return tagSet.stream()
-                .map(Tag::getTagName)
-                .collect(Collectors.toSet());
-    }
 }
