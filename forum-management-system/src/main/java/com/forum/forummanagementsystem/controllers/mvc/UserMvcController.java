@@ -10,13 +10,13 @@ import com.forum.forummanagementsystem.services.CloudinaryImage;
 import com.forum.forummanagementsystem.services.interfaces.CloudinaryService;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
@@ -74,7 +74,7 @@ public class UserMvcController {
     }
 
     @PostMapping("/update")
-    public String updateUserProfile(@ModelAttribute("user") UserDtoUpdate userDtoUpdate,
+    public String updateUserProfile(@Valid @ModelAttribute("user") UserDtoUpdate userDtoUpdate,
                                     @RequestParam("profilePhoto") MultipartFile profilePhoto,
                                     Model model,
                                     BindingResult bindingResult,
@@ -107,14 +107,12 @@ public class UserMvcController {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
 
-            // TODO error-view
-            // return "error-view";
+             return "error";
         } catch (IOException e) {
             model.addAttribute("statusCode", HttpStatus.UNSUPPORTED_MEDIA_TYPE.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
 
-            // TODO error-view
-            // return "error-view";
+             return "error";
         }
 
         model.addAttribute("user", userService.getUserById(userAuthenticated.getId()));
