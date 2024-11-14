@@ -1,5 +1,6 @@
 package com.forum.forummanagementsystem.models.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -8,15 +9,15 @@ public class UserDtoUpdate {
     @Size(min = 4, max = 15, message = "Should be between 4 and 15 symbols!")
     private String password;
 
-    @NotNull(message = "Cannot be empty!")
+    @NotEmpty(message = "Cannot be empty!")
     @Size(min = 4, max = 32, message = "Should be between 4 and 32 symbols!")
     private String firstName;
 
-    @NotNull(message = "Cannot be empty!")
+    @NotEmpty(message = "Cannot be empty!")
     @Size(min = 4, max = 32, message = "Should be between 4 and 32 symbols!")
     private String lastName;
 
-    @NotNull(message = "Cannot be empty!")
+    @NotEmpty(message = "Cannot be empty!")
     @Size(min = 8, max = 50, message = "Should be between 8 and 50 symbols!")
     private String email;
 
