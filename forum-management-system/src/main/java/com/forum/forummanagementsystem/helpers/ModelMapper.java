@@ -75,6 +75,8 @@ public class ModelMapper {
         user.setPassword(userDtoUpdate.getPassword());
         user.setEmail(userDtoUpdate.getEmail());
         user.setProfilePhoto(userService.getUserById(id).getProfilePhoto());
+        user.setAdmin(userService.getUserById(id).isAdmin());
+        user.setBlocked(userService.getUserById(id).isBlocked());
 
         return user;
     }

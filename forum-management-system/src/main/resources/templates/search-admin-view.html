@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:insert="~{fragments/page-fragment :: head('Admin Portal')}"></div>
+<body>
+<div th:replace="~{/fragments/page-fragment :: navbar}"></div>
+<!-- preloader -->
+<div class="preloader">
+    <div class="loader">
+        <span class="dot"></span>
+        <div class="dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<!-- /preloader -->
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Заглавие и търсачка -->
+        <h3>User Management</h3>
+        <form class="form-inline position-relative ml-lg-4" th:action="@{/admin/search}" method="get" th:object="${search}">
+            <select th:field="*{type}">
+                <option value="">Search By</option>
+                <option value="username">Username</option>
+                <option value="firstName">First Name</option>
+                <option value="email">Email</option>
+            </select>
+            <input class="form-control px-0 w-100" type="text" placeholder="Search user" th:field="*{value}">
+             <button class="search-icon" type="submit"><i class="ti-search text-dark"></i></button>
+<!--            <a type="submit" class="search-icon"><i class="ti-search text-dark"></i></a>-->
+        </form>
+    </div>
+
+    <!-- Users list -->
+    <table class="table table-striped w-100 text-center">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.getId()}">ID</td>
+            <td th:text="${user.firstName} + ' ' + ${user.lastName}">Name</td>
+            <td th:text="${user.username}">Username</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.isAdmin ? 'admin' : 'user'}">Role</td>
+            <td>
+                <div class="d-flex justify-content-center" style="gap:0.5rem">
+                    <form th:action="@{/admin/makeAdmin/{id}(id=${user.id})}" method="post" th:if="${!user.isAdmin}">
+                        <button class="btn btn-primary btn-sm " type="submit">Make Admin</button>
+                    </form>
+                    <form th:action="@{/admin/delete/{id}(id=${user.id})}" method="post">
+                        <button class="btn btn-danger btn-sm " type="submit">Delete</button>
+                    </form>
+                    <form th:action="@{/admin/block/{id}(id=${user.id})}" method="post">
+                        <button th:if="${!user.isBlocked}" class="btn btn-dark btn-sm " type="submit">Block</button>
+                    </form>
+                    <form th:action="@{/admin/unblock/{id}(id=${user.id})}" method="post">
+                        <button th:if="${user.isBlocked}" class="btn btn-success btn-sm" type="submit">Unblock</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<footer th:replace="~{/fragments/page-fragment :: footer}"></footer>
+
+<div th:replace="~{/fragments/page-fragment :: scripts}"></div>
+</body>
+</html>

@@ -32,4 +32,6 @@ public interface UserService {
     void updatePhoneOfAdmin(Admin admin);
 
     void uploadProfilePhotoToUser(User userAuthenticated, User userToUploadPhoto, CloudinaryImage cloudinaryImage);
+
+    FilterOptionsUser generateFilterOptionsUser(String type, String value);
 }
