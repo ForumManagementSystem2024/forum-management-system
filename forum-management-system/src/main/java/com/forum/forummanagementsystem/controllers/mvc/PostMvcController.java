@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -79,6 +80,10 @@ public class PostMvcController {
             Post post = postService.getPostById(id);
             model.addAttribute("post", post);
             model.addAttribute("hasUserLikedPost", postService.hasUserLikedPost(id, user));
+
+            List<Post> mostRecent = postService.getTopTenMostRecentPosts();
+            model.addAttribute("mostRecent", mostRecent);
+
             return "post-view";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
@@ -89,8 +94,9 @@ public class PostMvcController {
 
     @GetMapping("/most-commented")
     public String getTopTenMostCommentedPosts(Model model) {
-        model.addAttribute("posts", replyService.getTopTenMostCommentedPosts());
-        return "index";
+        List<Post> mostCommentedPosts = replyService.getTopTenMostCommentedPosts();
+        model.addAttribute("mostCommented", mostCommentedPosts);
+        return "post-view";
     }
 
     @GetMapping("/new")

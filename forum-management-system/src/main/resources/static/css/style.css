@@ -18,7 +18,7 @@ VERSION:	Versoin Number
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Playfair+Display:400,700");
 @font-face {
   font-family: "hanskendrick";
-  src: url("../plugins/fonts/hanskendrick-regular-webfont.woff") format("woff");
+  src: url("../assets/plugins/fonts/hanskendrick-regular-webfont.woff") format("woff");
   font-style: normal;
   font-display: swap;
 }
@@ -773,4 +773,42 @@ blockquote {
 .font-size-rem {
   font-size: 2rem;
 }
+
+.error-view {
+  color: red;
+  text-align: center;
+}
+
+.error-container {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.error-container img {
+  width: 100%; /* Adjusts to container width */
+  height: auto;
+  opacity: 0.5;
+}
+
+.error-container h2,
+.error-container h4 {
+  position: absolute;
+  color: red;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 10px;
+}
+
+.error-container h2 {
+  top: 40%; /* Adjusts the vertical position */
+  font-size: 6rem;
+}
+
+.error-container h4 {
+  top: 55%; /* Adjusts the vertical position */
+  font-size: 2.5rem;
+}
+
 /*# sourceMappingURL=style.css.map */
