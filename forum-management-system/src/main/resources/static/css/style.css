@@ -255,8 +255,8 @@ a:hover, a.text-dark:hover {
 }
 
 .section {
-  padding-top: 90px;
-  padding-bottom: 90px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .section-sm {
   padding-top: 80px;
@@ -311,7 +311,10 @@ a:hover, a.text-dark:hover {
 }
 
 .bg-secondary {
-  background: #fdefe6 !important;
+  padding: 10px 40px;
+  border-top: 1px solid #000000;
+  background: #f9f7dc !important;
+  margin-top: auto;
 }
 
 .text-primary {
@@ -405,7 +408,9 @@ textarea.form-control {
   right: 0;
   transition: all 0.4s ease-in-out;
   padding: 10px 40px;
-  background-color: #fff;
+  background-color: #f9f7dc;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
 }
 @media (max-width: 575px) {
   .headroom {
