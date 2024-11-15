@@ -57,7 +57,7 @@ public class UserMvcController {
 
         model.addAttribute("user", user);
 
-        return "profile-view-2";
+        return "profile-view";
     }
 
     @GetMapping("/update")
