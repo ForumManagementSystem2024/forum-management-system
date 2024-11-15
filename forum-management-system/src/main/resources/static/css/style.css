@@ -822,5 +822,13 @@ blockquote {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
 }
 
+.text-heading {
+  margin-top: 25px;
+  font-size: 4rem;
+  color: black;
+  margin-bottom: 25px;
+  text-align: center;
+  text-shadow: 2px 2px 2px rgb(239, 134, 65);
+}
 
-/*# sourceMappingURL=style.css.map */
+
