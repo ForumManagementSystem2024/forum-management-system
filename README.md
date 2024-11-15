@@ -4,9 +4,9 @@
 
 ## Description
 
-Culinary Forum is forum system following REST API design best practices, 
-where registered users can create culinary posts, add replies/ comments 
-related to any post and vote for posts they like.
+TasteHub is culinary forum. This forum system follows MVC design pattern and REST API design best practices.
+Registered/ Logged users can create culinary posts, add replies/ comments 
+related to any post, filter desired posts and vote for those they like.
 
 ## Set and Start up project
 
@@ -18,9 +18,18 @@ You can find it in `forum-management-system/build.gradle`;
 4. Set connection with database and use `create.sql` and `insert_data.sql` to create forum database and fill it with data.
 You can find them in `forum-management-system/db`.
 5. Basic Authentication is implemented. In Http Headers set Key: `Authorization` and Value: `username password` - check `insert_data.sql` for valid username and password.
+6. Storage of profile photos is implemented with [Cloudinary](https://cloudinary.com/) To set up cloudinary follow the steps:
+   - Register in Cloudinary
+   - After login check your personal API Keys: Cloud Name, API Secret, API Key.
+   - Go to `/src/main/resources/application.properties` and set up your personal Cloud Name, and API Key;
+   - To set up API Secret you need to create Environment Variable because it is hidden in `application.properties`.
+   - Go to navigation bar in IntelliJ IDEA and follow the path: `Run -> Edit Configuration -> Select SpringBoot -> Select ForumManagementSystemAplication -> Modify Options -> Select Environment variables` and create environment variable with `Name: CLOUDINARY_API_SECRET` and `Value: Your personal API Secret`.
 
 ## Database relations
 You can find it in `forum-management-system/db`.
+
+## Swagger
+Start the project and go to [Swagger Docs](http://localhost:8080/swagger-ui/index.html)
 
 ## Functionality
 
@@ -37,12 +46,13 @@ You can find it in `forum-management-system/db`.
 * `GET`  - Search user by username, email, first name 
 * `GET /{id}`  - Get user
 * `POST`  - Register user
+* `POST /{id}/profile-picture`  - Upload profile photo
 * `PUT /{id}`  - Update profile
 * `DELETE /{id}`  - Delete user
 
 ### Post `/api/posts`
 
-* `GET`  - Posts filter by title, creator, tag and sort by title, likes, ascending, descending
+* `GET`  - Posts filter by title, username of creator and sort by title, likes, ascending, descending
 * `GET /{id}`  - Get post
 * `GET /most-commented`  - Get 10 most commented posts
 * `GET /most-recent`  - Get 10 most recent posts
