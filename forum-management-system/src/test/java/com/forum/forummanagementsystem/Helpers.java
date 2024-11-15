@@ -39,7 +39,7 @@ public class Helpers {
         return mockPost;
     }
 
-    public static Reply createMockReply(){
+    public static Reply createMockReply() {
         Reply reply = new Reply();
         reply.setId(1);
         reply.setCreatedBy(createMockUser());
@@ -78,7 +78,6 @@ public class Helpers {
         return new FilterOptions(
                 "mockTitle",
                 "mockUsername",
-                "mockTag",
                 "title",
                 "desc"
         );
