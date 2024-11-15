@@ -117,7 +117,7 @@ public class HomeMvcController {
 
             model.addAttribute("users", userService.getAllUsers());
 
-            return "admin-portal-view";
+            return "redirect:/admin";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
@@ -144,7 +144,7 @@ public class HomeMvcController {
 
             model.addAttribute("users", userService.getAllUsers());
 
-            return "admin-portal-view";
+            return "redirect:/admin";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
@@ -172,7 +172,7 @@ public class HomeMvcController {
             // Актуализиране на списъка с потребители след блокиране
             model.addAttribute("users", userService.getAllUsers());
 
-            return "admin-portal-view";
+            return "redirect:/admin";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
@@ -199,7 +199,7 @@ public class HomeMvcController {
 
             model.addAttribute("users", userService.getAllUsers());
 
-            return "admin-portal-view";
+            return "redirect:/admin";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
