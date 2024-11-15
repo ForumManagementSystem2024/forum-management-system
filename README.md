@@ -46,12 +46,13 @@ Start the project and go to [Swagger Docs](http://localhost:3000/api-docs)
 * `GET`  - Search user by username, email, first name 
 * `GET /{id}`  - Get user
 * `POST`  - Register user
+* `POST /{id}/profile-picture`  - Upload profile photo
 * `PUT /{id}`  - Update profile
 * `DELETE /{id}`  - Delete user
 
 ### Post `/api/posts`
 
-* `GET`  - Posts filter by title, creator, tag and sort by title, likes, ascending, descending
+* `GET`  - Posts filter by title, username of creator and sort by title, likes, ascending, descending
 * `GET /{id}`  - Get post
 * `GET /most-commented`  - Get 10 most commented posts
 * `GET /most-recent`  - Get 10 most recent posts
