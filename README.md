@@ -1,6 +1,6 @@
 # TasteHub Forum
 
-![TasteHubLogo](forum-management-system/src/main/resources/static/images/tasteHub-logo.png)
+![TasteHubLogo](forum-management-system/src/main/resources/static/images/tasteHub-logo-for-display.png)
 
 ## Description
 
