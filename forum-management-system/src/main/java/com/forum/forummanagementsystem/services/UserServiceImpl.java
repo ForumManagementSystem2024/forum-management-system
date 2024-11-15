@@ -3,6 +3,7 @@ package com.forum.forummanagementsystem.services;
 import com.forum.forummanagementsystem.exceptions.AuthorizationException;
 import com.forum.forummanagementsystem.exceptions.EntityDuplicateException;
 import com.forum.forummanagementsystem.exceptions.EntityNotFoundException;
+import com.forum.forummanagementsystem.exceptions.InvalidSearchInputException;
 import com.forum.forummanagementsystem.models.Admin;
 import com.forum.forummanagementsystem.models.FilterOptionsUser;
 import com.forum.forummanagementsystem.models.ProfilePhoto;
@@ -128,6 +129,22 @@ public class UserServiceImpl implements UserService {
         ProfilePhoto profilePhoto = profilePhotoRepository.findByUrl(cloudinaryImage.getUrl());
 
         userRepository.uploadProfilePhotoToUser(profilePhoto, userToUploadPhoto);
+    }
+
+    @Override
+    public FilterOptionsUser generateFilterOptionsUser(String type, String value) {
+        switch (type) {
+            case "username":
+                return new FilterOptionsUser(value, null, null);
+
+            case "email":
+                return new FilterOptionsUser(null, value, null);
+
+            case "firstName":
+                return new FilterOptionsUser(null, null, value);
+            default:
+                throw new InvalidSearchInputException("You can only search user by username, email or first name.");
+        }
     }
 
     private void checkModifyPermissions(User userAuthenticated, User userMapped) {

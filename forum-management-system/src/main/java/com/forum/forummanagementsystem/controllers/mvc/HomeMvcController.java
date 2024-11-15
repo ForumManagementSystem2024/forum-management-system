@@ -11,6 +11,7 @@ import com.forum.forummanagementsystem.models.User;
 import com.forum.forummanagementsystem.models.dto.UserDtoOut;
 import com.forum.forummanagementsystem.services.interfaces.PostService;
 import com.forum.forummanagementsystem.services.interfaces.ReplyService;
+import com.forum.forummanagementsystem.models.dto.SearchDtoUser;
 import com.forum.forummanagementsystem.services.interfaces.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -72,6 +73,7 @@ public class HomeMvcController {
             if (user.isAdmin()) {
                 List<User> users = userService.getAllUsers();
                 model.addAttribute("users", users);
+                model.addAttribute("search", new SearchDtoUser());
                 return "admin-portal-view";
             } else {
                 model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
@@ -80,6 +82,22 @@ public class HomeMvcController {
         } catch (AuthorizationException e) {
             return "redirect:/auth/login";  // Редирект, ако не е логнат
         }
+    }
+
+    @GetMapping("admin/search")
+    public String search(@ModelAttribute("search") SearchDtoUser searchDtoUser,
+                         HttpSession session,
+                         Model model) {
+        FilterOptionsUser filterOptionsUser =
+                userService.generateFilterOptionsUser(searchDtoUser.getType(), searchDtoUser.getValue());
+
+        if(populateIsAuthenticated(session)) {
+            String currentUsername = (String) session.getAttribute("currentUser");
+            model.addAttribute("currentUser", userService.getByUsername(currentUsername));
+        }
+        model.addAttribute("search", searchDtoUser);
+        model.addAttribute("users", userService.search(filterOptionsUser));
+        return "search-admin-view";
     }
 
     @PostMapping("admin/block/{userId}")
