@@ -22,7 +22,8 @@ You can find them in `forum-management-system/db`.
    - Register in Cloudinary
    - After login check your personal API Keys: Cloud Name, API Secret, API Key.
    - Go to `/src/main/resources/application.properties` and set up your personal Cloud Name, and API Key;
-   - To set up API Secret you need to create Environment Variable because it is hidden in `application.properties`. Follow this path: `Run -> Edit Configuration -> Select SpringBoot -> Select ForumManagementSystemAplication -> Modify Options -> Select Environment variables` and create environment variable with `Name: CLOUDINARY_API_SECRET` and `Value: Your personal API Secret`.
+   - To set up API Secret you need to create Environment Variable because it is hidden in `application.properties`.
+   - Go navigation bar in IntelliJ IDEA and follow the path: `Run -> Edit Configuration -> Select SpringBoot -> Select ForumManagementSystemAplication -> Modify Options -> Select Environment variables` and create environment variable with `Name: CLOUDINARY_API_SECRET` and `Value: Your personal API Secret`.
 
 ## Database relations
 You can find it in `forum-management-system/db`.
