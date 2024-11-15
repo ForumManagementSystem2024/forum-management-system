@@ -1,14 +1,11 @@
 package com.forum.forummanagementsystem.models.dto;
 
-import java.util.Optional;
-
 public class FilterDto {
 
     private String title;
     private String createdByUsername;
     private String sortBy;
     private String sortOrder;
-//    private String tagName;
 
     public FilterDto() {
     }
@@ -45,11 +42,4 @@ public class FilterDto {
         this.sortOrder = sortOrder;
     }
 
-//    public String getTagName() {
-//        return tagName;
-//    }
-//
-//    public void setTagName(String tagName) {
-//        this.tagName = tagName;
-//    }
 }

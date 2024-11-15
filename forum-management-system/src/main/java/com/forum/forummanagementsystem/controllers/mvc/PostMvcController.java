@@ -69,7 +69,6 @@ public class PostMvcController {
         FilterOptions filterOptions = new FilterOptions(
                 filterDto.getTitle(),
                 filterDto.getCreatedByUsername(),
-//                filterDto.getTagName(),
                 filterDto.getSortBy(),
                 filterDto.getSortOrder());
 
