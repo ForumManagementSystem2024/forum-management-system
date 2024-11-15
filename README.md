@@ -1,5 +1,7 @@
 # Culinary Forum
 
+![TasteHubLogo](forum-management-system/src/main/resources/static/images/tasteHub-logo.png)
+
 ## Description
 
 Culinary Forum is forum system following REST API design best practices, 
