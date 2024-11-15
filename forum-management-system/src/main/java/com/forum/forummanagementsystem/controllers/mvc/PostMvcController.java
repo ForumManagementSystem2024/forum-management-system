@@ -57,11 +57,6 @@ public class PostMvcController {
         return session.getAttribute("currentUser") != null;
     }
 
-    @ModelAttribute("isAuthenticated")
-    public boolean populateIsAuthenticated(HttpSession session) {
-        return session.getAttribute("currentUser") != null;
-    }
-
     @ModelAttribute("currentLoggedInUser")
     public User getCurrentUserFromSession(HttpSession session) {
         return authenticationHelper.tryGetCurrentUser(session);
@@ -77,6 +72,12 @@ public class PostMvcController {
                 filterDto.getTagName(),
                 filterDto.getSortBy(),
                 filterDto.getSortOrder());
+
+        try {
+            authenticationHelper.tryGetCurrentUser(session);
+        } catch (AuthorizationException e) {
+            return "redirect:/auth/login";
+        }
 
         if (populateIsAuthenticated(session)) {
             String currentUsername = (String) session.getAttribute("currentUser");
