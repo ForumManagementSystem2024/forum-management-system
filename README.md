@@ -1,4 +1,6 @@
-# Culinary Forum
+# TasteHub Forum
+
+![TasteHubLogo](forum-management-system/src/main/resources/static/images/tasteHub-logo-for-display.png)
 
 ## Description
 
