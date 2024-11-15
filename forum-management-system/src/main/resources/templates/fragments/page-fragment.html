@@ -25,10 +25,7 @@
     <link href="../static/css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
 
     <!--Favicon-->
-    <link rel="shortcut icon" type="image/x-icon" href="../static/images/tasteHub-favicon.png"
-          th:href="@{/images/tasteHub-favicon.png}">
-    <link rel="icon" type="image/x-icon" href="../static/images/tasteHub-favicon.png"
-          th:href="@{/images/tasteHub-favicon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/tasteHub-favicon.png}">
 
 </head>
 <body>
@@ -67,8 +64,8 @@
                         Post
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a th:href="@{/posts}" class="dropdown-item" href="posts-view.html">Show All Posts</a>
-                        <a th:href="@{/posts/new}" class="dropdown-item" href="homepage-2.html">Create New Post</a>
+                        <a th:href="${isAuthenticated ? '/posts' : '/auth/login'}" class="dropdown-item" href="posts-view.html">Show All Posts</a>
+                        <a th:href="${isAuthenticated ? '/posts/new' : '/auth/login'}" class="dropdown-item" href="homepage-2.html">Create New Post</a>
                     </div>
                 </li>
                 <li th:if="${isAuthenticated}" class="nav-item">
