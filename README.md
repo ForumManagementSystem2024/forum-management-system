@@ -29,7 +29,7 @@ You can find them in `forum-management-system/db`.
 You can find it in `forum-management-system/db`.
 
 ## Swagger
-Start the project and go to [Swagger Docs](http://localhost:3000/api-docs)
+Start the project and go to [Swagger Docs](http://localhost:8080/swagger-ui/index.html)
 
 ## Functionality
 
