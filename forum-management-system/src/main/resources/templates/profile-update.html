@@ -74,15 +74,14 @@
 </header>
 <!-- HEADER NAVIGATION FRAGMENT  -->
 
-<div style="height: auto" class="d-lg-flex half">
-  <div class="bg order-1 order-md-2" style="background-image: url('/images/bg_1.jpg');"></div>
+<div class="d-lg-flex half" style="height: auto; min-height: 80vh; align-items: center; justify-content: center; padding: 0; margin: 0;">
+  <div class="bg order-1 order-md-2" style="background-image: url('/images/bg_1.jpg');height: 80vh; background-size: cover; background-position: center;"></div>
   <div class="contents order-2 order-md-1">
-
-    <div class="container">
+    <div class="container" style="height: 80vh; background-size: cover; background-position: center;">
       <div class="row align-items-center justify-content-center" style="display: flex; align-items: center; height: 100%;">
-        <div class="col-md-7">
+        <div class="col-md-7 " >
           <div style="text-align: center;">
-            <h3 class="mt-4"><strong>Update Profile</strong></h3>
+            <h3 class="mt-0"><strong>Update Profile</strong></h3>
           </div>
           <form action="#" th:action="@{/users/update}" th:object="${user}" method="post" enctype="multipart/form-data">
             <div class="row" >
