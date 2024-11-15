@@ -32,12 +32,4 @@ public class Tag {
     public void setTagName(String tagName) {
         this.tagName = tagName;
     }
-//
-//    public Set<Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(Set<Post> posts) {
-//        this.posts = posts;
-//    }
 }

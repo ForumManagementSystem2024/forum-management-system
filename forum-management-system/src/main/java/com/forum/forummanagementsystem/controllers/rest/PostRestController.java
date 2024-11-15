@@ -56,12 +56,10 @@ public class PostRestController {
     public List<PostDtoOut> getAllPosts(@RequestHeader HttpHeaders httpHeaders,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String createdByUsername,
-            @RequestParam(required = false) String tagName,
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortOrder) {
         try{
             authenticationHelper.tryGetUser(httpHeaders);
-//            FilterOptions filterOptions = new FilterOptions(title, createdByUsername, tagName, sortBy, sortOrder);
             FilterOptions filterOptions = new FilterOptions(title, createdByUsername, sortBy, sortOrder);
             List<Post> postList = postService.getAllPosts(filterOptions);
 
