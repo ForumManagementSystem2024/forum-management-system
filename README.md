@@ -4,9 +4,9 @@
 
 ## Description
 
-Culinary Forum is forum system following REST API design best practices, 
-where registered users can create culinary posts, add replies/ comments 
-related to any post and vote for posts they like.
+TasteHub is culinary forum. This forum system follows MVC design pattern and REST API design best practices.
+Registered/ Logged users can create culinary posts, add replies/ comments 
+related to any post, filter desired posts and vote for those they like.
 
 ## Set and Start up project
 
@@ -18,6 +18,7 @@ You can find it in `forum-management-system/build.gradle`;
 4. Set connection with database and use `create.sql` and `insert_data.sql` to create forum database and fill it with data.
 You can find them in `forum-management-system/db`.
 5. Basic Authentication is implemented. In Http Headers set Key: `Authorization` and Value: `username password` - check `insert_data.sql` for valid username and password.
+6. Storage of profile photos is implemented with Cloudinary [Go to Cloudinary](https://cloudinary.com/)
 
 ## Database relations
 You can find it in `forum-management-system/db`.
