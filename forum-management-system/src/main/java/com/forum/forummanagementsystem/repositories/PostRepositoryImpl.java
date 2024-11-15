@@ -41,16 +41,16 @@ public class PostRepositoryImpl implements PostRepository {
                 params.put("createdByUsername", String.format("%%%s%%", value));
             });
 
-            filterOptions.getTagName().ifPresent(value -> {
-                filters.add("tags.tagName = :tagName");
-                params.put("tagName", value);
-            });
+//            filterOptions.getTagName().ifPresent(value -> {
+//                filters.add("tags.tagName = :tagName");
+//                params.put("tagName", value);
+//            });
 
             StringBuilder queryString = new StringBuilder("from Post p");
 
-            if (filterOptions.getTagName().isPresent()) {
-                queryString.append(" join p.tags tags");
-            }
+//            if (filterOptions.getTagName().isPresent()) {
+//                queryString.append(" join p.tags tags");
+//            }
 
             if (!filters.isEmpty()) {
                 queryString
@@ -157,7 +157,7 @@ public class PostRepositoryImpl implements PostRepository {
         String orderBy = "";
         switch (filterOptions.getSortBy().get()) {
             case "likes":
-                orderBy = "likes";
+                orderBy = "size(p.likes)";
                 break;
             case "title":
                 orderBy = "title";
@@ -168,8 +168,8 @@ public class PostRepositoryImpl implements PostRepository {
 
         orderBy = String.format(" order by %s", orderBy);
 
-        if (filterOptions.getSortOrder().isPresent() && filterOptions.getSortOrder().get().equalsIgnoreCase("asc")) {
-            orderBy = String.format("%s asc", orderBy);
+        if (filterOptions.getSortOrder().isPresent() && filterOptions.getSortOrder().get().equalsIgnoreCase("desc")) {
+            orderBy = String.format("%s desc", orderBy);
         }
 
         return orderBy;

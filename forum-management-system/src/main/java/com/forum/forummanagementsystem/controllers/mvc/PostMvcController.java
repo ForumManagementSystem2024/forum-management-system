@@ -69,7 +69,7 @@ public class PostMvcController {
         FilterOptions filterOptions = new FilterOptions(
                 filterDto.getTitle(),
                 filterDto.getCreatedByUsername(),
-                filterDto.getTagName(),
+//                filterDto.getTagName(),
                 filterDto.getSortBy(),
                 filterDto.getSortOrder());
 
@@ -86,6 +86,7 @@ public class PostMvcController {
 
         model.addAttribute("filterDto", filterDto);
         model.addAttribute("posts", postService.getAllPosts(filterOptions));
+
         return "posts-view";
     }
 

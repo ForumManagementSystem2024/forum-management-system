@@ -61,7 +61,8 @@ public class PostRestController {
             @RequestParam(required = false) String sortOrder) {
         try{
             authenticationHelper.tryGetUser(httpHeaders);
-            FilterOptions filterOptions = new FilterOptions(title, createdByUsername, tagName, sortBy, sortOrder);
+//            FilterOptions filterOptions = new FilterOptions(title, createdByUsername, tagName, sortBy, sortOrder);
+            FilterOptions filterOptions = new FilterOptions(title, createdByUsername, sortBy, sortOrder);
             List<Post> postList = postService.getAllPosts(filterOptions);
 
             return modelMapper.fromListPostToListPostDtoOut(postList);
