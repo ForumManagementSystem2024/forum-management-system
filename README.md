@@ -19,10 +19,10 @@ You can find it in `forum-management-system/build.gradle`;
 You can find them in `forum-management-system/db`.
 5. Basic Authentication is implemented. In Http Headers set Key: `Authorization` and Value: `username password` - check `insert_data.sql` for valid username and password.
 6. Storage of profile photos is implemented with [Cloudinary](https://cloudinary.com/) To set up cloudinary follow the steps:
-   1) Register in Cloudinary
-   2) After login check your personal API Keys: Cloud Name, API Secret, API Key.
-   3) Go to `/src/main/resources/application.properties` and set up your personal Cloud Name, and API Key;
-   4) To set up API Secret you need to create Environment Variable because it is hidden in `application.properties`. Follow this path: `Run -> Edit Configuration -> Select SpringBoot -> Select ForumManagementSystemAplication -> Modify Options -> Select Environment variables` and create environment variable with `Name: CLOUDINARY_API_SECRET` and `Value: Your personal API Secret`.
+   - Register in Cloudinary
+   - After login check your personal API Keys: Cloud Name, API Secret, API Key.
+   - Go to `/src/main/resources/application.properties` and set up your personal Cloud Name, and API Key;
+   - To set up API Secret you need to create Environment Variable because it is hidden in `application.properties`. Follow this path: `Run -> Edit Configuration -> Select SpringBoot -> Select ForumManagementSystemAplication -> Modify Options -> Select Environment variables` and create environment variable with `Name: CLOUDINARY_API_SECRET` and `Value: Your personal API Secret`.
 
 ## Database relations
 You can find it in `forum-management-system/db`.
