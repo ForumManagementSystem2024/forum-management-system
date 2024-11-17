@@ -458,7 +458,7 @@ a:hover, a.text-dark:hover {
 
 .bg-secondary {
   padding: 10px 40px;
-  border-top: 1px solid #000000;
+  border-top: 1px solid #763c00;
   background: #f9f7dc !important;
   margin-top: auto;
 }
@@ -555,7 +555,7 @@ textarea.form-control {
   transition: all 0.4s ease-in-out;
   padding: 10px 40px;
   background-color: #f9f7dc !important;
-  border-bottom: 1px solid #000 !important;
+  border-bottom: 1px solid #763c00 !important;
 }
 @media (max-width: 575px) {
   .headroom {
