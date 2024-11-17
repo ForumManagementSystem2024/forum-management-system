@@ -28,7 +28,8 @@
 <header th:fragment="navbar" class="headroom">
     <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" th:href="@{/}"><img class="img-fluid" src="../static/images/tasteHub-logo.png"
-                                                    alt="tasteHub" th:src="@{/images/tasteHub-logo.png}"  style="width: 400px; height: auto"></a>
+                                                    alt="tasteHub" th:src="@{/images/tasteHub-logo.png}"
+                                                    style="width: 400px; height: auto"></a>
         <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navogation"
                 aria-controls="navogation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -45,8 +46,10 @@
                         Post
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a th:href="${isAuthenticated ? '/posts' : '/auth/login'}" class="dropdown-item" href="posts-view.html">Show All Posts</a>
-                        <a th:href="${isAuthenticated ? '/posts/new' : '/auth/login'}" class="dropdown-item" href="homepage-2.html">Create New Post</a>
+                        <a th:href="${isAuthenticated ? '/posts' : '/auth/login'}" class="dropdown-item"
+                           href="posts-view.html">Show All Posts</a>
+                        <a th:href="${isAuthenticated ? '/posts/new' : '/auth/login'}" class="dropdown-item"
+                           href="homepage-2.html">Create New Post</a>
                     </div>
                 </li>
                 <li th:if="${isAuthenticated}" class="nav-item">
@@ -56,7 +59,8 @@
                     <a th:href="@{/about}" class="nav-link text-uppercase text-dark" href="about.html">About</a>
                 </li>
                 <li th:if="${(isAuthenticated ?: false) && (session?.isAdmin ?: false)}" class="nav-item">
-                    <a th:href="@{/admin}" class="nav-link text-uppercase text-dark" href="admin-portal-view.html">Admin Portal</a>
+                    <a th:href="@{/admin}" class="nav-link text-uppercase text-dark" href="admin-portal-view.html">Admin
+                        Portal</a>
                 </li>
                 <li th:unless="${isAuthenticated}" class="nav-item">
                     <a th:href="@{/auth/login}" class="nav-link text-uppercase text-dark" href="login.html">Login</a>
@@ -74,11 +78,13 @@
 <!-- HEADER NAVIGATION FRAGMENT  -->
 
 <div class="d-lg-flex half" style="height: auto; min-height: 80vh; padding: 0; margin: 0;">
-    <div class="bg order-1 order-md-2" style="background-image: url('/images/bg_1.jpg'); height: 80vh; background-size: cover; background-position: center;"></div>
+    <div class="bg order-1 order-md-2"
+         style="background-image: url('/images/bg_1.jpg'); height: 80vh; background-size: cover; background-position: center;"></div>
     <div class="contents order-2 order-md-1">
         <div class="container" style="height: 80vh; background-size: cover; background-position: center;">
-            <div class="row align-items-center justify-content-center" style="display: flex; align-items: center; height: 100%;">
-                <div class="col-md-7">
+            <div class="row align-items-center justify-content-center"
+                 style="display: flex; align-items: center; height: 100%;">
+                <div class="col-md-7" style="margin-top: 110px;">
                     <div style="text-align: center;">
                         <h3 class="mt-4"><strong>Register</strong></h3>
                         <p class="mb-4">Join the TasteHub family and unlock a world of flavors! Ready to spice things
