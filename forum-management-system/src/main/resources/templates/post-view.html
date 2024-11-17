@@ -97,7 +97,7 @@
                                 <li class="list-inline-item" th:text="${#dates.format(p.getCreatedAt(), 'MMMM d, yyyy')}">June 2, 2018</li>
                             </ul>
                             <h6><a class="text-dark" th:href="@{|/posts/${p.id}|}"
-                                   th:text="${#strings.substring(p.getTitle(), 0, p.getTitle().length() > 50 ? 50 : p.getTitle().length() + '...'}">Lorem ipsum dolor sit amet, consectetur</a>
+                                   th:text="${p.getTitle().length() > 50 ? p.getTitle().substring(0, 50) + '...' : p.getTitle()}">Lorem ipsum dolor sit amet, consectetur</a>
                             </h6>
                         </div>
                     </div>
