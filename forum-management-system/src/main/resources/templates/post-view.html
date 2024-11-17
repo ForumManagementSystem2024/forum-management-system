@@ -146,7 +146,7 @@
                     <h6 class="mb-4">TAGS</h6>
                     <ul class="list-inline tag-list">
                         <li class="list-inline-item m-1" th:each="tag : ${post.getTags()}" >
-                            <a href="post-view.html" th:text="${tag.tagName}">ui ux</a>
+                            <a th:text="${tag.tagName}">ui ux</a>
                             <!-- Clicking on the tag can take us somewhere -->
                             <!--<a href="post-view.html" th:text="${tag.tagName}">ui ux</a>-->
                         </li>
