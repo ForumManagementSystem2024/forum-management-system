@@ -8,26 +8,6 @@
 
 <!-- POST -->
 <section class="section">
-<!--    <div class="container d-flex align-items-center flex-column">-->
-<!--        <form action="#" th:action="@{/posts}" method="get" th:object="${filterDto}">-->
-<!--            <div class="input-group">-->
-<!--                <input type="text" placeholder="Title" th:field="*{title}"/>-->
-<!--                <input type="text" placeholder="Username" th:field="*{createdByUsername}"/>-->
-<!--                <select th:field="*{sortBy}">-->
-<!--                    <option value="">Sort By</option>-->
-<!--                    <option value="likes">Likes</option>-->
-<!--                    <option value="title">Title</option>-->
-<!--                </select>-->
-<!--                <select th:field="*{sortOrder}">-->
-<!--                    <option value="">Sort Order</option>-->
-<!--                    <option value="asc">Ascending</option>-->
-<!--                    <option value="desc">Descending</option>-->
-<!--                </select>-->
-<!--                <br/>-->
-<!--                <input class="btn-primary" type="submit" value="Search"/>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
     <div class="container d-flex align-items-center flex-column">
         <form class="form-inline position-relative d-flex align-items-center"
               action="#" th:action="@{/posts}" method="get" th:object="${filterDto}">
@@ -60,9 +40,6 @@
                 </select>
 
                 <!-- Search бутон -->
-<!--                <button class="search-icon ml-5" type="submit">-->
-<!--                    <i class="ti-search text-dark"></i>-->
-<!--                </button>-->
                 <input class="btn-primary" type="submit" value="Search"/>
             </div>
         </form>
