@@ -41,7 +41,7 @@
                        th:text="Edit" th:if="${post.createdBy == currentLoggedInUser}" style="display: inline-block;">Update</a>
                     <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" th:if="${post.createdBy == currentLoggedInUser || session.isAdmin}" style="display: inline-block;">
                         <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" class="btn btn-lg btn-primary">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                 </div>
                 <!-- /Edit/Delete Buttons -->
@@ -68,7 +68,7 @@
                             <form th:action="@{/posts/{id}/reply/{replyId}/delete(id=${post.getId()}, replyId=${reply.getId()})}" method="post"
                                   th:if="${reply.createdBy == currentLoggedInUser || session.isAdmin}" style="display: inline-block;">
                                 <input type="hidden" name="_method" value="delete" />
-                                <button type="submit" class="btn btn-lg btn-primary">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                 <div class="content">
                     <hr style="border-top: 2px solid grey; margin-bottom: 15px;">
                     <a href="#" th:href="@{/posts/{postId}/reply(postId=${post.id})}" class="btn btn-lg btn-primary" th:text="Reply">Reply</a>
-                    <a href="#" th:href="@{/posts/{postId}/like(postId=${post.id})}" class="btn btn-lg btn-primary" th:text="${hasUserLikedPost ? 'Dislike' : 'Like'}">Like</a>
+                    <a href="#" th:href="@{/posts/{postId}/like(postId=${post.id})}" class="btn btn-lg btn-primary" style="background-color: #6c757d" th:text="${hasUserLikedPost ? 'Dislike' : 'Like'}">Like</a>
                 </div>
                 <!-- /Reply and Like Buttons-->
             </div>
