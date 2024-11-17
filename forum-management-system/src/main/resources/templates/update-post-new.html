@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/edit-create-styles/fonts/icomoon/style.css"
+          th:href="@{/edit-create-styles/fonts/icomoon/style.css}">
+
+    <link rel="stylesheet" href="/edit-create-styles/css/owl.carousel.min.css"
+          th:href="@{/edit-create-styles/css/owl.carousel.min.css}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/edit-create-styles/css/bootstrap.min.css"
+          th:href="@{/edit-create-styles/css/bootstrap.min.css}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/edit-create-styles/css/style.css"
+          th:href="@{/edit-create-styles/css/style.css}">
+
+    <title>TasteHub | Update Post</title>
+</head>
+<body>
+<!-- HEADER NAVIGATION FRAGMENT  -->
+<header th:fragment="navbar" class="headroom">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" th:href="@{/}"><img class="img-fluid" src="../static/images/tasteHub-logo.png"
+                                                    alt="tasteHub" th:src="@{/images/tasteHub-logo.png}"
+                                                    style="width: 400px; height: auto"></a>
+        <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navogation"
+                aria-controls="navogation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse text-center" id="navogation">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a th:href="@{/}" class="nav-link text-uppercase text-dark" href="index.html">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="navbarDropdown"
+                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Post
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a th:href="${isAuthenticated ? '/posts' : '/auth/login'}" class="dropdown-item"
+                           href="posts-view.html">Show All Posts</a>
+                        <a th:href="${isAuthenticated ? '/posts/new' : '/auth/login'}" class="dropdown-item"
+                           href="homepage-2.html">Create New Post</a>
+                    </div>
+                </li>
+                <li th:if="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/users/profile}" class="nav-link text-uppercase text-dark" href="profile-view.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/about}" class="nav-link text-uppercase text-dark" href="about.html">About</a>
+                </li>
+                <li th:if="${(isAuthenticated ?: false) && (session?.isAdmin ?: false)}" class="nav-item">
+                    <a th:href="@{/admin}" class="nav-link text-uppercase text-dark" href="admin-portal-view.html">Admin
+                        Portal</a>
+                </li>
+                <li th:unless="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/auth/login}" class="nav-link text-uppercase text-dark" href="login.html">Login</a>
+                </li>
+                <li th:unless="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/auth/register}" class="nav-link text-uppercase text-dark" href="register.html">Register</a>
+                </li>
+                <li th:if="${isAuthenticated}" class="nav-item">
+                    <a th:href="@{/auth/logout}" class="nav-link text-uppercase text-dark" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<!-- HEADER NAVIGATION FRAGMENT  -->
+
+<div class="d-lg-flex half" style="height: auto; min-height: 80vh; padding: 0; margin: 0;">
+    <div class="bg order-1 order-md-2"
+         style="background-image: url('/images/bg_1.jpg'); height: 80vh; background-size: cover; background-position: center;"></div>
+    <div class="contents order-2 order-md-1">
+        <div class="container" style="height: 80vh; background-size: cover; background-position: center;">
+            <div class="row align-items-center justify-content-center"
+                 style="display: flex; align-items: center; height: 100%;">
+                <div class="col-md-6" style="margin-top: 130px;">
+                    <div class="form-block">
+                        <div class="text-center mb-5">
+                            <h3>Edit Post</h3>
+                        </div>
+                        <form action="#" th:action="@{/posts/{id}/update(id=${postId})}" th:object="${post}" method="post">
+                            <div class="form-group first">
+                                <label for="name">Title</label>
+                                <input th:field="*{title}" type="text" class="form-control" placeholder="Your updated post title here" id="name">
+                                <label class="text-danger font-weight-bold" th:errors="*{title}">Last name error
+                                    placeholder</label>
+                            </div>
+                            <div class="form-group first">
+                                <label for="username">Content</label>
+                                <textarea th:field="*{content}" type="text" class="form-control"
+                                          placeholder="Please put your amazing post content here :)" id="username"
+                                          style="height: 150px"></textarea>
+                                <label class="text-danger font-weight-bold" th:errors="*{content}">Last name error
+                                    placeholder</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="post-tags">Tags</label>
+                                <input th:value="${post.tagsForDisplay}" type="text" name="tags" class="form-control" placeholder="recipe, tasty, sweet" id="post-tags">
+                            </div>
+                            <input type="submit" value="Submit" class="btn btn-block btn-primary">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- FOOTER FRAGMENT -->
+<footer th:fragment="footer" class="bg-secondary">
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+                    <a th:href="@{/}"><img src="../static/images/tasteHub-logo.png" alt="persa" class="img-fluid"
+                                           th:src="@{/images/tasteHub-logo.png}" style="width: 400px; height: auto"></a>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+                    <h6>Address</h6>
+                    <ul class="list-unstyled">
+                        <li class="font-secondary text-dark">1000 Sofia, Bulgaria</li>
+                        <li class="font-secondary text-dark">Boyana, 65 Most Amazing Recipes Str.</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+                    <h6>Contact Info</h6>
+                    <ul class="list-unstyled">
+                        <li class="font-secondary text-dark">Tel: +359 888 777 666</li>
+                        <li class="font-secondary text-dark">Mail: taste_hub@abv.bg</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6 mb-4 mb-md-0">
+                    <h6>Follow</h6>
+                    <ul class="list-inline d-inline-block">
+                        <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="#" class="text-dark"><i class="ti-github"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center pb-3">
+        <p class="mb-0">Copyright ©
+            <script>var CurrentYear = new Date().getFullYear()
+            document.write(CurrentYear)</script>
+        </p>
+    </div>
+</footer>
+
+<script src="/edit-create-styles/js/jquery-3.3.1.min.js"
+        th:src="@{/edit-create-styles/js/jquery-3.3.1.min.js}"></script>
+<script src="/edit-create-styles/js/popper.min.js"
+        th:src="@{/edit-create-styles/js/popper.min.js}"></script>
+<script src="/edit-create-styles/js/bootstrap.min.js"
+        th:src="@{/edit-create-styles/js/bootstrap.min.js}"></script>
+<script src="/edit-create-styles/js/main.js"
+        th:src="@{/edit-create-styles/js/main.js}"></script>
+</body>
+</html>

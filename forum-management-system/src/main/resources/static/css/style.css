@@ -100,7 +100,7 @@ h6, .h6 {
 }
 
 .btn-primary {
-  background: #ff6f00;
+  background: #ef8535;
   color: #fff;
   border: 0;
 }
@@ -127,7 +127,7 @@ h6, .h6 {
 }
 
 .btn-transparent {
-  color: #ff6f00;
+  color: #ef8535;
   border: 0;
 }
 
@@ -312,7 +312,7 @@ a:hover, a.text-dark:hover {
 
 .bg-secondary {
   padding: 10px 40px;
-  border-top: 1px solid #000000;
+  border-top: 1px solid #763c00;
   background: #f9f7dc !important;
   margin-top: auto;
 }
@@ -409,7 +409,7 @@ textarea.form-control {
   transition: all 0.4s ease-in-out;
   padding: 10px 40px;
   background-color: #f9f7dc;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #763c00;
 }
 @media (max-width: 575px) {
   .headroom {
