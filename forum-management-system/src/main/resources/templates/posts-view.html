@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <div th:insert="~{fragments/page-fragment :: head('Posts')}"></div>
 
 <body>
@@ -8,22 +8,61 @@
 
 <!-- POST -->
 <section class="section">
+<!--    <div class="container d-flex align-items-center flex-column">-->
+<!--        <form action="#" th:action="@{/posts}" method="get" th:object="${filterDto}">-->
+<!--            <div class="input-group">-->
+<!--                <input type="text" placeholder="Title" th:field="*{title}"/>-->
+<!--                <input type="text" placeholder="Username" th:field="*{createdByUsername}"/>-->
+<!--                <select th:field="*{sortBy}">-->
+<!--                    <option value="">Sort By</option>-->
+<!--                    <option value="likes">Likes</option>-->
+<!--                    <option value="title">Title</option>-->
+<!--                </select>-->
+<!--                <select th:field="*{sortOrder}">-->
+<!--                    <option value="">Sort Order</option>-->
+<!--                    <option value="asc">Ascending</option>-->
+<!--                    <option value="desc">Descending</option>-->
+<!--                </select>-->
+<!--                <br/>-->
+<!--                <input class="btn-primary" type="submit" value="Search"/>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
     <div class="container d-flex align-items-center flex-column">
-        <form action="#" th:action="@{/posts}" method="get" th:object="${filterDto}">
-            <div class="input-group">
-                <input type="text" placeholder="Title" th:field="*{title}"/>
-                <input type="text" placeholder="Username" th:field="*{createdByUsername}"/>
-                <select th:field="*{sortBy}">
-                    <option value="">Sort By</option>
-                    <option value="likes">Likes</option>
-                    <option value="title">Title</option>
+        <form class="form-inline position-relative d-flex align-items-center"
+              action="#" th:action="@{/posts}" method="get" th:object="${filterDto}">
+
+            <div class="d-flex align-items-center flex-wrap">
+                <!-- Label и input за Title -->
+                <label for="title-input" class="sr-only">Title</label>
+                <input class="form-control px-0 w-auto mr-2" type="text" placeholder="Title" th:field="*{title}" id="title-input">
+
+                <!-- Label и input за Username -->
+                <label for="username-input" class="sr-only">Username</label>
+                <input class="form-control px-0 w-auto mr-2" type="text" placeholder="Username" th:field="*{createdByUsername}" id="username-input">
+
+                <!-- Select за Sort By -->
+                <label for="sort-by-dropdown" class="sr-only">Sort By</label>
+                <select class="form-control px-0 nav-item dropdown nav-link text-dark dropdown-toggle mr-2"
+                        id="sort-by-dropdown" th:field="*{sortBy}">
+                    <option class="dropdown-item" value="">Sort By</option>
+                    <option class="dropdown-item" value="likes">Likes</option>
+                    <option class="dropdown-item" value="title">Title</option>
                 </select>
-                <select th:field="*{sortOrder}">
-                    <option value="">Sort Order</option>
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
+
+                <!-- Select за Sort Order -->
+                <label for="sort-order-dropdown" class="sr-only">Sort Order</label>
+                <select class="form-control px-0 nav-item dropdown nav-link text-dark dropdown-toggle mr-2"
+                        id="sort-order-dropdown" th:field="*{sortOrder}">
+                    <option class="dropdown-item" value="">Sort Order</option>
+                    <option class="dropdown-item" value="asc">Ascending</option>
+                    <option class="dropdown-item" value="desc">Descending</option>
                 </select>
-                <br/>
+
+                <!-- Search бутон -->
+<!--                <button class="search-icon ml-5" type="submit">-->
+<!--                    <i class="ti-search text-dark"></i>-->
+<!--                </button>-->
                 <input class="btn-primary" type="submit" value="Search"/>
             </div>
         </form>

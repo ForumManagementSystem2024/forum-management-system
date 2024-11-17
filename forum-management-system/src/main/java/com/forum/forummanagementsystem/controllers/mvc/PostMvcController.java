@@ -186,7 +186,7 @@ public class PostMvcController {
             model.addAttribute("post", postDto);
             model.addAttribute("tagsForDisplay", tagsForDisplay);
 
-            return "update-post-new";
+            return "post-update";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
@@ -210,7 +210,7 @@ public class PostMvcController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("postId", id);
-            return "update-post-new";
+            return "post-update";
         }
 
         try {
@@ -230,7 +230,7 @@ public class PostMvcController {
             return "error";
         } catch (EntityDuplicateException e) {
             bindingResult.rejectValue("title", "duplicate_post", e.getMessage());
-            return "update-post-new";
+            return "post-update";
         } catch (AuthorizationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
@@ -265,7 +265,7 @@ public class PostMvcController {
     public String showCreateNewReplyPage(@PathVariable int postId, Model model) {
         model.addAttribute("reply", new ReplyDto());
         model.addAttribute("postId", postId);
-        return "reply-create-new";
+        return "reply-create";
     }
 
     @PostMapping("/{postId}/reply")
@@ -282,7 +282,7 @@ public class PostMvcController {
         }
 
         if (bindingResult.hasErrors()) {
-            return "reply-create-new";
+            return "reply-create";
         }
 
         try {
@@ -316,7 +316,7 @@ public class PostMvcController {
             model.addAttribute("reply", reply);
             model.addAttribute("postId", id);
 
-            return "reply-update-new";
+            return "reply-update";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
@@ -341,7 +341,7 @@ public class PostMvcController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("postId", id);
             model.addAttribute("replyId", replyId);
-            return "reply-update-new";
+            return "reply-update";
         }
 
         try {
