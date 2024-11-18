@@ -67,7 +67,7 @@ public class HomeMvcController {
 
             if (user == null) {
                 model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
-                return "error";  // Връщаме страница за грешка
+                return "error";
             }
 
             if (user.isAdmin()) {
@@ -77,10 +77,10 @@ public class HomeMvcController {
                 return "admin-portal-view";
             } else {
                 model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
-                return "error";  // Връщаме грешка, ако не е администратор
+                return "error";
             }
         } catch (AuthorizationException e) {
-            return "redirect:/auth/login";  // Редирект, ако не е логнат
+            return "redirect:/auth/login";
         }
     }
 
@@ -164,22 +164,20 @@ public class HomeMvcController {
             return "redirect:/auth/login";
         }
         try {
-            // Проверка и блокиране на потребителя
             User userToMakeAdmin = userService.getUserById(id);
 
             userService.makeAdmin(userToMakeAdmin, user);
 
-            // Актуализиране на списъка с потребители след блокиране
             model.addAttribute("users", userService.getAllUsers());
 
             return "redirect:/admin";
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
-            return "error";  // Страница за грешка
+            return "error";
         } catch (AuthorizationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
-            return "error";  // Страница за грешка при липса на права
+            return "error";
         }
     }
 
@@ -203,10 +201,10 @@ public class HomeMvcController {
         } catch (EntityNotFoundException e) {
             model.addAttribute("statusCode", HttpStatus.NOT_FOUND.getReasonPhrase());
             model.addAttribute("error", e.getMessage());
-            return "error";  // Страница за грешка
+            return "error";
         } catch (AuthorizationException e) {
             model.addAttribute("statusCode", HttpStatus.UNAUTHORIZED.getReasonPhrase());
-            return "error";  // Страница за грешка при липса на права
+            return "error";
         }
     }
 }
