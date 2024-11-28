@@ -32,7 +32,7 @@ You can find it in `forum-management-system/db`.
 Start the project and go to [Swagger Docs](http://localhost:8080/swagger-ui/index.html)
 
 ## 💻 Technologies
-* ✨ Java
+* ☕️ Java
 * 🌱 Spring Boot 
 * 🗄️ Hibernate
 * 💾 MariaDB
