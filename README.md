@@ -31,6 +31,17 @@ You can find it in `forum-management-system/db`.
 ## 📜 Swagger
 Start the project and go to [Swagger Docs](http://localhost:8080/swagger-ui/index.html)
 
+## 💻 Technologies
+* ✨ Java
+* 🌱 Spring Boot 
+* 🗄️ Hibernate
+* 💾 MariaDB
+* 🌐 REST API
+* ☁️ Cloudinary 
+* 📜 Swagger
+* 📦 Gradle
+* 🍃 Thymeleaf
+
 ## 🔧 Functionality
 
 ### 👑 Admin `/api/admins`
